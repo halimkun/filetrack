@@ -2,11 +2,15 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
+  ssr: true,
+
   modules: [
     "@nuxt/ui",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
+    "@samk-dev/nuxt-vcalendar"
   ],
+
   runtimeConfig: {    
     public: {
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
@@ -15,7 +19,12 @@ export default defineNuxtConfig({
       TEST_PASSWORD: process.env.NUXT_PUBLIC_TEST_USER_PASSWORD,
     }
   },
+
   pinia: {
     storesDirs: ['./stores/**'],
   }, 
+
+  css: [
+    '~/assets/style/custom.css',
+  ],
 })
