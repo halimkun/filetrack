@@ -8,6 +8,7 @@ const menuStore = useMenuStore()
 
 const { API_V2_URL, TEST_USERNAME, TEST_PASSWORD } = runtimeConfig.public
 
+const onLoading = ref(false)
 const schema = z.object({
   username: z.string().regex(/^\d{1}\.\d{3}\.\d{4}$/),
   password: z.string()
@@ -20,15 +21,12 @@ const state = reactive({
   password: TEST_PASSWORD || '' as string
 })
 
-const onLogin = useState("onLogin", () => false)
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  onLoading.value = true
   const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/user/auth/login`, {
     method: 'POST',
     body: JSON.stringify(event.data)
   })
-
-  onLogin.value = pending.value
 
   const toast = useToast()
   const router = useRouter()
@@ -63,10 +61,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       color: 'green'
     })
 
+    if (!pending.value) {
+      onLoading.value = false
+    }
+
     tokenStore.setToken(accessToken)
     menuStore.setMenuFromArray(menu.data)
     router.push('/')
   } else {
+    onLoading.value = false
     handleFetchError(toast, 'Failed to login, please check your username and password')
   }
 }
@@ -99,7 +102,7 @@ function handleFetchError(toast: any, errorMessage: string) {
       </UFormGroup>
 
       <div class="mt-5">
-        <UButton type="submit" block :loading="onLogin" color="indigo">Login</UButton>
+        <UButton type="submit" block :loading="onLoading" color="indigo">Login</UButton>
       </div>
     </UForm>
   </UCard>
