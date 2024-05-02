@@ -16,8 +16,15 @@
       </div>
     </template>
 
-    <TableSuratInternal :response="(suratInternal as any)" :columns="columns" :menu="menu" :loading="pending"
-      @selectedChange="updateSelectedData" @onPageChange="currentPage = $event" />
+    <TableSuratInternal 
+      :response="(suratInternal as any)" 
+      :columns="columns" 
+      :menu="menu" 
+      :loading="pending"
+      @selectedChange="updateSelectedData" 
+      @onPageChange="currentPage = $event" 
+      @onFilter="onFilter" 
+    />
   </UCard>
 </template>
 
@@ -45,7 +52,7 @@ const columns = [
   { label: "No Surat", key: "no_surat" },
   { label: "Perihal", key: "perihal" },
   { label: "Tempat", key: "tempat" },
-  { label: "Penanggung Jawab", key: "penanggung_jawab.nama" },
+  { label: "PJ", key: "penanggung_jawab_simple.nama" },
   { label: "Tanggal Terbit", key: "tgl_terbit" },
   { label: "Status", key: "status" },
 ]
@@ -56,17 +63,36 @@ const menu = (row: any) => [
   ], [
     { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => console.log('Edit', row.no_surat) },
     { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => console.log('Tambah Penerima', row.no_surat) }
-  ], [
-    { label: 'Delete', icon: 'i-heroicons-trash-20-solid' }
   ]
 ]
 
 const currentPage = ref<number>(1)
-const { data: suratInternal, pending, error, refresh } = await useFetch(
-  () => `${API_V2_URL}/surat/internal?page=${currentPage.value}`, {
-  headers: { Authorization: `Bearer ${accessToken}` },
-  watch: [currentPage]
-}
+const bodyReq = ref<any>({
+  "sort": [
+    { "field": "created_at", "direction": "desc" }
+  ]
+})
+
+const onFilter = (data: any) => {
+  if (data.search || data.filters) {
+    const updatedBodyReq = {
+      ...bodyReq.value,
+      search: data.search ? { value: data.search.value } : bodyReq.value.search,
+      filters: data.filters ? [...data.filters] : bodyReq.value.filters
+    };
+
+    bodyReq.value = updatedBodyReq;
+  }
+};
+
+const { data: suratInternal, pending, error } = await useAsyncData(
+  'suratInternal',
+  () => $fetch(`${API_V2_URL}/surat/internal/search`, {
+    method: 'POST',
+    query: { page: currentPage.value },
+    body: JSON.stringify(bodyReq.value),
+    headers: { Authorization: `Bearer ${accessToken}` },
+  }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
 );
 
 if (error.value) {

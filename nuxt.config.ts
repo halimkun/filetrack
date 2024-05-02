@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
-    "@samk-dev/nuxt-vcalendar"
+    "@samk-dev/nuxt-vcalendar",
   ],
 
   runtimeConfig: {    
