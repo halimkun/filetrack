@@ -1,13 +1,9 @@
 <script setup lang="ts">
-type LaravelApiResourcePaginationType = {
-  data: any[],
-  links: any[]
-  meta: any[],
-}
+import type { ResourcePagination } from '~/types/ApiResponse';
 
 const emits = defineEmits(['onPageChange']);
 const { response, menu, columns, loading } = defineProps<{
-  response: LaravelApiResourcePaginationType;
+  response: ResourcePagination;
   menu?: (row: any) => any[];
   columns?: any[];
   loading?: boolean;

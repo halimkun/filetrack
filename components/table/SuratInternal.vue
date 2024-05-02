@@ -86,16 +86,11 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
 import { useDebounceFn } from '@vueuse/core'
-
-type LaravelApiResourcePaginationType = {
-  data: any[],
-  links: any[],
-  meta: any[],
-}
+import type { ResourcePagination } from '~/types/ApiResponse';
 
 const emits = defineEmits(['selectedChange', 'onPageChange', 'onFilter']);
 const { response, menu, columns, loading } = defineProps<{
-  response: LaravelApiResourcePaginationType;
+  response: ResourcePagination;
   menu?: (row: any) => any[];
   columns?: any[];
   loading?: boolean;

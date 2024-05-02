@@ -11,26 +11,18 @@
 </template>
 
 <script lang="ts" setup>
+import type { Pegawai, PegawaiList } from '~/types/Pegawai';
+
 const emit = defineEmits(['update:selectedPegawai'])
 const { pj } = defineProps<{ 
   pj?: string 
 }>()
-
-type Pegawai = {
-  nik: string;
-  nama: string;
-};
-
-type DataPegawai = {
-  data: Pegawai[];
-};
 
 const accessTokenStore = useAccessTokenStore();
 const config = useRuntimeConfig()
 
 const { API_V2_URL } = config.public
 const { accessToken } = accessTokenStore
-
 const loadingPegawai = ref(false)
 const selectedPegawai = ref<Pegawai>({ nik: pj || '', nama: '' })
 
@@ -38,7 +30,7 @@ async function search(q: string): Promise<Pegawai[]> {
   loadingPegawai.value = true;
   
   try {
-    const response = await $fetch<DataPegawai>(`${API_V2_URL}/pegawai/search?select=nik,nama&limit=500`, {
+    const response = await $fetch<PegawaiList>(`${API_V2_URL}/pegawai/search?select=nik,nama&limit=500`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${accessToken}` },
       body: JSON.stringify({

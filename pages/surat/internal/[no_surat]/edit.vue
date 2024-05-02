@@ -9,44 +9,18 @@
 </template>
 
 <script lang="ts" setup>
+import type { SuratInternal } from '~/types/SuratInternal';
+
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore()
-
-type SuratInternalDetail = {
-  data: {
-    no_surat: string;
-    perihal: string;
-    tempat: string;
-    pj: string;
-    tgl_terbit: string;
-    tanggal: string;
-    catatan: string;
-    status: 'pengajuan' | 'disetujui' | 'ditolak' | 'batal';
-    created_at: string;
-    model: string;
-    penanggung_jawab: {
-      nik: string;
-      nama: string;
-    };
-  };
-};
-
-type Pegawai = {
-  nik: string;
-  nama: string;
-};
-
-type DataPegawai = {
-  data: Pegawai[];
-};
 
 const { API_V2_URL } = runtimeConfig.public
 const noSurat = route.params.no_surat as string
 const accessToken = accessTokenStore.accessToken
 const actionUrl = `${API_V2_URL}/surat/internal/${noSurat}?_method=PUT`
 
-const { data: suratInternal, error } = await useFetch<SuratInternalDetail>(`${API_V2_URL}/surat/internal/${noSurat}`, {
+const { data: suratInternal, error } = await useFetch<SuratInternal>(`${API_V2_URL}/surat/internal/${noSurat}`, {
   headers: { Authorization: `Bearer ${accessToken}` }
 })
 
