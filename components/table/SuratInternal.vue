@@ -19,7 +19,12 @@
     </UFormGroup>
 
     <UFormGroup label="Status" class="w-full lg:w-72" name="status">
-      <USelectMenu v-model="filterStatus" :options="status" />
+      <USelectMenu 
+        v-model="filterStatus" 
+        :options="statusOptions"
+        option-attribute="label"
+        value-attribute="value"
+      />
     </UFormGroup>
 
     <UFormGroup label="Search" class="w-full" name="search">
@@ -65,7 +70,7 @@
     </template>
   </UTable>
 
-  <template v-if="response && response.meta">
+  <div v-if="response && response.meta">
     <div class="mt-5 flex items-center justify-between">
       <p class="text-sm text-gray-500 dark:text-gray-400">
         Showing : {{ (response.meta as any).from }}
@@ -75,8 +80,9 @@
       <UPagination v-model="currentPage" :page-count="(response.meta as any).per_page"
         :total="(response.meta as any).total" />
     </div>
-  </template>
+  </div>
 </template>
+
 <script setup lang="ts">
 import { format } from 'date-fns'
 import { useDebounceFn } from '@vueuse/core'
@@ -106,11 +112,16 @@ if (menu && !columns?.some(column => column.key === 'actions')) {
 }
 
 // =============== FILTER PURPOSE
-const status = ['', 'pengajuan', 'disetujui', 'ditolak', 'batal']
-
 const search = ref<string>('')
 const tglTerbit = ref<Date | null>(null)
 const filterStatus = ref<string>('')
+const statusOptions = [
+  { label: "Semua", value: "" },
+  { label: "Pengajuan", value: "pengajuan" },
+  { label: "Disetujui", value: "disetujui" },
+  { label: "Ditolak", value: "ditolak" },
+  { label: "Batal", value: "batal" }
+];
 
 watch([search, tglTerbit, filterStatus], useDebounceFn(([search, tgl, status]) => {
   let filterCond: any[] = [];
