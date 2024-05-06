@@ -45,6 +45,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     if (statusMenuData.value != 'success') {
       handleFetchError(toast, 'Failed to fetch menu data, hubungi administrator untuk informasi lebih lanjut')
+      onLoading.value = false
       return
     }
 
@@ -52,6 +53,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     if (menu.data.length == 0) {
       handleFetchError(toast, 'You do not have access to this application')
+      onLoading.value = false
       return
     }
 
