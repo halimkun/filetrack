@@ -10,7 +10,7 @@
           </div>
         </div>
 
-        <UButton icon="i-tabler-plus" size="xs" square @click="router.push('/surat/internal/create')">
+        <UButton icon="i-tabler-plus" size="xs" color="indigo" square @click="router.push('/surat/internal/create')">
           Tambah Surat
         </UButton>
       </div>
