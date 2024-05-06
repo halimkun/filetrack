@@ -11,7 +11,7 @@
           </div>
         </template>
 
-        <template v-if="no_surat">
+        <template v-if="state.no_surat">
           <UFormGroup label="Nomor Surat" name="no_surat" class="w-full mb-4">
             <template #hint>
               <span class="text-yellow-500 dark:text-yellow-600 animate-pulse">Tidak bisa diubah</span>
@@ -25,12 +25,12 @@
           <UFormGroup label="Tanggal Terbit" name="tgl_terbit" class="w-full">
             <UPopover :popper="{ placement: 'bottom-start' }">
               <UButton block icon="i-heroicons-calendar-days-20-solid"
-                :label="tglTerbit && format(tglTerbit, 'd MMM, yyy')" :color="tglTerbit ? 'primary' : 'gray'"
+                :label="state.tgl_terbit && format(state.tgl_terbit, 'd MMM, yyy')" :color="state.tgl_terbit ? 'primary' : 'gray'"
                 variant="soft" 
               />
 
               <template #panel="{ close }">
-                <DatePicker v-model="tglTerbit" is-required @close="close" />
+                <DatePicker v-model="state.tgl_terbit" is-required @close="close" />
               </template>
             </UPopover>
           </UFormGroup>
@@ -39,11 +39,11 @@
           <UFormGroup label="Tanggal Kegiatan" name="tanggal" class="w-full">
             <UPopover class="w-full" :popper="{ placement: 'bottom-start' }">
               <UButton block icon="i-heroicons-calendar-days-20-solid"
-                :label="tglKegiatan && format(tglKegiatan, 'd MMM, yyy HH:mm')" :color="tglKegiatan ? 'cyan' : 'gray'"
+                :label="state.tanggal && format(state.tanggal, 'd MMM, yyy HH:mm')" :color="state.tanggal ? 'cyan' : 'gray'"
                 variant="soft" />
 
               <template #panel="{ close }">
-                <DatePicker v-model="tglKegiatan" mode="dateTime" is-required @close="close" />
+                <DatePicker v-model="state.tanggal" mode="dateTime" is-required @close="close" />
               </template>
             </UPopover>
           </UFormGroup>
@@ -102,7 +102,7 @@ import type { FormSubmitEvent } from '#ui/types'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-const { no_surat, tgl_terbit, tanggal, tempat, pj, perihal, catatan, actionUrl } = defineProps<{
+const { noSurat, tglTerbit, tanggal, tempat, pj, perihal, catatan, actionUrl } = defineProps<{
   no_surat?: string,
   tgl_terbit?: Date,
   tanggal?: Date,
@@ -132,15 +132,12 @@ const router = useRouter()
 
 const { API_V2_URL } = config.public
 const { accessToken } = accessTokenStore
-
-const tglTerbit = tgl_terbit ? new Date(tgl_terbit) : new Date()
-const tglKegiatan = tanggal ? new Date(tanggal) : new Date()
 const postPending = ref(false)
 
 const state = reactive({
-  no_surat: no_surat || undefined,
-  tgl_terbit: tglTerbit,
-  tanggal: tglKegiatan,
+  no_surat: noSurat || undefined,
+  tgl_terbit: tglTerbit ? new Date(tglTerbit) : new Date(),
+  tanggal: tanggal ? new Date(tanggal) : new Date(),
   tempat: tempat || '-',
   pj: pj || '',
   perihal: perihal || '',
@@ -151,10 +148,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   postPending.value = true
   const data = {
     ...event.data,
-    tgl_terbit: format(tglTerbit, 'yyyy-MM-dd'), // Menggunakan format date-fns untuk mengonversi tanggal
-    tanggal: format(tglKegiatan, "yyyy-MM-dd HH:mm:ss"), // Menggunakan format date-fns untuk mengonversi tanggal
+    tgl_terbit: format(state.tgl_terbit, 'yyyy-MM-dd'), // Menggunakan format date-fns untuk mengonversi tanggal
+    tanggal: format(state.tanggal, "yyyy-MM-dd HH:mm:ss"), // Menggunakan format date-fns untuk mengonversi tanggal
   };
-
+  
   const url = actionUrl ?? `${API_V2_URL}/surat/internal`;
   const method = actionUrl?.includes('PUT') ? 'PUT' : actionUrl?.includes('PATCH') ? 'PATCH' : 'POST';
 
