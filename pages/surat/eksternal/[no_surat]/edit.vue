@@ -15,6 +15,12 @@
 <script lang="ts" setup>
 import type { SuratEksternal } from '~/types/SuratEksternal';
 
+useHead({
+  title: 'Edit Surat Eksternal -- FileTrack | FAISAL HALIM',
+  meta: [{ name: 'description', content: 'Edit Surat Eksternal' }],
+
+})
+
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore()

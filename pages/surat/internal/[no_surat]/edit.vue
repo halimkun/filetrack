@@ -1,15 +1,23 @@
 <template>
   <!-- pegawai: { nik: string, nama: string }[], -->
   <FormSuratInternal 
-    :no_surat="suratInternal?.data.no_surat" :tgl_terbit="new Date((suratInternal?.data.tgl_terbit || new Date()))"
-    :tanggal="new Date((suratInternal?.data.tanggal || new Date()))" :tempat="suratInternal?.data.tempat"
-    :pj="suratInternal?.data.pj" :perihal="suratInternal?.data.perihal" :catatan="suratInternal?.data.catatan"
+    :no_surat="suratInternal?.data.no_surat" 
+    :tgl_terbit="new Date((suratInternal?.data.tgl_terbit || new Date()))"
+    :tanggal="new Date((suratInternal?.data.tanggal || new Date()))" 
+    :tempat="suratInternal?.data.tempat"
+    :pj="suratInternal?.data.pj" :perihal="suratInternal?.data.perihal" 
+    :catatan="suratInternal?.data.catatan"
     :actionUrl="actionUrl" 
   />
 </template>
 
 <script lang="ts" setup>
 import type { SuratInternal } from '~/types/SuratInternal';
+
+useHead({
+  title: 'Edit Surat Internal -- FileTrack | FAISAL HALIM',
+  meta: [{ name: 'description', content: 'Edit Surat Internal' }],
+})
 
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()

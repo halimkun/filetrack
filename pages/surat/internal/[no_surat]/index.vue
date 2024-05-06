@@ -1,9 +1,7 @@
 <script setup lang="ts">
 useHead({
   title: 'Detail Surat Internal -- FileTrack | FAISAL HALIM',
-  meta: [
-    { name: 'description', content: 'Surat Internal' }
-  ]
+  meta: [ { name: 'description', content: 'Detail Surat Internal' } ]
 })
 
 const route = useRoute()
