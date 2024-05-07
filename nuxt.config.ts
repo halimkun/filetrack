@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {    
     public: {
+      TZ: process.env.NUXT_PUBLIC_TZ,
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
       API_V2_URL: process.env.NUXT_PUBLIC_API_V2_URL,
       TEST_USERNAME: process.env.NUXT_PUBLIC_TEST_USER_USERNAME,
