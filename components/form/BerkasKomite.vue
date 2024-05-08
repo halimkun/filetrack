@@ -22,7 +22,7 @@
         </UFormGroup>
 
         <!-- method on action url == put or patch -->
-        <template v-if="actionUrl && actionUrl.includes('_method=PUT') || actionUrl.includes('_method=PATCH')">
+        <template v-if="actionUrl && actionUrl.includes('_method=PUT') || actionUrl && actionUrl.includes('_method=PATCH')">
           <UFormGroup label="Nomor Surat" name="nomor" class="w-full mb-4" hint="Nomor Surat tidak dapat diubah">
             <UInput variant="outline" color="gray" :value="[nomor, prefix, format(new Date(tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/')" readonly />
           </UFormGroup>
@@ -54,7 +54,7 @@
 
         <div class="mt-10 flex justify-end">
           <!-- template if contain put / patch -->
-          <template v-if="actionUrl && actionUrl.includes('_method=PUT') || actionUrl.includes('_method=PATCH')">
+          <template v-if="actionUrl && actionUrl.includes('_method=PUT') || actionUrl && actionUrl.includes('_method=PATCH')">
             <UButton type="submit" color="green" :loading="postPending" :disabled="postPending" icon="i-tabler-check" label="Update" />
           </template>
 

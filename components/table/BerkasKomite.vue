@@ -138,7 +138,7 @@ const onFilter = (data: any) => {
 };
 
 const { data: berkasKomite, pending, error, refresh } = await useAsyncData(
-  'berkas/komite/keperawatan',
+  `berkas/komite/${komite}`,
   () => $fetch(`${API_V2_URL}/berkas/komite/${komite}/search`, {
     method: 'POST',
     query: { page: currentPage.value, limit: 10 },
