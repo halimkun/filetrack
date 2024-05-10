@@ -22,7 +22,7 @@
       </div>
     </template>
 
-    <TableBerkasLain :menu="menu" :komite="lastSegment" />
+    <TableBerkasLain :menu="menu" :komite="(lastSegment as 'iht' | 'radiologi')" />
   </UCard>
 
   <!-- Modal Detail -->
@@ -147,7 +147,7 @@ async function doDelete() {
 
   if (status.value === 'success') {
     toasts.add({ title: 'Berhasil', description: 'Berkas berhasil dihapus', color: 'green' })
-    router.go()
+    router.go(0)
   }
 
   isDeleteConfirmationOpen.value = false

@@ -48,7 +48,7 @@ if (penerimaError.value) {
       </template>
 
       <!-- loop key of object suratInternal.data -->
-      <div v-for="(value, key) in (suratInternal as any).data" :key="key">
+      <div v-for="(value, key) in (suratInternal as any)?.data" :key="key">
         <div class="mb-2" v-if="!['pj', 'model', 'created_at'].includes(String(key))">
           <h2 class="font-semibold text-indigo-500 text-lg capitalize">{{ String(key).replace('_', ' ') }}</h2>
 

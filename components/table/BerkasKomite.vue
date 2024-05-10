@@ -23,7 +23,7 @@
     </UFormGroup>
   </div>
 
-  <UTable v-model="selected" :columns="columns" :rows="berkasKomite.data" :loading="loading">
+  <UTable v-model="selected" :columns="columns" :rows="berkasKomite?.data" :loading="loading">
     <template #actions-data="{ row }">
       <UDropdown v-if="menu" :items="menu(row)">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />

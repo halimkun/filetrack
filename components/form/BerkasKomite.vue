@@ -24,11 +24,11 @@
         <!-- method on action url == put or patch -->
         <template v-if="actionUrl && actionUrl.includes('_method=PUT') || actionUrl && actionUrl.includes('_method=PATCH')">
           <UFormGroup label="Nomor Surat" name="nomor" class="w-full mb-4" hint="Nomor Surat tidak dapat diubah">
-            <UInput variant="outline" color="gray" :value="[nomor, prefix, format(new Date(tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/')" readonly />
+            <UInput variant="outline" color="gray" :value="[nomor, prefix, format(new Date(String(tgl_terbit)?.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/')" readonly />
           </UFormGroup>
 
           <UFormGroup label="Tanggal Terbit" name="tgl_terbit" class="w-full mb-4" hint="Tanggal Terbit tidak dapat diubah">
-            <UInput variant="outline" color="gray" :value="new Date(tgl_terbit.replace(' ', 'T').split('.')[0]).toLocaleDateString('id-ID', { 
+            <UInput variant="outline" color="gray" :value="new Date(String(tgl_terbit)?.replace(' ', 'T').split('.')[0]).toLocaleDateString('id-ID', { 
               weekday: 'long', year: 'numeric', 
               month: 'long', day: 'numeric'
             })" readonly />
@@ -85,7 +85,7 @@ const { komite, pj, perihal, tgl_terbit, nomor, prefix, actionUrl } = defineProp
   perihal?: string | null | undefined
   tgl_terbit?: Date | null | undefined
 
-  nomor?: string | int | null | undefined
+  nomor?: string | number | null | undefined
   prefix?: string | null | undefined
   actionUrl?: string
 }>()
@@ -150,7 +150,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       description: 'Gagal membuat Berkas Komite',
       color: 'red'
     })
-    console.error("POST DATA ERROR", error.value.data)
+    console.error("POST DATA ERROR", error?.value?.data)
   }
 }
 </script>
