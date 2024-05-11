@@ -12,6 +12,11 @@
 
       <ClientOnly fallback-tag="span" fallback="Loading comments...">
         <UForm :state="state" @submit="handleSubmit">
+          <p class="mb-3 text-sm text-gray-400">
+            Hati-hati dalam mengupload berkas, jika berkas <strong class="text-primary">sudah diupload</strong>, berkas lama akan <u>tergantikan dengan berkas baru (hapus berkas lama)</u>, dan <b><u>tidak bisa dikembalikan lagi</u></b>.
+            Pastikan untuk melakukan pengecekan berkas sebelum mengupload.
+          </p>
+          
           <UFormGroup label="File" required name="file">
             <UInput type="file" v-model="state.berkas" :required="true"/>
           </UFormGroup>
@@ -29,7 +34,7 @@
 
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
-import type { SuratKeputusan } from '~/types/Sk';
+import type { SuratKeputusanData } from '~/types/Sk';
 import { z } from 'zod';
 
 const accessTokenStore = useAccessTokenStore();
@@ -46,10 +51,10 @@ const schema = z.object({
 })
 
 const props = defineProps<{
-  selectedSk: SuratKeputusan
+  selectedSk: SuratKeputusanData
 }>()
 
-const selectedSk = ref<SuratKeputusan>(props.selectedSk)
+const selectedSk = ref<SuratKeputusanData>(props.selectedSk)
 watch(() => props.selectedSk, (newValue) => {
   selectedSk.value = newValue
 
