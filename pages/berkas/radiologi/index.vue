@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex items-center justify-between">
         <div class="flex gap-2 items-start">
-          <UButton icon="i-tabler-mail-star" color="indigo" size="xs" square variant="soft" />
+          <UButton icon="i-tabler-mail-star" color="violet" size="xs" square variant="soft" />
           <div>
             <h1 class="text-lg capitalize">
               Berkas Komite
@@ -15,7 +15,7 @@
           </div>
         </div>
 
-        <UButton icon="i-tabler-plus" size="xs" color="indigo" square
+        <UButton icon="i-tabler-plus" size="xs" color="violet" square
           @click="router.push(`/berkas/${lastSegment}/create`)">
           Tambah Surat
         </UButton>
@@ -31,7 +31,7 @@
       <template #header>
         <div class="flex justify-between">
           <div class="flex gap-2 items-start">
-            <UButton icon="i-tabler-file" color="indigo" size="xs" square variant="soft" />
+            <UButton icon="i-tabler-file" color="violet" size="xs" square variant="soft" />
             <h1 class="text-lg">Detail Surat</h1>
           </div>
 
@@ -95,7 +95,7 @@ import { format } from 'date-fns'
 
 const route = useRoute()
 const router = useRouter()
-const lastSegment = route.fullPath.split('/').pop()
+const lastSegment: string | undefined = route.fullPath.split('/').pop()
 
 useHead({
   title: `Berkas ${lastSegment} -- FileTrack | FAISAL HALIM`,
@@ -147,7 +147,7 @@ async function doDelete() {
 
   if (status.value === 'success') {
     toasts.add({ title: 'Berhasil', description: 'Berkas berhasil dihapus', color: 'green' })
-    router.go()
+    router.go(0)
   }
 
   isDeleteConfirmationOpen.value = false
