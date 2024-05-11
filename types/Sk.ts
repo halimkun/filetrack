@@ -3,7 +3,7 @@ export type PenanggungJawab = {
   nama: string;
 }
 
-export type SuratKeputusan = {
+export type SuratKeputusanData = {
   nomor: number;
   prefix: string;
   jenis: string;
@@ -16,6 +16,10 @@ export type SuratKeputusan = {
   penanggung_jawab: PenanggungJawab;
 }
 
+export type BerkasPks = {
+  data?: SuratKeputusanData;
+}
+
 export type SuratKeputusanList = {
-  data: SuratKeputusan[];
+  data: SuratKeputusanData[];
 }

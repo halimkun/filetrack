@@ -24,11 +24,11 @@
         <!-- method on action url == put or patch -->
         <template v-if="actionUrl && actionUrl.includes('_method=PUT') || actionUrl && actionUrl.includes('_method=PATCH')">
           <UFormGroup label="Nomor Surat" name="nomor" class="w-full mb-4" hint="Nomor Surat tidak dapat diubah">
-            <UInput variant="outline" color="gray" :value="[nomor, prefix, format(new Date(tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/')" readonly />
+            <UInput variant="outline" color="gray" :value="[nomor, prefix, format(new Date(tgl_terbit!.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/')" readonly />
           </UFormGroup>
 
           <UFormGroup label="Tanggal Terbit" name="tgl_terbit" class="w-full mb-4" hint="Tanggal Terbit tidak dapat diubah">
-            <UInput variant="outline" color="gray" :value="new Date(tgl_terbit.replace(' ', 'T').split('.')[0]).toLocaleDateString('id-ID', { 
+            <UInput variant="outline" color="gray" :value="new Date(tgl_terbit!.replace(' ', 'T').split('.')[0]).toLocaleDateString('id-ID', { 
               weekday: 'long', year: 'numeric', 
               month: 'long', day: 'numeric'
             })" readonly />
@@ -83,9 +83,9 @@ const { komite, pj, perihal, tgl_terbit, nomor, prefix, actionUrl } = defineProp
 
   pj?: string | null | undefined
   perihal?: string | null | undefined
-  tgl_terbit?: Date | null | undefined
+  tgl_terbit?: string | null | undefined
 
-  nomor?: string | int | null | undefined
+  nomor?: string | number | null | undefined
   prefix?: string | null | undefined
   actionUrl?: string
 }>()
@@ -100,12 +100,15 @@ const schema = z.object({
   pj: z.string().min(10, "Penanggung Jawab harus dipilih"),
   perihal: z.string(),
   tgl_terbit: z.date(),
+
+  nomor: z.optional(z.string()),
 })
 
 const state = reactive({
   pj: pj || undefined,
   perihal: perihal || undefined,
   tgl_terbit: tgl_terbit ? new Date(tgl_terbit) : new Date(),
+  nomor: nomor || undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -116,7 +119,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   };
 
   if (nomor) {
-    data.nomor = nomor
+    data.nomor = nomor as string
   }
 
   const url = actionUrl || `${API_V2_URL}/berkas/${komite}`
@@ -150,7 +153,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       description: 'Gagal membuat Berkas Komite',
       color: 'red'
     })
-    console.error("POST DATA ERROR", error.value.data)
+    console.error("POST DATA ERROR", error?.value?.data)
   }
 }
 </script>

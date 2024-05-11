@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { SuratEksternal } from '~/types/SuratEksternal';
+import type { SuratEksternalData } from '~/types/SuratEksternal';
 
 useHead({
   title: 'Edit Surat Eksternal -- FileTrack | FAISAL HALIM',
@@ -30,7 +30,7 @@ const noSurat = route.params.no_surat as string
 const accessToken = accessTokenStore.accessToken
 const actionUrl = `${API_V2_URL}/surat/eksternal/${noSurat}?_method=PUT`
 
-const { data: suratEksternal, error } = await useFetch<SuratEksternal>(`${API_V2_URL}/surat/eksternal/${noSurat}`, {
+const { data: suratEksternal, error } = await useFetch<SuratEksternalData>(`${API_V2_URL}/surat/eksternal/${noSurat}`, {
   headers: { Authorization: `Bearer ${accessToken}` }
 })
 

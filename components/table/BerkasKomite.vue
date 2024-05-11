@@ -23,7 +23,7 @@
     </UFormGroup>
   </div>
 
-  <UTable v-model="selected" :columns="columns" :rows="berkasKomite?.data" :loading="loading">
+  <UTable v-model="selected" :columns="columns" :rows="berkasKomite?.data" :loading="pending">
     <template #actions-data="{ row }">
       <UDropdown v-if="menu" :items="menu(row)">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
@@ -77,7 +77,7 @@ import type { ResourcePagination } from '~/types/ApiResponse';
 const runtimeConfig = useRuntimeConfig();
 const accessTokenStore = useAccessTokenStore();
 const { komite, menu } = defineProps<{
-  komite: 'keperawatan' | 'kesehatan' | 'pmkp' | 'medis' | 'ppi';
+  komite: string | 'keperawatan' | 'kesehatan' | 'pmkp' | 'medis' | 'ppi';
   menu: (row: any) => any[]
 }>();
 
@@ -93,7 +93,7 @@ if (!columns?.some(column => column.key === 'no_surat')) {
   columns?.unshift({ label: 'Nomor Surat', key: 'no_surat' });
 }
 
-if (menu && !columns?.some(column => column.key === 'actions')) {
+if (!columns?.some(column => column.key === 'actions')) {
   columns?.push({ label: 'Actions', key: 'actions' });
 }
 
@@ -137,7 +137,7 @@ const onFilter = (data: any) => {
   }
 };
 
-const { data: berkasKomite, pending, error, refresh } = await useAsyncData(
+const { data: berkasKomite, pending, error, refresh } = await useAsyncData<ResourcePagination>(
   `berkas/komite/${komite}`,
   () => $fetch(`${API_V2_URL}/berkas/komite/${komite}/search`, {
     method: 'POST',

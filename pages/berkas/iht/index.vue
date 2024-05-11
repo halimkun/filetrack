@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex items-center justify-between">
         <div class="flex gap-2 items-start">
-          <UButton icon="i-tabler-mail-star" color="indigo" size="xs" square variant="soft" />
+          <UButton icon="i-tabler-mail-star" color="fuchsia" size="xs" square variant="soft" />
           <div>
             <h1 class="text-lg capitalize">
               Berkas Komite
@@ -15,7 +15,7 @@
           </div>
         </div>
 
-        <UButton icon="i-tabler-plus" size="xs" color="indigo" square
+        <UButton icon="i-tabler-plus" size="xs" color="fuchsia" square
           @click="router.push(`/berkas/${lastSegment}/create`)">
           Tambah Surat
         </UButton>
@@ -31,7 +31,7 @@
       <template #header>
         <div class="flex justify-between">
           <div class="flex gap-2 items-start">
-            <UButton icon="i-tabler-file" color="indigo" size="xs" square variant="soft" />
+            <UButton icon="i-tabler-file" color="fuchsia" size="xs" square variant="soft" />
             <h1 class="text-lg">Detail Surat</h1>
           </div>
 

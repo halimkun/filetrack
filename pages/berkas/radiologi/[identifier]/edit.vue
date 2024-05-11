@@ -13,6 +13,8 @@
 </template>
 
 <script lang="ts" setup>
+import type { BerkasLainnya } from '~/types/BerkasLainnya';
+
 const route = useRoute()
 const toasts = useToast()
 const runtimeConfig = useRuntimeConfig()
@@ -27,7 +29,7 @@ const [nomor, tgl_terbit] = decodedIdentifier.split('.')
 
 const actionUrl = `${API_V2_URL}/berkas/${komite}/${identifier}?_method=PUT`
 
-const { data: dataBerkas, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/berkas/${komite}/${identifier}`, {
+const { data: dataBerkas, pending, error, refresh, status } = await useFetch<BerkasLainnya>(`${API_V2_URL}/berkas/${komite}/${identifier}`, {
   headers: {
     Authorization: `Bearer ${accessToken}`
   }

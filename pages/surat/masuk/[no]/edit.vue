@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { SuratMasuk } from '~/types/SuratMasuk';
+import type { SuratMasukData } from '~/types/SuratMasuk';
 
 useHead({
   title: 'Edit Surat Internal -- FileTrack | FAISAL HALIM',
@@ -70,7 +70,7 @@ const no = route.params.no as string
 const accessToken = accessTokenStore.accessToken
 const actionUrl = `${API_V2_URL}/surat/masuk/${atob(no)}?_method=PUT`
 
-const { data: suratMasuk, error } = await useFetch<SuratMasuk>(`${API_V2_URL}/surat/masuk/${atob(no)}`, {
+const { data: suratMasuk, error } = await useFetch<SuratMasukData>(`${API_V2_URL}/surat/masuk/${atob(no)}`, {
   headers: { Authorization: `Bearer ${accessToken}` }
 })
 

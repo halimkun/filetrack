@@ -83,7 +83,7 @@ const { komite, pj, perihal, tgl_terbit, nomor, prefix, actionUrl } = defineProp
 
   pj?: string | null | undefined
   perihal?: string | null | undefined
-  tgl_terbit?: Date | null | undefined
+  tgl_terbit?: string | null | undefined
 
   nomor?: string | number | null | undefined
   prefix?: string | null | undefined
@@ -100,12 +100,14 @@ const schema = z.object({
   pj: z.string().min(10, "Penanggung Jawab harus dipilih"),
   perihal: z.string(),
   tgl_terbit: z.date(),
+  nomor: z.optional(z.string())
 })
 
 const state = reactive({
   pj: pj || undefined,
   perihal: perihal || undefined,
   tgl_terbit: tgl_terbit ? new Date(tgl_terbit) : new Date(),
+  nomor: nomor || undefined,
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -116,7 +118,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   };
 
   if (nomor) {
-    data.nomor = nomor
+    data.nomor = nomor as string
   }
 
   const url = actionUrl || `${API_V2_URL}/berkas/komite/${komite}`

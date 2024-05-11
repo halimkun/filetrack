@@ -54,7 +54,7 @@
 
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
-import type { SuratKeputusan } from '~/types/Sk';
+import type { SuratKeputusanData } from '~/types/Sk';
 import { format } from 'date-fns'
 import { z } from 'zod'
 
@@ -67,10 +67,10 @@ const config = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore();
 
 const props = defineProps<{
-  selectedSk?: SuratKeputusan | undefined | null
+  selectedSk?: SuratKeputusanData | undefined | null
 }>()
 
-const selectedSk = ref<SuratKeputusan | undefined | null>(props.selectedSk)
+const selectedSk = ref<SuratKeputusanData | undefined | null>(props.selectedSk)
 watch(() => props.selectedSk, (newValue) => {
   selectedSk.value = newValue
   // update state

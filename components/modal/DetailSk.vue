@@ -58,14 +58,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { SuratKeputusan } from '~/types/Sk';
+import type { SuratKeputusanData } from '~/types/Sk';
 import { format } from 'date-fns';
 
 const props = defineProps<{
-  selectedSk: SuratKeputusan
+  selectedSk: SuratKeputusanData
 }>()
 
-const selectedSk = ref<SuratKeputusan>(props.selectedSk)
+const selectedSk = ref<SuratKeputusanData>(props.selectedSk)
 watch(() => props.selectedSk, (newValue) => {
   selectedSk.value = newValue
 })
