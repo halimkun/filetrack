@@ -126,13 +126,14 @@
 </template>
 
 <script lang="ts" setup>
-const accessTokenStore = useAccessTokenStore();
 import type { FormSubmitEvent } from '#ui/types'
 import { format } from 'date-fns'
+import { z } from 'zod'
+
+const accessTokenStore = useAccessTokenStore();
 const config = useRuntimeConfig()
 const router = useRouter()
 const toasts = useToast()
-import { z } from 'zod'
 
 const { API_V2_URL } = config.public
 const { accessToken } = accessTokenStore
