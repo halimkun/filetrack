@@ -5,7 +5,9 @@
         <div class="flex justify-between">
           <div class="flex gap-2 items-start">
             <UButton icon="i-heroicons-eye-20-solid" color="blue" size="xs" square variant="soft" />
-            <h1 class="text-lg">Detail Surat</h1>
+            <h1 class="text-lg">
+              {{ isUpdate ? 'Update' : 'Tambah' }} SK
+            </h1>
           </div>
         </div>
       </template>
@@ -21,8 +23,8 @@
           </div>
         </UFormGroup>
 
-        <UFormGroup label="Perihal Surat" name="judul" class="w-full mb-4">
-          <UInput v-model="state.judul" placeholder="Perihal Surat" variant="outline" />
+        <UFormGroup label="Judul SK" name="judul" class="w-full mb-4">
+          <UInput v-model="state.judul" placeholder="Judul SK" variant="outline" />
         </UFormGroup>
 
         <UFormGroup label="Tanggal Terbit" name="tgl_terbit" class="w-full mb-4">
@@ -36,7 +38,7 @@
           </UPopover>
         </UFormGroup>
 
-        <UFormGroup label="Jenis Surat" name="jenis" class="w-full mb-4">
+        <UFormGroup label="Jenis SK" name="jenis" class="w-full mb-4">
           <USelectMenu v-model="state.jenis" :options="statusOptions" placeholder="Pilih Jenis SK"
             option-attribute="label" value-attribute="value" />
         </UFormGroup>

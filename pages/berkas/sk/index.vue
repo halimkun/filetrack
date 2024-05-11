@@ -64,64 +64,16 @@
   </UModal>
 
   <!-- Modal detail berkas -->
-  <UModal v-model="isDetailOpen">
-    <UCard>
-      <template #header>
-        <div class="flex justify-between">
-          <div class="flex gap-2 items-start">
-            <UButton icon="i-heroicons-eye-20-solid" color="blue" size="xs" square variant="soft" />
-            <h1 class="text-lg">Detail Surat</h1>
-          </div>
+  <ModalDetailSk 
+    v-model="isDetailOpen"
+    :selectedSk="rowSelected"
+  />
 
-          <UButton icon="i-tabler-x" size="xs" color="red" square variant="soft" @click="isDetailOpen = false" />
-        </div>
-      </template>
-
-      <div class="flex flex-col gap-3">
-        <div>
-          <p class="text-sm text-cool-400">Nomor Surat</p>
-          <UBadge color="gray">
-            {{ [rowSelected?.nomor, rowSelected?.jenis, rowSelected?.prefix, format(new Date(rowSelected?.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/') }}
-          </UBadge>
-        </div>
-
-        <div>
-          <p class="text-sm text-cool-400">Judul</p>
-          <p class="text-md font-bold">{{ rowSelected?.judul }}</p>
-        </div>
-
-        <div>
-          <p class="text-sm text-cool-400">Tanggal Terbit</p>
-          <p class="text-md font-bold">{{ format(new Date(rowSelected?.tgl_terbit.replace(' ', 'T').split('.')[0]), 'dd MMMM yyyy') }}</p>
-        </div>
-
-        <div>
-          <p class="text-sm text-cool-400">Penanggung Jawab</p>
-          <p class="text-md font-bold">{{ rowSelected?.penanggung_jawab ? rowSelected?.penanggung_jawab.nama : rowSelected?.pj }}</p>
-        </div>
-
-        <!-- button file -->
-        <div>
-          <p class="text-sm text-cool-400 mb-1">File</p>
-          <template v-if="rowSelected.berkas">
-            <UButton 
-              icon="i-tabler-file-text"
-              color="blue" size="xs" @click="handleOpenFile(rowSelected.berkas)">
-              Lihat File
-            </UButton>
-          </template>
-
-          <template v-else>
-            <UButton 
-              icon="i-tabler-file-off"
-              color="rose" size="xs" :disabled="true">
-              Lihat File
-            </UButton>
-          </template>
-        </div>
-      </div>
-    </UCard>
-  </UModal>
+  <!-- Modal Upload Berkas -->
+  <ModalUploadBerkasSk 
+    v-model="isUploadModalOpen"
+    :selectedSk="rowSelected"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -143,8 +95,8 @@ const accessToken: string | null = accessTokenStore.accessToken;
 const isDetailOpen = ref<boolean>(false)
 const isDeleteConfirmationOpen = ref<boolean>(false)
 const isCreateModalOpen = ref<boolean>(false)
+const isUploadModalOpen = ref<boolean>(false)
 
-const identifier = ref<string | undefined>(undefined)
 const rowSelected = ref<any>(null)
 const currentPage = ref<number>(1)
 
@@ -182,8 +134,8 @@ const menu = (row: any) => [
   [
     { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => { rowSelected.value = row; isDetailOpen.value = true } },
   ], [
-    // TODO add edit function
-    { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => handleOpenEdit(row) }
+    { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => handleOpenEdit(row) },
+    { label: 'Upload Berkas', icon: 'i-heroicons-arrow-up-tray-20-solid', click: () => { rowSelected.value = row; isUploadModalOpen.value = true } }
   ], [
     { label: 'Hapus Surat', icon: 'i-tabler-trash', click: () => { rowSelected.value = row; isDeleteConfirmationOpen.value = true } }
   ]
@@ -207,12 +159,7 @@ async function handleOpenEdit(row: any) {
   rowSelected.value = row
   setTimeout(() => {
     isCreateModalOpen.value = true
-  }, 500)
-}
-
-async function handleOpenFile(berkas: string) {
-  const url = `http://192.168.100.33/webapps/rsia_sk/${berkas}`
-  window.open(url, '_blank')
+  }, 300)
 }
 
 async function doDelete() {
@@ -245,9 +192,5 @@ async function doDelete() {
   }
 
   isDeleteConfirmationOpen.value = false
-}
-
-const updateIdentifier = (row: any) => {
-  identifier.value = btoa(`${row.nomor}.${row.jenis}.${row.tgl_terbit}`)
 }
 </script>
