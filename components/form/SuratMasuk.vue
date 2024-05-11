@@ -1,128 +1,130 @@
 <template>
-  <UForm :schema="schema" :state="state" @submit="onSubmit" enctype="multipart/form-data">
-    <div class="w-full flex gap-4 mb-4">
-      <UFormGroup label="No. SIMRS" name="no_simrs" class="w-full">
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton block icon="i-heroicons-calendar-days-20-solid" 
-            :label="state.no_simrs ? format(state.no_simrs, 'd MMM, yyy') : 'No SIMRS'"
-            color="primary" :variant="state.no_simrs ? 'soft' : 'outline'"
-          />
-  
-          <template #panel="{ close }">
-            <DatePicker v-model="state.no_simrs" is-required @close="close" />
-          </template>
-        </UPopover>
-      </UFormGroup>
-  
-      <!-- No Surat -->
-      <UFormGroup label="No. Surat" name="no_surat" class="w-full">
-        <UInput placeholder="Nomor Surat" color="gray" variant="outline" v-model="state.no_surat" />
-      </UFormGroup>
-    </div>
+  <ClientOnly fallback-tag="span" fallback="Loading comments...">
+    <UForm :schema="schema" :state="state" @submit="onSubmit" enctype="multipart/form-data">
+      <div class="w-full flex gap-4 mb-4">
+        <UFormGroup label="No. SIMRS" name="no_simrs" class="w-full">
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton block icon="i-heroicons-calendar-days-20-solid" 
+              :label="state.no_simrs ? format(state.no_simrs, 'd MMM, yyy') : 'No SIMRS'"
+              color="primary" :variant="state.no_simrs ? 'soft' : 'outline'"
+            />
+    
+            <template #panel="{ close }">
+              <DatePicker v-model="state.no_simrs" is-required @close="close" />
+            </template>
+          </UPopover>
+        </UFormGroup>
+    
+        <!-- No Surat -->
+        <UFormGroup label="No. Surat" name="no_surat" class="w-full">
+          <UInput placeholder="Nomor Surat" color="gray" variant="outline" v-model="state.no_surat" />
+        </UFormGroup>
+      </div>
 
-    <!-- Perihal -->
-    <UFormGroup label="Perihal" name="perihal" class="w-full mb-4">
-      <UTextarea placeholder="Perihal Surat" variant="outline" resize v-model="state.perihal" />
-    </UFormGroup>
-  
-    <!-- Pengirim -->
-    <UFormGroup label="Pengirim" name="pengirim" class="w-full mb-4">
-      <UInput placeholder="Pengirim Surat" variant="outline" v-model="state.pengirim" />
-    </UFormGroup>
-  
-    <!-- pelaksanaan    pelaksanaan_end -->
-    <div class="w-full flex gap-4 mb-4">
-      <UFormGroup label="Tanggal Surat" name="tgl_surat" class="w-full">
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton block icon="i-heroicons-calendar-days-20-solid" 
-            :label="state.tgl_surat ? format(state.tgl_surat, 'd MMM, yyy') : 'Tanggal Surat'"
-            color="lime" :variant="state.tgl_surat ? 'soft' : 'outline'" />
-  
-          <template #panel="{ close }">
-            <DatePicker v-model="state.tgl_surat" is-required @close="close" />
-  
-            <div class="w-full px-4 pb-5">
-              <button type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
-                @click="state.tgl_surat = undefined">
-                Clear
-              </button>
-            </div>
-          </template>
-        </UPopover>
+      <!-- Perihal -->
+      <UFormGroup label="Perihal" name="perihal" class="w-full mb-4">
+        <UTextarea placeholder="Perihal Surat" variant="outline" resize v-model="state.perihal" />
+      </UFormGroup>
+    
+      <!-- Pengirim -->
+      <UFormGroup label="Pengirim" name="pengirim" class="w-full mb-4">
+        <UInput placeholder="Pengirim Surat" variant="outline" v-model="state.pengirim" />
+      </UFormGroup>
+    
+      <!-- pelaksanaan    pelaksanaan_end -->
+      <div class="w-full flex gap-4 mb-4">
+        <UFormGroup label="Tanggal Surat" name="tgl_surat" class="w-full">
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton block icon="i-heroicons-calendar-days-20-solid" 
+              :label="state.tgl_surat ? format(state.tgl_surat, 'd MMM, yyy') : 'Tanggal Surat'"
+              color="lime" :variant="state.tgl_surat ? 'soft' : 'outline'" />
+    
+            <template #panel="{ close }">
+              <DatePicker v-model="state.tgl_surat" is-required @close="close" />
+    
+              <div class="w-full px-4 pb-5">
+                <button type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
+                  @click="state.tgl_surat = undefined">
+                  Clear
+                </button>
+              </div>
+            </template>
+          </UPopover>
+        </UFormGroup>
+
+        <UFormGroup label="Tanggal Pelaksanaan" name="pelaksanaan" class="w-full">
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton block icon="i-heroicons-calendar-days-20-solid" 
+              :label="state.pelaksanaan ? format(state.pelaksanaan, 'd MMM, yyy') : 'Tanggal Pelaksanaan'"
+              color="cyan" :variant="state.pelaksanaan ? 'soft' : 'outline'" />
+    
+            <template #panel="{ close }">
+              <DatePicker v-model="state.pelaksanaan" is-required @close="close" />
+    
+              <div class="w-full px-4 pb-5">
+                <button type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
+                  @click="state.pelaksanaan = null">
+                  Clear
+                </button>
+              </div>
+            </template>
+          </UPopover>
+        </UFormGroup>
+    
+        <UFormGroup label="Tanggal Selesai Pelaksanaan" name="pelaksanaan_end" class="w-full">
+          <UPopover :popper="{ placement: 'bottom-start' }">
+            <UButton block icon="i-heroicons-calendar-days-20-solid"
+              :label="state.pelaksanaan_end ? format(state.pelaksanaan_end, 'd MMM, yyy') : 'Tanggal Selesai Pelaksanaan'"
+              color="indigo" :variant="state.pelaksanaan_end ? 'soft' : 'outline'" />
+    
+            <template #panel="{ close }">
+              <DatePicker v-model="state.pelaksanaan_end" is-required @close="close" />
+              
+              <div class="w-full px-4 pb-5">
+                <button type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
+                  @click="state.pelaksanaan_end = null">
+                  Clear
+                </button>
+              </div>
+            </template>
+          </UPopover>
+        </UFormGroup>
+      </div>
+    
+      <!-- tempat -->
+      <UFormGroup label="Tempat" name="tempat" class="w-full mb-4">
+        <UInput placeholder="Tempat Pelaksanaan" variant="outline" v-model="state.tempat" />
+      </UFormGroup>
+    
+      <!-- select menu -->
+      <UFormGroup label="Via" name="ket" class="w-full mb-4">
+        <USelectMenu 
+          v-model="keteranganVia"
+          :options="via"
+          @update:selected="keteranganVia = $event"
+          value-attribute="value"
+          label-attribute="label"
+          placeholder="Dikirim Via"
+        />
+      </UFormGroup>
+    
+      <!-- file -->
+      <UFormGroup label="File" name="file" class="w-full mb-4">
+        <UInput type="file" placeholder="File Surat" variant="outline" />
       </UFormGroup>
 
-      <UFormGroup label="Tanggal Pelaksanaan" name="pelaksanaan" class="w-full">
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton block icon="i-heroicons-calendar-days-20-solid" 
-            :label="state.pelaksanaan ? format(state.pelaksanaan, 'd MMM, yyy') : 'Tanggal Pelaksanaan'"
-            color="cyan" :variant="state.pelaksanaan ? 'soft' : 'outline'" />
-  
-          <template #panel="{ close }">
-            <DatePicker v-model="state.pelaksanaan" is-required @close="close" />
-  
-            <div class="w-full px-4 pb-5">
-              <button type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
-                @click="state.pelaksanaan = null">
-                Clear
-              </button>
-            </div>
-          </template>
-        </UPopover>
-      </UFormGroup>
-  
-      <UFormGroup label="Tanggal Selesai Pelaksanaan" name="pelaksanaan_end" class="w-full">
-        <UPopover :popper="{ placement: 'bottom-start' }">
-          <UButton block icon="i-heroicons-calendar-days-20-solid"
-            :label="state.pelaksanaan_end ? format(state.pelaksanaan_end, 'd MMM, yyy') : 'Tanggal Selesai Pelaksanaan'"
-            color="indigo" :variant="state.pelaksanaan_end ? 'soft' : 'outline'" />
-  
-          <template #panel="{ close }">
-            <DatePicker v-model="state.pelaksanaan_end" is-required @close="close" />
-            
-            <div class="w-full px-4 pb-5">
-              <button type="button" class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
-                @click="state.pelaksanaan_end = null">
-                Clear
-              </button>
-            </div>
-          </template>
-        </UPopover>
-      </UFormGroup>
-    </div>
-  
-    <!-- tempat -->
-    <UFormGroup label="Tempat" name="tempat" class="w-full mb-4">
-      <UInput placeholder="Tempat Pelaksanaan" variant="outline" v-model="state.tempat" />
-    </UFormGroup>
-  
-    <!-- select menu -->
-    <UFormGroup label="Via" name="ket" class="w-full mb-4">
-      <USelectMenu 
-        v-model="keteranganVia"
-        :options="via"
-        @update:selected="keteranganVia = $event"
-        value-attribute="value"
-        label-attribute="label"
-        placeholder="Dikirim Via"
-      />
-    </UFormGroup>
-  
-    <!-- file -->
-    <UFormGroup label="File" name="file" class="w-full mb-4">
-      <UInput type="file" placeholder="File Surat" variant="outline" />
-    </UFormGroup>
-
-    <!-- button submit -->
-    <div class="mt-8 flex justify-end">
-      <UButton
-        icon="i-tabler-send-2" 
-        type="submit" 
-        color="primary"
-      >
-        Submit
-      </UButton>
-    </div>
-  </UForm>
+      <!-- button submit -->
+      <div class="mt-8 flex justify-end">
+        <UButton
+          icon="i-tabler-send-2" 
+          type="submit" 
+          color="primary"
+        >
+          Submit
+        </UButton>
+      </div>
+    </UForm>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>

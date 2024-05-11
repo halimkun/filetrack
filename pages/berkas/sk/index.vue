@@ -172,7 +172,7 @@ async function doDelete() {
     delete data.penanggung_jawab
   }
 
-  const { data: postData, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/berkas/sk/${btoa(`${data.nomor}.${data.jenis}.${data.tgl_terbit}`)}`, {
+  const { data: postData, error, status } = await useFetch(`${API_V2_URL}/berkas/sk/${btoa(`${data.nomor}.${data.jenis}.${data.tgl_terbit}`)}`, {
     params: { _method: 'PUT' },
     method: "POST",
     headers: { 'Authorization': `Bearer ${accessToken}` },

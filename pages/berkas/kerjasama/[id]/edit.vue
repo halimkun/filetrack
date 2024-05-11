@@ -18,10 +18,8 @@ import type { BerkasPks } from '~/types/BerkasPks';
   const route = useRoute();
   const runtimeConfig = useRuntimeConfig()
   const accessTokenStore = useAccessTokenStore()
-  const jenis = ref<string>('')
 
   const { API_V2_URL } = runtimeConfig.public
-  const noSurat = route.params.no_surat as string
   const accessToken = accessTokenStore.accessToken
 
   const id = atob(route.params.id as string);
