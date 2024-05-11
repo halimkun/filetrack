@@ -102,7 +102,7 @@ import type { FormSubmitEvent } from '#ui/types'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-const { noSurat, tglTerbit, tanggal, tempat, pj, perihal, catatan, actionUrl } = defineProps<{
+const { no_surat, tgl_terbit, tanggal, tempat, pj, perihal, catatan, actionUrl } = defineProps<{
   no_surat?: string,
   tgl_terbit?: Date,
   tanggal?: Date,
@@ -135,8 +135,8 @@ const { accessToken } = accessTokenStore
 const postPending = ref(false)
 
 const state = reactive({
-  no_surat: noSurat || undefined,
-  tgl_terbit: tglTerbit ? new Date(tglTerbit) : new Date(),
+  no_surat: no_surat || undefined,
+  tgl_terbit: tgl_terbit ? new Date(tgl_terbit) : new Date(),
   tanggal: tanggal ? new Date(tanggal) : new Date(),
   tempat: tempat || '-',
   pj: pj || '',
