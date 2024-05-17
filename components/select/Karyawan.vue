@@ -51,7 +51,6 @@ async function search(q: string): Promise<Pegawai[]> {
 }
 
 watch(selectedPegawai, (value) => {
-  console.log('selectedPegawai', value);
   emit('update:selectedPegawai', value.nik);
 });
 </script>

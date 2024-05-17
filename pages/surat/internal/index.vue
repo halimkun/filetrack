@@ -62,7 +62,7 @@ const menu = (row: any) => [
     { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => router.push(`/surat/internal/${btoa(row.no_surat)}`) }
   ], [
     { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/edit`) },
-    { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => console.log('Tambah Penerima', row.no_surat) }
+    { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/add/recipient`) }
   ]
 ]
 

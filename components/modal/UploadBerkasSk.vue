@@ -75,7 +75,6 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
   const postData: any = {
     ...state.selectedSk,
   }
-  console.log("🚀 ~ handleSubmit ~ postData:", postData['jenis'])
 
   const { nomor, jenis, tgl_terbit } = postData
   const identifier = btoa([nomor, jenis, tgl_terbit].join('.'))

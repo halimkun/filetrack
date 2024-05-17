@@ -112,6 +112,4 @@
   if (error.value) {
     console.error(error.value)
   }
-
-  console.log(berkasPKS)
 </script>
