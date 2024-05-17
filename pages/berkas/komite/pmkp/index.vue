@@ -117,7 +117,7 @@ const menu = (row: any) => [
     { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => { rowSelected.value = row; isDetailOpen.value = true } },
   ], [
     { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => router.push(`/berkas/komite/${lastSegment}/${btoa(`${row.nomor}.${row.tgl_terbit}`)}/edit`) },
-    { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => console.log('Tambah Penerima', `${btoa(`${row.nomor}.${row.tgl_terbit}`)}`) }
+    { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => router.push(`/berkas/komite/${lastSegment}/${btoa(`${row.nomor}.${row.tgl_terbit}`)}/add/recipient`) }
   ], [
     { label: 'Hapus Surat', icon: 'i-tabler-trash', click: () => { rowSelected.value = row; isDeleteConfirmationOpen.value = true } }
   ]
