@@ -23,9 +23,9 @@
       <USelectMenu v-model="filterJenis" :options="jenisOptions" option-attribute="label" value-attribute="value" />
     </UFormGroup>
 
-    <UFormGroup label="Search" class="w-full" name="search">
+    <!-- <UFormGroup label="Search" class="w-full" name="search">
       <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
-    </UFormGroup>
+    </UFormGroup> -->
   </div>
 
   <!-- table -->
@@ -36,6 +36,21 @@
       </UDropdown>
     </template>
 
+    <template #undangan.perihal-data="{ row }">
+      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-lg truncate">{{ row.undangan.perihal }}</p>
+    </template>
+
+    <template #undangan.tempat-data="{ row }">
+      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm truncate">{{ row.undangan.tempat }}</p>
+    </template>
+
+    <template #undangan.tanggal-data="{ row }">
+      {{ new Date(row.undangan.tanggal).toLocaleDateString('id-ID', {
+        weekday: 'short', year: 'numeric', month: 'short',
+        day: '2-digit', hour: '2-digit', minute: '2-digit'
+      }) }}
+    </template>
+    
     <template #no_surat-data="{ row }">
       <UBadge color="gray">{{ row.no_surat }}</UBadge>
     </template>
