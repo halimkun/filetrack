@@ -15,30 +15,18 @@ watch(currentPage, (value) => emits('onPageChange', value))
 if (menu && !columns?.some(column => column.key === 'actions')) {
   columns?.push({ label: 'Actions', key: 'actions' });
 }
+
+const col = [
+  { label: "No Surat", key: "no_surat" },
+  { label: "Nama", key: "nama" },
+  { label: "NIK", key: "nik" },
+  { label: "Bidang", key: "bidang" },
+  { label: "Departemen", key: "dep.nama" },
+];
 </script>
 
 <template>
-  <UTable :columns="columns" :rows="(response?.data as any)?.penerima" :loading="loading">
-    <template #empty-state>
-      <div class="flex flex-col items-center justify-center p-8">
-        <div class="w-fit">
-          <div class="flex flex-row items-start gap-2 justify-center p-4 border border-cool-800 rounded-xl">
-            <UIcon name="i-tabler-info-circle" color="orange" class="text-xl mt-0.5 animate-pulse" />
-            <div>
-              <p class="text-gray-500 dark:text-gray-400">Tidak ada penerima.</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">mungkin surat ini tidak mewakili kegiatan tertentu.</p>
-            </div>
-          </div>
-  
-          <UDivider label="ATAU" class="my-8"/>
-  
-          <UButton icon="i-tabler-user-plus" color="cyan" variant="soft" block>
-            Tambah Penerima
-          </UButton>
-        </div>
-      </div>
-    </template>
-
+  <UTable :columns="col" :rows="(response?.data as any)?.penerima" :loading="loading">
     <template #actions-data="{ row }">
       <UDropdown v-if="menu" :items="menu(row)">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />

@@ -5,6 +5,7 @@ useHead({
 })
 
 const route = useRoute()
+const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore()
 
@@ -85,11 +86,32 @@ if (penerimaError.value) {
         </div>
       </template>
 
-      <TablePenerimaUndangan 
-        :response="(penerimaData as any)" 
-        :loading="penerimaPending"
-        @onPageChange="currentPage = $event" 
-      />
+      <template v-if="penerimaData">
+        <TablePenerimaUndangan 
+          :response="(penerimaData as any)" 
+          :loading="penerimaPending"
+          @onPageChange="currentPage = $event" 
+        />
+      </template>
+
+      <template v-else>
+        <div class="flex flex-row gap-8 items-center justify-center p-8">
+          <div class="flex flex-row items-start gap-2 justify-center p-4 border border-cool-800 rounded-xl">
+            <UIcon name="i-tabler-info-circle" color="orange" class="text-xl mt-0.5 animate-pulse" />
+            <div>
+              <p class="text-gray-500 dark:text-gray-400">Tidak ada penerima.</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">mungkin surat ini tidak mewakili kegiatan tertentu.</p>
+            </div>
+          </div>
+
+          <UDivider label="OR" orientation="vertical" />
+
+          <UButton icon="i-tabler-user-plus" color="indigo" @click="router.push(`/surat/internal/${route.params.no_surat}/add/recipient`)">
+            Tambah Penerima
+          </UButton>
+        </div>
+      </template>
+
     </UCard>
   </div>
 

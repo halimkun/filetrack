@@ -18,6 +18,10 @@ export default defineNuxtConfig({
       API_V2_URL: process.env.NUXT_PUBLIC_API_V2_URL,
       TEST_USERNAME: process.env.NUXT_PUBLIC_TEST_USER_USERNAME,
       TEST_PASSWORD: process.env.NUXT_PUBLIC_TEST_USER_PASSWORD,
+
+      model: {
+        SURAT_INTERNAL: process.env.NUXT_PUBLIC_SURAT_INTERNAL_MODEL_NAME
+      }
     }
   },
 
