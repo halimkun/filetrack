@@ -3,3 +3,7 @@
     Page: Index
   </div>
 </template>
+
+<script>
+
+</script>

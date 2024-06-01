@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@samk-dev/nuxt-vcalendar",
+    "nuxt-tiptap-editor",
   ],
 
   runtimeConfig: {    
@@ -29,6 +30,11 @@ export default defineNuxtConfig({
         KOMITE_MEDIS: process.env.NUXT_PUBLIC_KOMITE_MEDIS_MODEL_NAME
       }
     }
+  },
+
+  tailwindcss: {
+    cssPath: '~/assets/style/tailwind.css',
+    configPath: 'tailwind.config',
   },
 
   pinia: {
