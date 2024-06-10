@@ -1,4 +1,7 @@
 // Middleware untuk otentikasi route
+
+import { userStore } from "~/stores/user"
+
 // Middleware ini memastikan bahwa pengguna memiliki token akses yang valid sebelum mengakses rute tertentu
 export default defineNuxtRouteMiddleware(async (to, from) => {
   // Daftar rute yang dikecualikan dari pengecekan otentikasi
@@ -7,6 +10,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   // Mengambil token akses dari store (pinia)
   const accessTokenStore = useAccessTokenStore()
   const accessToken = accessTokenStore.accessToken
+
+  const userDetail = userStore()
   const runtimeConfig = useRuntimeConfig()
 
   // Jika rute saat ini adalah salah satu dari rute yang dikecualikan
@@ -29,7 +34,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   try {
     // Lakukan panggilan API untuk memeriksa kevalidan token akses
-    const { error } = await useFetch(`${runtimeConfig.public.API_V2_URL}/user/auth/detail`, {
+    const { data,  error } = await useFetch<any>(`${runtimeConfig.public.API_V2_URL}/user/auth/detail`, {
       headers
     })
 
@@ -39,6 +44,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       accessTokenStore.clearToken()
       return navigateTo("/auth/login")
     }
+
+    // Jika pengguna tidak memiliki data pengguna,
+    // hapus token akses dan arahkan kembali ke halaman login
+    if (!data.value) {
+      accessTokenStore.clearToken()
+      return navigateTo("/auth/login")
+    }
+
+    // Simpan data pengguna ke store (pinia)
+    userDetail.setUser(data.value.data)
 
     // Jika rute yang diminta adalah halaman yang dikecualikan,
     // arahkan kembali ke halaman utama
