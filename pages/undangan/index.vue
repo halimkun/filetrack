@@ -5,7 +5,7 @@
         <div class="flex gap-2 items-start">
           <UButton icon="i-tabler-mail-star" color="teal" size="xs" square variant="soft" />
           <div>
-            <h1 class="text-lg">Undangan / Kegiatan</h1>
+            <h1 class="text-lg">Undangan // Kegiatan // Notulen</h1>
             <p class="text-sm text-cool-400">Data undangan atau kegiatan terdaftar</p>
           </div>
         </div>
@@ -80,7 +80,7 @@ const columns = [
 
 const menu = (row: any) => [
   [
-    { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => { router.push(`/${row.tipe}/${btoa(row.no_surat)}`) } },
+    { label: "Detail Surat & Kehadiran", icon: "i-heroicons-eye-20-solid", click: () => { router.push(`/${row.tipe}/${btoa(row.no_surat)}`) } },
   ]
 ]
 

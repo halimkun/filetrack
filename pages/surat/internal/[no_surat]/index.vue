@@ -1,14 +1,13 @@
 <script setup lang="ts">
 useHead({
   title: 'Detail Surat Internal -- FileTrack | FAISAL HALIM',
-  meta: [ { name: 'description', content: 'Detail Surat Internal' } ]
+  meta: [{ name: 'description', content: 'Detail Surat Internal' }]
 })
 
 const route = useRoute()
 const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore()
-
 
 const infoOpen = ref(false)
 const { API_V2_URL } = runtimeConfig.public
@@ -27,10 +26,11 @@ if (suratInternalError.value) {
 
 const currentPage = ref<number>(1)
 const { data: penerimaData, pending: penerimaPending, error: penerimaError } = await useFetch(
-  () => `${API_V2_URL}/undangan/penerima/${route.params.no_surat}?page=${currentPage.value}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-    watch: [currentPage]
-  }
+  () => `${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
+  query: { page: currentPage.value },
+  headers: { Authorization: `Bearer ${accessToken}` },
+  watch: [currentPage]
+}
 );
 
 if (penerimaError.value) {
@@ -79,17 +79,26 @@ if (penerimaError.value) {
 
     <UCard class="w-full">
       <template #header>
-        <div class="flex gap-2 items-center">
-          <UButton icon="i-heroicons-information-circle-20-solid" size="xs" color="yellow" square variant="soft"
-            @click="infoOpen = true" />
-          <h1 class="text-lg">Penerima</h1>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-2 items-center">
+            <UButton icon="i-heroicons-information-circle-20-solid" size="xs" color="yellow" square variant="soft"
+              @click="infoOpen = true" />
+            <h1 class="text-lg">Penerima</h1>
+          </div>
+
+          <!-- button to add/recipient -->
+          <UButton icon="i-tabler-user-plus" square size="sm" color="primary" variant="soft"
+            @click="router.push(`/surat/internal/${route.params.no_surat}/add/recipient`)">
+            Tambah Penerima
+          </UButton>
         </div>
       </template>
 
       <template v-if="penerimaData">
-        <TablePenerimaUndangan 
+        <TablePenerimaUndangan
           :response="(penerimaData as any)" 
           :loading="penerimaPending"
+          :detailSurat="(suratInternal as any)?.data"
           @onPageChange="currentPage = $event" 
         />
       </template>
@@ -100,13 +109,15 @@ if (penerimaError.value) {
             <UIcon name="i-tabler-info-circle" color="orange" class="text-xl mt-0.5 animate-pulse" />
             <div>
               <p class="text-gray-500 dark:text-gray-400">Tidak ada penerima.</p>
-              <p class="text-xs text-gray-500 dark:text-gray-400">mungkin surat ini tidak mewakili kegiatan tertentu.</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">mungkin surat ini tidak mewakili kegiatan tertentu.
+              </p>
             </div>
           </div>
 
           <UDivider label="OR" orientation="vertical" />
 
-          <UButton icon="i-tabler-user-plus" color="indigo" @click="router.push(`/surat/internal/${route.params.no_surat}/add/recipient`)">
+          <UButton icon="i-tabler-user-plus" color="indigo"
+            @click="router.push(`/surat/internal/${route.params.no_surat}/add/recipient`)">
             Tambah Penerima
           </UButton>
         </div>
