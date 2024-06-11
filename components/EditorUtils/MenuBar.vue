@@ -1,5 +1,5 @@
 <template>
-  <div class="flex bg-gray-900 p-2">
+  <div class="flex bg-gray-800 p-2">
     <template v-for="(item, index) in items">
       <div class="divider" v-if="item.type === 'divider'" :key="`divider${index}`" />
       <menu-item v-else :key="index" v-bind="item" />

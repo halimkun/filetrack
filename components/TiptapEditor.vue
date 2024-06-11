@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-xl w-fit overflow-hidden text-dark">
+  <div class="bg-white rounded-xl w-full overflow-hidden text-dark">
     <MenuBar :editor="editor" />
     <div class="px-3 pb-3">
       <editor-content :editor="editor" />
