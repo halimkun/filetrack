@@ -31,6 +31,7 @@ useHead({
   meta: [{ name: 'description', content: 'Data Undangan / Kegiatan' }],
 })
 
+const toast = useToast();
 const router = useRouter();
 const runtimeConfig = useRuntimeConfig();
 const accessTokenStore = useAccessTokenStore();
@@ -81,8 +82,25 @@ const columns = [
 const menu = (row: any) => [
   [
     { label: "Detail Surat & Kehadiran", icon: "i-heroicons-eye-20-solid", click: () => { router.push(`/${row.tipe}/${btoa(row.no_surat)}`) } },
+    { label: "Tambah Penerima", icon: "i-heroicons-user-plus-solid", click: () => router.push(buildAddRecipientLink(row)) },
   ]
 ]
+
+const buildAddRecipientLink = (row: any)  => {
+  switch (row.tipe) {
+    case 'surat/internal':
+      return `${row.tipe}/${btoa(row.no_surat)}/add/recipient`;
+
+    default:
+      const noSurat = row.no_surat.split('/').slice(0,1).join('/');
+      const tglSurat = row.no_surat.split('/').slice(-1).join('/');
+
+      // tgl surat is 030524 make it 2024-05-03
+      const tglSuratFormatted = `20${tglSurat.slice(4, 6)}-${tglSurat.slice(2, 4)}-${tglSurat.slice(0, 2)}`;
+
+      return `/berkas/${row.tipe}/${btoa(noSurat.replace(/^0+/, '') + "." + tglSuratFormatted)}/add/recipient`
+  }
+}
 
 const onFilter = (data: any) => {
   if (data.search || data.filters) {
