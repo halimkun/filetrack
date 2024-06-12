@@ -81,8 +81,10 @@ const columns = [
 
 const menu = (row: any) => [
   [
-    { label: "Detail Surat & Kehadiran", icon: "i-heroicons-eye-20-solid", click: () => { router.push(`/${row.tipe}/${btoa(row.no_surat)}`) } },
+    { label: "Detail & Kehadiran", icon: "i-heroicons-eye-20-solid", click: () => { router.push(`/${row.tipe}/${btoa(row.no_surat)}`) } },
     { label: "Tambah Penerima", icon: "i-heroicons-user-plus-solid", click: () => router.push(buildAddRecipientLink(row)) },
+  ], [
+    { label: "QR Kehadiran", icon: "i-heroicons-qr-code", click: () => router.push(`/undangan/${btoa(row.no_surat)}/qr`) },
   ]
 ]
 
