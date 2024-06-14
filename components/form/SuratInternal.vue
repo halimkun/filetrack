@@ -99,6 +99,7 @@
 
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
+import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
@@ -163,8 +164,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   if (error.value) {
     const errorMessage = error.value.data?.message || error.value.message;
+
     toasts.add({ title: 'Error', description: errorMessage, color: 'red' });
+    logEvent('create_surat_internal_error', { data: postData, error: errorMessage });
     console.error("POST DATA ERROR", error.value.data);
+    
     return;
   }
 
@@ -173,6 +177,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   toasts.add({ title: 'Success', description: 'Surat internal berhasil ditambahkan', color: 'green' });
+  logEvent('create_surat_internal', { data: postData });
   router.push('/surat/internal');
 }
 </script>

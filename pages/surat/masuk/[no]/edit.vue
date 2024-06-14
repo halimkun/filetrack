@@ -55,6 +55,7 @@
 
 <script lang="ts" setup>
 import type { SuratMasukData } from '~/types/SuratMasuk';
+import { logEvent } from '~/utils/firebase'
 
 useHead({
   title: 'Edit Surat Internal -- FileTrack | FAISAL HALIM',
@@ -70,11 +71,12 @@ const no = route.params.no as string
 const accessToken = accessTokenStore.accessToken
 const actionUrl = `${API_V2_URL}/surat/masuk/${atob(no)}?_method=PUT`
 
-const { data: suratMasuk, error } = await useFetch<SuratMasukData>(`${API_V2_URL}/surat/masuk/${atob(no)}`, {
+const { data: suratMasuk, error } = await useFetch<any>(`${API_V2_URL}/surat/masuk/${atob(no)}`, {
   headers: { Authorization: `Bearer ${accessToken}` }
 })
 
 if (error.value) {
+  logEvent('fetch_surat_internal_error', error.value)
   console.error('Error fetching surat internal:', error.value);
 }
 </script>

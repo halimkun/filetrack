@@ -100,6 +100,7 @@
 
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
+import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
@@ -150,6 +151,7 @@ const state = reactive({
 
 // Submit Handle
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  logEvent('submit_surat_eksternal', state)
   postPending.value = true
   const data = {
     ...event.data,
@@ -167,6 +169,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (error.value) {
+    logEvent('submit_surat_eksternal_error', error.value);
     const errorMessage = error.value.data?.message || error.value.message;
     toasts.add({ title: 'Error', description: errorMessage, color: 'red' });
     console.error("POST DATA ERROR", error.value.data);

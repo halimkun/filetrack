@@ -110,6 +110,7 @@
 
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
+import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
@@ -178,6 +179,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   if (error.value) {
     const errorMessage = error.value.data?.message || error.value.message;
+    logEvent('post_berkas_pks_failed', { error: errorMessage });
     toasts.add({ title: 'Error', description: errorMessage, color: 'red' });
     console.error("POST DATA ERROR", error.value.data);
     return;
@@ -185,6 +187,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   postPending.value = false;
 
+  logEvent('post_berkas_pks_success', { data: response });
   toasts.add({ title: 'Success', description: 'Surat internal berhasil ditambahkan', color: 'green' });
   router.push('/berkas/kerjasama');
 }

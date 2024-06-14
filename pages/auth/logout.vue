@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts" setup>
+import { logEvent } from '~/utils/firebase'
 definePageMeta({
   layout: 'auth'
 })
@@ -36,6 +37,7 @@ const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/
 
 if (error.value) {
   console.error(error.value)
+  logEvent('logout_failed', { error: error.value })
   setTimeout(() => {
     router.push('/')
   }, 1000)
@@ -43,6 +45,7 @@ if (error.value) {
 
 if (status.value == 'success') {
   accessTokenStore.clearToken()
+  logEvent('logout_success')
   setTimeout(() => {
     router.push('/auth/login')
   }, 3000)

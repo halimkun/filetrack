@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import type { BerkasLainnya } from '~/types/BerkasLainnya';
+import { logEvent } from '~/utils/firebase'
 
 const route = useRoute()
 const toasts = useToast()
@@ -36,6 +37,7 @@ const { data: dataBerkas, error } = await useFetch<BerkasLainnya>(`${API_V2_URL}
 })
 
 if (error.value) {
+  logEvent('berkas_radiologi_edit', error.value)
   console.error(error.value)
   toasts.add({
     title: 'Error',

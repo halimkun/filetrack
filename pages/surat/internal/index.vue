@@ -16,16 +16,11 @@
       </div>
     </template>
 
-    <TableSuratInternal 
-      :response="(suratInternal as any)" 
-      :columns="columns" 
-      :menu="menu" 
-      :loading="pending"
-      @selectedChange="updateSelectedData" 
-      @onPageChange="currentPage = $event" 
-      @onFilter="onFilter" 
-    />
+    <TableSuratInternal :response="(suratInternal as any)" :columns="columns" :menu="menu" :loading="pending"
+      @selectedChange="updateSelectedData" @onPageChange="currentPage = $event" @onFilter="onFilter" />
   </UCard>
+
+  <ModalUpdateStatus v-model="showModalUpdateStatus" />
 </template>
 
 <script setup lang="ts">
@@ -38,6 +33,8 @@ useHead({
 const runtimeConfig = useRuntimeConfig();
 const accessTokenStore = useAccessTokenStore();
 const router = useRouter();
+
+const showModalUpdateStatus = ref<boolean>(false);
 
 // Ekstraksi nilai yang diperlukan dari hooks
 const { API_V2_URL } = runtimeConfig.public;
@@ -62,7 +59,9 @@ const menu = (row: any) => [
     { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => router.push(`/surat/internal/${btoa(row.no_surat)}`) }
   ], [
     { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/edit`) },
-    { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/add/recipient`) }
+    { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/add/recipient`) },
+  ], [
+    { label: 'Update Status', icon: 'i-tabler-tag-starred', click: () => showModalUpdateStatus.value = true }
   ]
 ]
 

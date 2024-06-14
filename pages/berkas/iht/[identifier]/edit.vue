@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import type { BerkasLainnya } from '~/types/BerkasLainnya';
+import { logEvent } from '~/utils/firebase'
 
 const route = useRoute()
 const toasts = useToast()
@@ -37,6 +38,7 @@ const { data: dataBerkas, error } = await useFetch<BerkasLainnya>(`${API_V2_URL}
 
 if (error.value) {
   console.error(error.value)
+  logEvent('fetch_berkas_failed', { error: error.value })
   toasts.add({
     title: 'Error',
     description: 'Terjadi kesalahan saat mengambil data berkas',

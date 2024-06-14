@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { BerkasKomite } from '~/types/BerkasKomite'
+import { logEvent } from '~/utils/firebase'
 
 useHead({
   title: 'Tambah Penerima Berkas Komite -- FileTrack | FAISAL HALIM',
@@ -52,6 +53,7 @@ const { data: berkasKomite, pending, error: berkasKomiteError, status } = useFet
 });
 
 if (berkasKomiteError.value) {
+  logEvent('fetch_berkas_komite_failed', { error: berkasKomiteError.value, komite: komite, identifier: route.params.identifier })
   console.error('Error fetching surat internal:', berkasKomiteError.value);
 }
 
@@ -80,10 +82,12 @@ const onSubmit = async () => {
     })
 
     if (error.value) {
+      logEvent('fetch_berkas_komite_failed', { error: error.value })
       console.error('Error fetching surat internal:', error.value);
     }
 
     if (status.value == 'success') {
+      logEvent('post_berkas_komite_success', { komite: komite, identifier: route.params.identifier })
       toast.add({
         title: 'Berhasil',
         description: 'Data penerima surat berhasil disimpan',

@@ -10,7 +10,7 @@
 
     <!-- QR Code -->
     <ClientOnly>
-      <qrcode-vue :value="decodedNomor" size="380" level="H" />
+      <qrcode-vue :value="decodedNomor" :size="380" level="H" />
     </ClientOnly>
 
     <!-- Info -->
@@ -29,11 +29,16 @@
 
 <script lang="ts" setup>
 import QrcodeVue from 'qrcode.vue'
+import { logEvent } from '~/utils/firebase'
 
 const route = useRoute();
 const router = useRouter();
 
 const decodedNomor = atob(route.params.nomor as string)
+
+logEvent('qr_page_view', {
+  nomor: decodedNomor,
+})
 
 definePageMeta({
   title: 'Login',

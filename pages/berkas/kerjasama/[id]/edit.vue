@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import type { BerkasPks } from '~/types/BerkasPks';
+import { logEvent } from '~/utils/firebase'
 
   const route = useRoute();
   const runtimeConfig = useRuntimeConfig()
@@ -30,6 +31,7 @@ import type { BerkasPks } from '~/types/BerkasPks';
   })
 
   if (error.value) {
+    logEvent('fetch_berkas_pks_failed', { error: error.value })
     console.error('Error fetching surat internal:', error.value);
   }
 </script>

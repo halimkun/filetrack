@@ -55,6 +55,8 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
 import type { SuratKeputusanData } from '~/types/Sk';
+import { logEvent } from '~/utils/firebase'
+
 import { format } from 'date-fns'
 import { z } from 'zod'
 
@@ -129,10 +131,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     });
 
     if (error.value) {
+      logEvent('create_sk_error', { error: error.value.message || 'Terjadi kesalahan saat membuat Berkas' })
       throw new Error(error.value.message || 'Terjadi kesalahan saat membuat Berkas');
     }
 
     if (status.value === 'success') {
+      logEvent('create_sk_success', { data: data })
       toasts.add({
         title: 'Success',
         description: 'Berkas berhasil dibuat',
@@ -141,6 +145,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       router.go(0);
     }
   } catch (error) {
+    logEvent('create_sk_error', { error: error.message || 'Terjadi kesalahan saat membuat Berkas' })
     console.error("POST DATA ERROR", error);
     toasts.add({
       title: 'Error',

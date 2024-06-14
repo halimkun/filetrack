@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { z } from 'zod'
+import { logEvent } from '~/utils/firebase'
 import type { FormSubmitEvent } from '#ui/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -45,6 +46,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     if (statusMenuData.value != 'success') {
       handleFetchError(toast, 'Failed to fetch menu data, hubungi administrator untuk informasi lebih lanjut')
+      logEvent('login_failed', { username: event.data.username, error: 'Failed to fetch menu data' })
       onLoading.value = false
       return
     }
@@ -53,6 +55,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     if (menu.data.length == 0) {
       handleFetchError(toast, 'You do not have access to this application')
+      logEvent('login_failed', { username: event.data.username, error: 'No menu data' })
       onLoading.value = false
       return
     }
@@ -66,12 +69,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     if (!pending.value) {
       onLoading.value = false
     }
-
+    
+    logEvent('login_success', { username: event.data.username })
     tokenStore.setToken(accessToken)
     menuStore.setMenuFromArray(menu.data)
     router.push('/')
   } else {
     onLoading.value = false
+    logEvent('login_failed', { username: event.data.username, error: error.value })
     handleFetchError(toast, 'Failed to login, please check your username and password')
   }
 }

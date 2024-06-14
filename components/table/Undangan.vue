@@ -23,9 +23,9 @@
       <USelectMenu v-model="filterJenis" :options="jenisOptions" option-attribute="label" value-attribute="value" />
     </UFormGroup>
 
-    <!-- <UFormGroup label="Search" class="w-full" name="search">
+    <UFormGroup label="Search" class="w-full" name="search">
       <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
-    </UFormGroup> -->
+    </UFormGroup>
   </div>
 
   <!-- table -->

@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import type { SuratEksternalData } from '~/types/SuratEksternal';
+import { logEvent } from '~/utils/firebase'
 
 useHead({
   title: 'Edit Surat Eksternal -- FileTrack | FAISAL HALIM',
@@ -30,11 +31,12 @@ const noSurat = route.params.no_surat as string
 const accessToken = accessTokenStore.accessToken
 const actionUrl = `${API_V2_URL}/surat/eksternal/${noSurat}?_method=PUT`
 
-const { data: suratEksternal, error } = await useFetch<SuratEksternalData>(`${API_V2_URL}/surat/eksternal/${noSurat}`, {
+const { data: suratEksternal, error } = await useFetch<any>(`${API_V2_URL}/surat/eksternal/${noSurat}`, {
   headers: { Authorization: `Bearer ${accessToken}` }
 })
 
 if (error.value) {
+  logEvent('fetch_surat_eksternal_error', error.value)
   console.error('Error fetching surat eksternal:', error.value);
 }
 </script>

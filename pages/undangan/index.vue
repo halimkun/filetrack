@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import type { SuratUndangan, Undangan } from '~/types/Undangan';
+import { logEvent } from '~/utils/firebase'
 
 useHead({
   title: 'Data Undangan / Kegiatan -- FileTrack | FAISAL HALIM',
@@ -127,6 +128,7 @@ const { data: dataUndangan, pending, error } = await useAsyncData(
 );
 
 if (error.value) {
+  logEvent('fetch_undangan_error', error.value)
   console.error(error.value)
 }
 </script>

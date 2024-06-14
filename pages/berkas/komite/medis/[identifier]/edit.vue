@@ -14,6 +14,7 @@
 
 <script lang="ts" setup>
 import type { BerkasKomite } from '~/types/BerkasKomite';
+import { logEvent } from '~/utils/firebase'
 
 const route = useRoute()
 const toasts = useToast()
@@ -36,6 +37,7 @@ const { data: dataBerkas, pending, error, refresh, status } = await useFetch<Ber
 })
 
 if (error.value) {
+  logEvent('fetch_berkas_failed', { error: error.value })
   console.error(error.value)
   toasts.add({
     title: 'Error',

@@ -70,6 +70,7 @@
 
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
+import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
@@ -133,6 +134,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   })
 
   if (error.value) {
+    logEvent('berkas_lain_failed', { error: error.value })
     toasts.add({
       title: 'Error',
       description: 'Terjadi kesalahan saat membuat Berkas Komite',
@@ -141,6 +143,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   if (status.value === 'success') {
+    logEvent('berkas_lain_success', { data: postData })
     toasts.add({
       title: 'Success',
       description: 'Berkas Komite berhasil dibuat',
@@ -148,6 +151,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     })
     router.push(`/berkas/${komite}`)
   } else {
+    logEvent('berkas_lain_failed', { error: error.value })
     toasts.add({
       title: 'Error',
       description: 'Gagal membuat Berkas Komite',

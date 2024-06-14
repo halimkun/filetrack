@@ -112,6 +112,7 @@
 import { z } from 'zod'
 import { format } from 'date-fns';
 import { id } from 'date-fns/locale';
+import { logEvent } from '~/utils/firebase'
 
 import type { FormSubmitEvent } from '#ui/types'
 
@@ -185,6 +186,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   })
 
   if (error.value) {
+    logEvent('create_spo_error', error.value)
     toast.add({
       title: 'Gagal',
       description: error.value.message,
@@ -195,6 +197,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   if (status.value == 'success') {
+    logEvent('create_spo_success', data)
     toast.add({
       title: 'Berhasil',
       description: 'SPO berhasil disimpan',
