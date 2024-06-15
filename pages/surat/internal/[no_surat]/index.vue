@@ -39,8 +39,8 @@ if (penerimaError.value) {
 </script>
 
 <template>
-  <div class="flex gap-4 flex-col lg:flex-row items-start">
-    <UCard class="w-full lg:w-[35%]">
+  <div class="flex gap-4 flex-col xl:flex-row items-start">
+    <UCard class="w-full xl:w-[35%]">
       <template #header>
         <div class="flex gap-2 items-center">
           <UButton icon="i-tabler-target-arrow" color="indigo" size="xs" square variant="soft" />
