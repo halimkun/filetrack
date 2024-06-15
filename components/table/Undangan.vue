@@ -37,11 +37,11 @@
     </template>
 
     <template #undangan.perihal-data="{ row }">
-      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-lg truncate">{{ row.undangan.perihal }}</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.perihal }}</p>
     </template>
 
     <template #undangan.tempat-data="{ row }">
-      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm truncate">{{ row.undangan.tempat }}</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.tempat }}</p>
     </template>
 
     <template #undangan.tanggal-data="{ row }">
