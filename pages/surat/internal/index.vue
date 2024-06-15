@@ -20,7 +20,11 @@
       @selectedChange="updateSelectedData" @onPageChange="currentPage = $event" @onFilter="onFilter" />
   </UCard>
 
-  <ModalUpdateStatus v-model="showModalUpdateStatus" />
+  <ModalUpdateStatus 
+    v-model="showModalUpdateStatus"
+    :showModalUpdateStatus="showModalUpdateStatus"
+    :suratInternal="(selectedData as any)"
+  />
 </template>
 
 <script setup lang="ts">
@@ -61,7 +65,7 @@ const menu = (row: any) => [
     { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/edit`) },
     { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/add/recipient`) },
   ], [
-    { label: 'Update Status', icon: 'i-tabler-tag-starred', click: () => showModalUpdateStatus.value = true }
+    { label: 'Update Status', icon: 'i-tabler-tag-starred', click: () => { showModalUpdateStatus.value = true; selectedData.value = row } }
   ]
 ]
 
