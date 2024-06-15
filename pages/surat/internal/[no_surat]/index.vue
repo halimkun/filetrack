@@ -25,12 +25,12 @@ if (suratInternalError.value) {
 }
 
 const currentPage = ref<number>(1)
-const { data: penerimaData, pending: penerimaPending, error: penerimaError } = await useFetch(
-  () => `${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
-  query: { page: currentPage.value },
-  headers: { Authorization: `Bearer ${accessToken}` },
-  watch: [currentPage]
-}
+const { data: penerimaData, pending: penerimaPending, error: penerimaError, refresh } = await useAsyncData(
+  `${API_V2_URL}/undangan/penerima/${route.params.no_surat}`,
+  () => $fetch(`${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+    query: { page: currentPage.value }
+  }), { watch: [currentPage] }
 );
 
 if (penerimaError.value) {
@@ -95,12 +95,8 @@ if (penerimaError.value) {
       </template>
 
       <template v-if="penerimaData">
-        <TablePenerimaUndangan
-          :response="(penerimaData as any)" 
-          :loading="penerimaPending"
-          :detailSurat="(suratInternal as any)?.data"
-          @onPageChange="currentPage = $event" 
-        />
+        <TablePenerimaUndangan :response="(penerimaData as any)" :loading="penerimaPending"
+          :detailSurat="(suratInternal as any)?.data" @onPageChange="currentPage = $event" />
       </template>
 
       <template v-else>
