@@ -74,15 +74,15 @@
           </template>
 
           <template v-else-if="key == 'tgl_surat'">
-            <UBadge color="gray">{{ format(new Date(selectedData[0][key]), 'dd/MM/yyyy') }}</UBadge>
+            <UBadge color="gray">{{ selectedData[0][key] && selectedData[0][key] != "0000-00-00" ? format(new Date(selectedData[0][key]), 'dd/MM/yyyy') : "-" }}</UBadge>
           </template>
           
           <template v-else-if="key == 'pelaksanaan'">
-            <p  class="text-sm text-gray-400">{{ selectedData[0][key] ? format(new Date(selectedData[0][key]), 'd MMMM yyyy') : '-' }}</p> 
+            <p  class="text-sm text-gray-400">{{ selectedData[0][key] && selectedData[0][key] != "0000-00-00" ? format(new Date(selectedData[0][key]), 'd MMMM yyyy') : '-' }}</p> 
           </template>
 
           <template v-else-if="key == 'pelaksanaan_end'">
-            <p  class="text-sm text-gray-400">{{ selectedData[0][key] ? format(new Date(selectedData[0][key]), 'd MMMM yyyy') : '-' }}</p> 
+            <p  class="text-sm text-gray-400">{{ selectedData[0][key] && selectedData[0][key] != "0000-00-00" ? format(new Date(selectedData[0][key]), 'd MMMM yyyy') : '-' }}</p> 
           </template>
           
           <template v-else-if="key == 'ket'">
@@ -129,8 +129,9 @@ const detailedData = ["no_simrs", "no_surat", "pengirim", "tgl_surat", "perihal"
 const columns = [
   { label: "No. SIMRS", key: "no_simrs" },
   { label: "Perihal", key: "perihal" },
+  { label: "Berkas", key: "berkas" },
   { label: "Pengirim", key: "pengirim" },
-  { label: "Tanggal Surat", key: "tgl_surat" }
+  { label: "Tanggal Surat", key: "tgl_surat" },
 ]
 
 const menu = (row: any) => [
