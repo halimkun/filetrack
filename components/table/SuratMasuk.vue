@@ -66,6 +66,28 @@
       </div>
     </template>
 
+    <template #berkas-data="{ row }">
+      <div class="flex gap-4">
+        <template v-if="row.berkas">
+          <UButton 
+            title="lihat berkas di tab baru" 
+            icon="i-tabler-file-text" 
+            color="primary" 
+            variant="soft" 
+            size="xs" 
+            square 
+            @click="handleOpenFile(row.berkas)"
+          />
+        </template>
+
+        <!-- disable button -->
+        <template v-else>
+          <UButton title="lihat berkas di tab baru" icon="i-tabler-file-off" size="xs" color="rose" variant="soft" square disabled>
+          </UButton>
+        </template>
+      </div>
+    </template>
+
     <template #pengirim-data="{ row }">
       <p class="text-gray-500 dark:text-gray-400 max-w-xs truncate">
         {{ row.pengirim }}
@@ -146,4 +168,9 @@ watch([search, noSimRs, filterKet], useDebounceFn(([search, no_simrs, keterangan
     filters: filterCond
   })
 }, 800))
+
+async function handleOpenFile(berkas: string) {
+  const url = `http://192.168.100.33/webapps/rsia_surat_masuk/${berkas}`
+  window.open(url, '_blank')
+}
 </script>
