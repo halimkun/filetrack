@@ -184,8 +184,8 @@ const state = reactive({
   perihal: perihal || '-', // undefined,
   pengirim: pengirim || '-', // undefined,
   tgl_surat: tgl_surat  && tgl_surat != '0000-00-00' ? new Date(tgl_surat) : undefined,
-  pelaksanaan: pelaksanaan ? new Date(pelaksanaan) : null,
-  pelaksanaan_end: pelaksanaan_end ? new Date(pelaksanaan_end) : null,
+  pelaksanaan: pelaksanaan && pelaksanaan != '0000-00-00' ? new Date(pelaksanaan) : null,
+  pelaksanaan_end: pelaksanaan_end && pelaksanaan_end != '0000-00-00' ? new Date(pelaksanaan_end) : null,
   tempat: tempat || "-",
   ket: ket || '-',
 })
