@@ -26,15 +26,21 @@ if (suratInternalError.value) {
 
 const currentPage = ref<number>(1)
 const { data: penerimaData, pending: penerimaPending, error: penerimaError, refresh } = await useAsyncData(
-  `${API_V2_URL}/undangan/penerima/${route.params.no_surat}`,
-  () => $fetch(`${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
+  `${API_V2_URL}/undangan/penerima/search`,
+  () => $fetch(`${API_V2_URL}/undangan/penerima/search`, {
+    method: 'POST',
     headers: { Authorization: `Bearer ${accessToken}` },
-    query: { page: currentPage.value }
+    query: { page: currentPage.value, include: 'detail.dep', limit: 10 },
+    body: JSON.stringify({ 
+      filters: [
+        { field: 'no_surat', operator: "=", value: atob(route.params.no_surat as string) }
+      ]
+     })
   }), { watch: [currentPage] }
 );
 
 if (penerimaError.value) {
-  console.error('Error fetching penerima undangan:', penerimaError.value);
+  console.log('Error fetching penerima undangan:', penerimaError.value);
 }
 </script>
 
@@ -95,7 +101,9 @@ if (penerimaError.value) {
       </template>
 
       <template v-if="penerimaData">
-        <TablePenerimaUndangan :response="(penerimaData as any)" :loading="penerimaPending"
+        <TablePenerimaUndangan 
+          :response="(penerimaData as any)" 
+          :loading="penerimaPending"
           :detailSurat="(suratInternal as any)?.data" @onPageChange="currentPage = $event" />
       </template>
 

@@ -30,10 +30,10 @@ if (menu && !columns?.some(column => column.key === 'actions')) {
 
 const col = [
   { label: "No Surat", key: "no_surat" },
-  { label: "Nama", key: "nama" },
-  { label: "NIK", key: "nik" },
-  { label: "Bidang", key: "bidang" },
-  { label: "Departemen", key: "dep.nama" },
+  { label: "Nama", key: "detail.nama" },
+  { label: "NIK", key: "penerima" },
+  { label: "Bidang", key: "detail.bidang" },
+  { label: "Departemen", key: "detail.dep.nama" },
 ];
 
 const { data: dataKehadiran, pending: kehadiranPending, error: kehadiranError, refresh: kehadiranRefresh } = await useAsyncData<ResourcePagination>(
@@ -46,9 +46,9 @@ const { data: dataKehadiran, pending: kehadiranPending, error: kehadiranError, r
 onMounted(() => {
   if (dataKehadiran.value) {
     const kehadiran = dataKehadiran.value.data as any;
-    const penerima = response?.data.penerima;
+    const penerima = response?.data;    
 
-    selectedData.value = penerima.filter((penerima: any) => kehadiran.some((kehadiran: any) => kehadiran.nik === penerima.nik));
+    selectedData.value = penerima.filter((penerima: any) => kehadiran.some((kehadiran: any) => kehadiran.nik === penerima.penerima));
   }
 });
 
@@ -87,7 +87,7 @@ const simpanKehadiran = async () => {
     </UButton>
   </div>
 
-  <UTable :columns="col" :rows="(response?.data as any)?.penerima" :loading="loading" v-model="selectedData">
+  <UTable :columns="col" :rows="(response?.data as any)" :loading="loading" v-model="selectedData">
     <template #actions-data="{ row }">
       <UDropdown v-if="menu" :items="menu(row)">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />

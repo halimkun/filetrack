@@ -10,18 +10,12 @@ const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore()
 
+const isMounted = ref(true)
 const selected = ref<any>([])
 const { API_V2_URL } = runtimeConfig.public
 const accessToken = accessTokenStore.accessToken
 
-const { data: dataPenerima, pending: dataPenerimaPending, error: dataPenerimaError } = useFetch<any>(`${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
-  headers: {
-    Authorization: `Bearer ${accessToken}`
-  }
-});
-
-watch(dataPenerima, (newValue) => {
-  const penerima = dataPenerima?.value?.data?.penerima
+const mapPenerima = (penerima: any) => {
   if (penerima) {
     selected.value = penerima.map((item: any) => {
       return {
@@ -34,6 +28,26 @@ watch(dataPenerima, (newValue) => {
       }
     })
   }
+}
+
+onMounted(() => {
+  isMounted.value = true
+})
+
+const { data: dataPenerima, pending: dataPenerimaPending, error: dataPenerimaError } = useFetch<any>(`${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
+  headers: {
+    Authorization: `Bearer ${accessToken}`
+  }
+});
+
+if (dataPenerima.value) {
+  const penerima = dataPenerima.value.data.penerima
+  mapPenerima(penerima)
+}
+
+watch(dataPenerima, (newValue) => {
+  const penerima = newValue?.data?.penerima  
+  mapPenerima(penerima)
 })
 
 const { data: suratInternal, pending, error: suratInternalError } = useFetch<any>(`${API_V2_URL}/surat/internal/${route.params.no_surat}`, {
@@ -81,7 +95,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div class="flex gap-4 flex-col lg:flex-row items-start">
+  <div class="flex gap-4 flex-col xl:flex-row items-start">
     <div class="w-full xl:w-[40%] space-y-4">
       <UCard class="w-full">
         <template #header>
@@ -151,12 +165,7 @@ const onSubmit = async () => {
 
       <UCard>
         <div class="flex justify-between items-center">
-          <div class="text-lg text-gray-500">
-            Anda memilih <span class="text-primary font-bold">{{ selected.length }}</span> pegawai, klik tombol simpan
-            untuk
-            menyimpan data penerima surat.
-          </div>
-
+          <div class="text-lg text-gray-500">Anda memilih <span class="text-primary font-bold">{{ selected.length }}</span> pegawai, klik tombol simpan untuk menyimpan data penerima surat.</div>
           <UButton icon="i-tabler-send" color="primary" size="sm" square @click="onSubmit" :loading="pending">
             Simpan
           </UButton>

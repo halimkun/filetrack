@@ -1,5 +1,4 @@
 <template>
-    <!-- TODO : DETAIL SPO -->
   <div class="mb-5 flex flex-col lg:flex-row items-center justify-start gap-4">
     <UFormGroup label="Tanggal Terbit" class="w-full lg:w-72" name="tgl_terbit">
       <UPopover :popper="{ placement: 'bottom-start' }">
@@ -32,6 +31,8 @@
       <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
     </UFormGroup>
   </div>
+
+  <!-- TODO : BUAT DETAIL SPO -->
 
   <div>
     <UTable
