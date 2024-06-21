@@ -1,38 +1,41 @@
 <template>
-  <!-- filter -->
-  <div class="mb-5 flex flex-col lg:flex-row items-center justify-start gap-4">
-    <UFormGroup label="Departement" class="w-full lg:w-72" name="departemen">
-      <SelectDepartemen :dep="selectedDep" @update:selectedDep="selectedDep = $event" />
-    </UFormGroup>
+  <div>
+    <!-- filter -->
+    <div class="mb-5 flex flex-col lg:flex-row items-center justify-start gap-4">
+      <UFormGroup label="Departement" class="w-full lg:w-72" name="departemen">
+        <SelectDepartemen :dep="selectedDep" @update:selectedDep="selectedDep = $event" />
+      </UFormGroup>
 
-    <UFormGroup label="Search" class="w-full" name="search">
-      <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
-    </UFormGroup>
-  </div>
+      <UFormGroup label="Search" class="w-full" name="search">
+        <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
+      </UFormGroup>
+    </div>
 
-  <!-- table -->
-  <UTable :columns="columns" :rows="(pegawaiData?.data as any)" :loading="pending" v-bind="$attrs">
-    <template #nik-data="{ row }">
-      <UBadge color="primary" variant="soft">{{ row.nik }}</UBadge>
-    </template>
+    <!-- table -->
+    <UTable :columns="columns" :rows="(pegawaiData?.data as any)" :loading="pending" v-bind="$attrs">
+      <template #nik-data="{ row }">
+        <UBadge color="primary" variant="soft">{{ row.nik }}</UBadge>
+      </template>
 
-    <template #jk-data="{ row }">
-      <UButton :icon="String(row.jk).toLocaleLowerCase() == 'pria' ? 'i-tabler-gender-male' : 'i-tabler-gender-female'"
-        :color="String(row.jk).toLocaleLowerCase() == 'pria' ? 'indigo' : 'pink'" variant="soft" size="xs" square>{{
-          row.jk }}</UButton>
-    </template>
-  </UTable>
+      <template #jk-data="{ row }">
+        <UButton
+          :icon="String(row.jk).toLocaleLowerCase() == 'pria' ? 'i-tabler-gender-male' : 'i-tabler-gender-female'"
+          :color="String(row.jk).toLocaleLowerCase() == 'pria' ? 'indigo' : 'pink'" variant="soft" size="xs" square>{{
+            row.jk }}</UButton>
+      </template>
+    </UTable>
 
-  <!-- pagination -->
-  <div v-if="pegawaiData && pegawaiData.meta">
-    <div class="mt-5 flex items-center justify-between">
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        Showing : {{ (pegawaiData.meta as any).from }}
-        to {{ (pegawaiData.meta as any).to }}
-        of {{ (pegawaiData.meta as any).total }} entries
-      </p>
-      <UPagination v-model="currentPage" :page-count="(pegawaiData.meta as any).per_page"
-        :total="(pegawaiData.meta as any).total" />
+    <!-- pagination -->
+    <div v-if="pegawaiData && pegawaiData.meta">
+      <div class="mt-5 flex items-center justify-between">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Showing : {{ (pegawaiData.meta as any).from }}
+          to {{ (pegawaiData.meta as any).to }}
+          of {{ (pegawaiData.meta as any).total }} entries
+        </p>
+        <UPagination v-model="currentPage" :page-count="(pegawaiData.meta as any).per_page"
+          :total="(pegawaiData.meta as any).total" />
+      </div>
     </div>
   </div>
 </template>
@@ -50,7 +53,7 @@ const defaultFilter = {
   ],
   filters: [
     { field: "stts_aktif", operator: "=", value: "AKTIF" },
-    { field: "departemen", operator: "!=", value: "-" }
+    { field: "jbtn", operator: "!=", value: "-" }
   ]
 };
 

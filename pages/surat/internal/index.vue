@@ -1,30 +1,39 @@
 <template>
-  <UCard>
-    <template #header>
-      <div class="flex items-center justify-between">
-        <div class="flex gap-2 items-start">
-          <UButton icon="i-tabler-mail-star" color="indigo" size="xs" square variant="soft" />
-          <div>
-            <h1 class="text-lg">Surat Internal</h1>
-            <p class="text-sm text-cool-400">Data Surat internal terdaftar</p>
+  <div>
+    <UCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-2 items-start">
+            <UButton icon="i-tabler-mail-star" color="indigo" size="xs" square variant="soft" />
+            <div>
+              <h1 class="text-lg">Surat Internal</h1>
+              <p class="text-sm text-cool-400">Data Surat internal terdaftar</p>
+            </div>
           </div>
+
+          <UButton icon="i-tabler-plus" size="xs" color="indigo" square @click="router.push('/surat/internal/create')">
+            Tambah Surat
+          </UButton>
         </div>
+      </template>
 
-        <UButton icon="i-tabler-plus" size="xs" color="indigo" square @click="router.push('/surat/internal/create')">
-          Tambah Surat
-        </UButton>
-      </div>
-    </template>
+      <TableSuratInternal 
+        :response="(suratInternal as any)" 
+        :columns="columns" 
+        :menu="menu" 
+        :loading="pending"
+        @selectedChange="updateSelectedData" 
+        @onPageChange="currentPage = $event" 
+        @onFilter="onFilter" 
+      />
+    </UCard>
 
-    <TableSuratInternal :response="(suratInternal as any)" :columns="columns" :menu="menu" :loading="pending"
-      @selectedChange="updateSelectedData" @onPageChange="currentPage = $event" @onFilter="onFilter" />
-  </UCard>
-
-  <ModalUpdateStatus 
-    v-model="showModalUpdateStatus"
-    :showModalUpdateStatus="showModalUpdateStatus"
-    :suratInternal="(selectedData as any)"
-  />
+    <ModalUpdateStatus 
+      v-model="showModalUpdateStatus" 
+      :showModalUpdateStatus="showModalUpdateStatus"
+      :suratInternal="(selectedData as any)" 
+    />
+  </div>
 </template>
 
 <script setup lang="ts">

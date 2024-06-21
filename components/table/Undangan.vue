@@ -1,89 +1,91 @@
 <template>
-  <!-- filters -->
-  <div class="mb-5 flex flex-col lg:flex-row items-center justify-start gap-4">
-    <!-- <UFormGroup label="Tanggal Terbit" class="w-full lg:w-72" name="tgl_terbit">
-      <UPopover :popper="{ placement: 'bottom-start' }">
-        <UButton block icon="i-heroicons-calendar-days-20-solid"
-          :label="tglAkhir ? format(tglAkhir, 'd MMM, yyy') : 'Tanggal Akhir'" color="gray" variant="outline" />
+  <div>
+    <!-- filters -->
+    <div class="mb-5 flex flex-col lg:flex-row items-center justify-start gap-4">
+      <!-- <UFormGroup label="Tanggal Terbit" class="w-full lg:w-72" name="tgl_terbit">
+        <UPopover :popper="{ placement: 'bottom-start' }">
+          <UButton block icon="i-heroicons-calendar-days-20-solid"
+            :label="tglAkhir ? format(tglAkhir, 'd MMM, yyy') : 'Tanggal Akhir'" color="gray" variant="outline" />
 
-        <template #panel="{ close }">
-          <DatePicker v-model="tglAkhir" is-required @close="close" />
+          <template #panel="{ close }">
+            <DatePicker v-model="tglAkhir" is-required @close="close" />
 
-          <div class="w-full px-4 pb-5">
-            <button class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
-              @click="tglAkhir = null">
-              Clear
-            </button>
-          </div>
-        </template>
-      </UPopover>
-    </UFormGroup> -->
+            <div class="w-full px-4 pb-5">
+              <button class="bg-rose-600 hover:bg-rose-700 text-white font-bold w-full px-3 py-1 rounded-md"
+                @click="tglAkhir = null">
+                Clear
+              </button>
+            </div>
+          </template>
+        </UPopover>
+      </UFormGroup> -->
 
-    <UFormGroup label="Status" class="w-full lg:w-72" name="status">
-      <USelectMenu v-model="filterJenis" :options="jenisOptions" option-attribute="label" value-attribute="value" />
-    </UFormGroup>
+      <UFormGroup label="Status" class="w-full lg:w-72" name="status">
+        <USelectMenu v-model="filterJenis" :options="jenisOptions" option-attribute="label" value-attribute="value" />
+      </UFormGroup>
 
-    <UFormGroup label="Search" class="w-full" name="search">
-      <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
-    </UFormGroup>
-  </div>
+      <UFormGroup label="Search" class="w-full" name="search">
+        <UInput v-model="search" placeholder="Search" color="gray" variant="outline" />
+      </UFormGroup>
+    </div>
 
-  <!-- table -->
-  <UTable v-model="selected" :columns="columns" :rows="response?.data" :loading="loading">
-    <template #actions-data="{ row }">
-      <UDropdown v-if="menu" :items="menu(row)">
-        <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-      </UDropdown>
-    </template>
+    <!-- table -->
+    <UTable v-model="selected" :columns="columns" :rows="response?.data" :loading="loading">
+      <template #actions-data="{ row }">
+        <UDropdown v-if="menu" :items="menu(row)">
+          <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+        </UDropdown>
+      </template>
 
-    <template #undangan.perihal-data="{ row }">
-      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.perihal }}</p>
-    </template>
+      <template #undangan.perihal-data="{ row }">
+        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.perihal }}</p>
+      </template>
 
-    <template #undangan.tempat-data="{ row }">
-      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.tempat }}</p>
-    </template>
+      <template #undangan.tempat-data="{ row }">
+        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.tempat }}</p>
+      </template>
 
-    <template #undangan.tanggal-data="{ row }">
-      {{ new Date(row.undangan.tanggal).toLocaleDateString('id-ID', {
-        weekday: 'short', year: 'numeric', month: 'short',
-        day: '2-digit', hour: '2-digit', minute: '2-digit'
-      }) }}
-    </template>
-    
-    <template #no_surat-data="{ row }">
-      <UBadge color="gray">{{ row.no_surat }}</UBadge>
-    </template>
+      <template #undangan.tanggal-data="{ row }">
+        {{ new Date(row.undangan.tanggal).toLocaleDateString('id-ID', {
+          weekday: 'short', year: 'numeric', month: 'short',
+          day: '2-digit', hour: '2-digit', minute: '2-digit'
+        }) }}
+      </template>
+      
+      <template #no_surat-data="{ row }">
+        <UBadge color="gray">{{ row.no_surat }}</UBadge>
+      </template>
 
-    <template #tipe-data="{ row }">
-      <UBadge color="gray">{{ row.tipe }}</UBadge>
-    </template>
+      <template #tipe-data="{ row }">
+        <UBadge color="gray">{{ row.tipe }}</UBadge>
+      </template>
 
-    <template #penerima_count-data="{ row }">
-      <UBadge color="teal" class="flex items-center gap-2 justify-center w-fit">
-        <UIcon name="i-tabler-users" class="mt-[1px]" />
-        {{ row.penerima_count }}
-      </UBadge>
-    </template>
+      <template #penerima_count-data="{ row }">
+        <UBadge color="teal" class="flex items-center gap-2 justify-center w-fit">
+          <UIcon name="i-tabler-users" class="mt-[1px]" />
+          {{ row.penerima_count }}
+        </UBadge>
+      </template>
 
-    <template #undangan?.tanggal-data="{ row }">
-      {{ new Date(row.undangan?.tanggal).toLocaleDateString('id-ID', {
-        weekday: 'short', year: 'numeric', month: 'short',
-        day: '2-digit', hour: '2-digit', minute: '2-digit'
-      }) }}
-    </template>
-  </UTable>
+      <template #undangan?.tanggal-data="{ row }">
+        {{ new Date(row.undangan?.tanggal).toLocaleDateString('id-ID', {
+          weekday: 'short', year: 'numeric', month: 'short',
+          day: '2-digit', hour: '2-digit', minute: '2-digit'
+        }) }}
+      </template>
+    </UTable>
 
-  <!-- pagination -->
-  <div v-if="response && response.meta">
-    <div class="mt-5 flex items-center justify-between">
-      <p class="text-sm text-gray-500 dark:text-gray-400">
-        Showing : {{ (response.meta as any).from }}
-        to {{ (response.meta as any).to }}
-        of {{ (response.meta as any).total }} entries
-      </p>
-      <UPagination v-model="currentPage" :page-count="(response.meta as any).per_page"
-        :total="(response.meta as any).total" />
+    <!-- pagination -->
+    <div v-if="response && response.meta">
+      <div class="mt-5 flex items-center justify-between">
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          Showing : {{ (response.meta as any).from }}
+          to {{ (response.meta as any).to }}
+          of {{ (response.meta as any).total }} entries
+        </p>
+        <UPagination v-model="currentPage" :page-count="(response.meta as any).per_page"
+          :total="(response.meta as any).total" />
+      </div>
     </div>
   </div>
 </template>
