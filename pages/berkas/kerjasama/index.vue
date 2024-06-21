@@ -44,7 +44,7 @@
   import type {BerkasPksData} from '~/types/BerkasPks';
 
   useHead({
-    title: 'Berkas PKS -- FileTrack | FAISAL HALIM',
+    title: 'Berkas PKS -- FileTrack ',
     meta: [{ name: 'description', content: 'Berkas PKS' }],
   });
 

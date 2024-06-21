@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
   useHead({
-    title: 'Surat Internal -- FileTrack | FAISAL HALIM',
+    title: 'Surat Internal -- FileTrack ',
     meta: [{ name: 'description', content: 'Create Surat Internal' }],
   });
 </script>

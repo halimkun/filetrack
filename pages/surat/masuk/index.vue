@@ -106,7 +106,7 @@
 import { format } from 'date-fns';
 
 useHead({
-  title: 'Surat Masuk -- FileTrack | FAISAL HALIM',
+  title: 'Surat Masuk -- FileTrack ',
   meta: [{ name: 'description', content: 'Surat Masuk' }],
 });
 

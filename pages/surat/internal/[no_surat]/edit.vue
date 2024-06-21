@@ -15,7 +15,7 @@
 import type { SuratInternalData } from '~/types/SuratInternal';
 
 useHead({
-  title: 'Edit Surat Internal -- FileTrack | FAISAL HALIM',
+  title: 'Edit Surat Internal -- FileTrack ',
   meta: [{ name: 'description', content: 'Edit Surat Internal' }],
 })
 

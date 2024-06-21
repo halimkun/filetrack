@@ -58,7 +58,7 @@ import type { SuratMasukData } from '~/types/SuratMasuk';
 import { logEvent } from '~/utils/firebase'
 
 useHead({
-  title: 'Edit Surat Internal -- FileTrack | FAISAL HALIM',
+  title: 'Edit Surat Internal -- FileTrack ',
   meta: [{ name: 'description', content: 'Edit Surat Internal' }],
 })
 

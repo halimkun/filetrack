@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Detail Surat Internal -- FileTrack | FAISAL HALIM',
+  title: 'Detail Surat Internal -- FileTrack ',
   meta: [{ name: 'description', content: 'Detail Surat Internal' }]
 })
 

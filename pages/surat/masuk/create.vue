@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 useHead({
-  title: 'Surat Masuk -- FileTrack | FAISAL HALIM',
+  title: 'Surat Masuk -- FileTrack ',
   meta: [{ name: 'description', content: 'Create Surat Masuk' }],
 });
 </script>

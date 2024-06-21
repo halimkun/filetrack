@@ -17,7 +17,7 @@ import type { SuratEksternalData } from '~/types/SuratEksternal';
 import { logEvent } from '~/utils/firebase'
 
 useHead({
-  title: 'Edit Surat Eksternal -- FileTrack | FAISAL HALIM',
+  title: 'Edit Surat Eksternal -- FileTrack ',
   meta: [{ name: 'description', content: 'Edit Surat Eksternal' }],
 
 })

@@ -28,7 +28,7 @@ import type { SuratUndangan, Undangan } from '~/types/Undangan';
 import { logEvent } from '~/utils/firebase'
 
 useHead({
-  title: 'Data Undangan / Kegiatan -- FileTrack | FAISAL HALIM',
+  title: 'Data Undangan / Kegiatan -- FileTrack ',
   meta: [{ name: 'description', content: 'Data Undangan / Kegiatan' }],
 })
 

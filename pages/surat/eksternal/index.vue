@@ -75,7 +75,7 @@
 import { ref } from 'vue';
 
 useHead({
-  title: 'Surat Eksternal -- FileTrack | FAISAL HALIM',
+  title: 'Surat Eksternal -- FileTrack ',
   meta: [{ name: 'description', content: 'Surat Eksternal' }],
 });
 

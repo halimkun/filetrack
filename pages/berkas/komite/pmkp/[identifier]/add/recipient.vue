@@ -3,7 +3,7 @@ import { logEvent } from '~/utils/firebase'
 import type { BerkasKomite } from '~/types/BerkasKomite'
 
 useHead({
-  title: 'Tambah Penerima Berkas Komite -- FileTrack | FAISAL HALIM',
+  title: 'Tambah Penerima Berkas Komite -- FileTrack ',
   meta: [{ name: 'description', content: 'Tambah Penerima Berkas Komite' }]
 })
 
