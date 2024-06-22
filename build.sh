@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # Menghasilkan tag berdasarkan tanggal dan waktu (format: YYYYMMDD-HHMM)
-tag=$(date +'%Y%m%d-%H%M')
+# tag=$(date +'%Y%m%d-%H%M')
+tag=$(date +'%Y%m%d')
 appName="filetrack"
 
 # Menampilkan pesan memulai build
