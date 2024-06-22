@@ -32,7 +32,7 @@
 
     <template #no_surat-data="{ row }">
       <UBadge color="gray" class="text-xs">
-        {{ [row.nomor, row.prefix, format(new Date(row.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/') }}
+        {{ [String(row.nomor).padStart(3, '0'), row.prefix, format(new Date(row.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/') }}
       </UBadge>
     </template>
 

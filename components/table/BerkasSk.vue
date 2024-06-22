@@ -54,7 +54,13 @@
 
     <template #nomor-data="{ row }">
       <UBadge>
-        {{ [row.nomor, row.jenis, row.prefix, format(new Date(row.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/') }}
+        {{ [
+            String(row.nomor).padStart(3, '0'),
+            row.jenis, 
+            row.prefix, 
+            format(new Date(row.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')
+          ].join('/')
+        }}
       </UBadge>
     </template>
 
