@@ -7,7 +7,7 @@
             <div class="flex gap-2 items-start">
               <UButton icon="i-tabler-edit" color="indigo" size="xs" square variant="soft" />
               <div>
-                <h1 class="text-lg">Surat Internal</h1>
+                <h1 class="text-lg">Surat Eksternal</h1>
               </div>
             </div>
           </template>
