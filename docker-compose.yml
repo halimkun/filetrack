@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: filetrack:2024-06-21
+    image: filetrack:latest
     build:
       context: .
       dockerfile: Dockerfile
