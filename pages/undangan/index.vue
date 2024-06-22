@@ -86,6 +86,8 @@ const menu = (row: any) => [
     { label: "Tambah Penerima", icon: "i-heroicons-user-plus-solid", click: () => router.push(buildAddRecipientLink(row)) },
   ], [
     { label: "QR Kehadiran", icon: "i-heroicons-qr-code", click: () => router.push(`/undangan/${btoa(row.no_surat)}/qr`) },
+  ], [
+    { label: "Buat Notulen", icon: "i-tabler-edit-circle", click: () => router.push(`/berkas/notulen/${btoa(row.no_surat)}/new`) }
   ]
 ]
 
