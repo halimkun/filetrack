@@ -1,7 +1,6 @@
 <template>
-  <div>
-    Page: Index
-  </div>
+  <h1>Page: Index</h1>
+  <p>Under Construction</p>
 </template>
 
 <script>
