@@ -4,9 +4,9 @@
       <template #header>
         <div class="flex justify-between">
           <div class="flex gap-2 items-start">
-            <UButton icon="i-heroicons-eye-20-solid" color="blue" size="xs" square variant="soft" />
+            <UButton :icon="isUpdate ? 'i-heroicons-pencil-square-16-solid' : 'i-heroicons-eye-20-solid'" color="blue" size="xs" square variant="soft" />
             <h1 class="text-lg">
-              {{ isUpdate ? 'Update' : 'Tambah' }} SK
+              {{ isUpdate ? 'Update Berkas' : 'Tambah Berkas' }} SK
             </h1>
           </div>
         </div>
@@ -28,7 +28,7 @@
         </UFormGroup>
 
         <UFormGroup label="Tanggal Terbit" name="tgl_terbit" class="w-full mb-4">
-          <UPopover :popper="{ placement: 'bottom-start' }">
+          <UPopover :popper="{ placement: 'bottom-start' }" :disabled="isUpdate">
             <UButton block icon="i-heroicons-calendar-days-20-solid" :label="format(state.tgl_terbit, 'd MMM, yyy')"
               :color="state.tgl_terbit ? 'primary' : 'rose'" variant="soft" />
 
@@ -37,6 +37,17 @@
             </template>
           </UPopover>
         </UFormGroup>
+
+        <div v-if="isUpdate" class="mb-4">
+          <UAlert
+            icon="i-heroicons-command-line"
+            color="yellow"
+            variant="subtle"
+            title="Warning !"
+            description="Tanggal terbit tidak bisa diubah, jika terdapat kesalahan data data menghubungi admin."
+          />
+        </div>
+
 
         <UFormGroup label="Jenis SK" name="jenis" class="w-full mb-4">
           <USelectMenu v-model="state.jenis" :options="statusOptions" placeholder="Pilih Jenis SK"
