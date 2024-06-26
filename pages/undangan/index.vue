@@ -108,6 +108,7 @@ const buildAddRecipientLink = (row: any)  => {
 }
 
 const onFilter = (data: any) => {
+  currentPage.value = 1;
   if (data.search || data.filters) {
     const updatedBodyReq = {
       ...bodyReq.value,
