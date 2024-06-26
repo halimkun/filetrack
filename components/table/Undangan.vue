@@ -45,6 +45,10 @@
         <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.tempat }}</p>
       </template>
 
+      <template #undangan.penanggung_jawab_simple.nama-data="{ row }">
+        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.penanggung_jawab_simple.nama }}</p>
+      </template>
+
       <template #undangan.tanggal-data="{ row }">
         {{ new Date(row.undangan.tanggal).toLocaleDateString('id-ID', {
           weekday: 'short', year: 'numeric', month: 'short',

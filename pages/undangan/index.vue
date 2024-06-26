@@ -75,7 +75,7 @@ const columns = [
   { label: "Perihal", key: "undangan.perihal" },
   { label: "Tempat", key: "undangan.tempat" },
   { label: "Tanggal Kegiatan", key: "undangan.tanggal" },
-  { label: "PJ", key: "undangan.pj" },
+  { label: "PJ", key: "undangan.penanggung_jawab_simple.nama" },
   { label: "Jenis", key: "tipe" },
   { label: "Peserta", key: "penerima_count" },
 ];
