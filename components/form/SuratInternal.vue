@@ -89,7 +89,7 @@
 
     <UCard class="p-0">
       <div class="flex justify-end">
-        <UButton size="xs" square type="submit" :loading="postPending" :icon="actionUrl?.includes('PUT') || actionUrl?.includes('PATCH') ? 'i-tabler-edit' : 'i-tabler-plus'">
+        <UButton size="xs" square type="submit" :loading="postPending" :disable="postPending" :icon="actionUrl?.includes('PUT') || actionUrl?.includes('PATCH') ? 'i-tabler-edit' : 'i-tabler-plus'">
           {{ actionUrl?.includes('PUT') || actionUrl?.includes('PATCH') ? 'Ubah' : 'Tambah' }} Surat
         </UButton>
       </div>

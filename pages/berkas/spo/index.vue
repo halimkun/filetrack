@@ -3,13 +3,17 @@
     <!-- header -->
     <template #header>
       <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold">Berkas SPO</h2>
-        <UButton
-          title="Tambah Berkas SPO"
-          icon="i-tabler-file-plus"
-          color="primary"
-          @click="router.push('/berkas/spo/create')"
-        />
+        <div class="flex gap-2 items-start">
+          <UButton icon="i-tabler-checkup-list" color="indigo" size="xs" square variant="soft" />
+          <div>
+            <h1 class="text-lg">Berkas SPO</h1>
+            <p class="text-sm text-cool-400">Data Berkas SPO ( Standar Prosedur Operasional )</p>
+          </div>
+        </div>
+
+        <UButton icon="i-tabler-plus" size="xs" color="indigo" square @click="router.push('/surat/internal/create')">
+          Tambah Surat
+        </UButton>
       </div>
     </template>
     

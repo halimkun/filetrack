@@ -119,6 +119,8 @@
           icon="i-tabler-send-2" 
           type="submit" 
           color="primary"
+          :disabled="postPending"
+          :loading="postPending"
         >
           Submit
         </UButton>

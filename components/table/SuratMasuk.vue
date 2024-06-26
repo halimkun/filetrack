@@ -53,8 +53,8 @@
     <template #perihal-data="{ row }">
       <div class="flex items-center justify-start gap-2">
         <UButton 
-          :color="row.ket == 'wa' ? 'primary' : row.ket == 'email' ? 'rose' : 'indigo'" 
-          :icon="row.ket == 'wa' ? 'i-tabler-brand-whatsapp' : row.ket == 'email' ? 'i-tabler-mail' : 'i-tabler-file-text'"
+          :color="row.ket == 'wa' ? 'primary' : row.ket == 'email' ? 'pink' : 'indigo'" 
+          :icon="row.ket == 'wa' ? 'i-tabler-brand-whatsapp' : row.ket == 'email' ? 'i-tabler-mail' : 'i-tabler-printer'"
           variant="soft"
           size="xs"
           square 
@@ -82,8 +82,7 @@
 
         <!-- disable button -->
         <template v-else>
-          <UButton title="lihat berkas di tab baru" icon="i-tabler-file-off" size="xs" color="rose" variant="soft" square disabled>
-          </UButton>
+          <UButton title="lihat berkas di tab baru" icon="i-tabler-file-off" size="xs" color="red" variant="soft" square disabled />
         </template>
       </div>
     </template>
