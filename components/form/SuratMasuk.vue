@@ -229,16 +229,20 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   })
 
   if (error.value) {
+    postPending.value = false;
+    
     const errorMessage = error.value.data?.message || error.value.message;
     toasts.add({ title: 'Error', description: errorMessage, color: 'red' });
     console.error("POST DATA ERROR", error.value.data);
+
     return;
   }
-
+  
   if (!pending.value) {
     postPending.value = false;
   }
-
+  
+  postPending.value = false;
   toasts.add({ title: 'Success', description: 'Surat masuk berhasil ditambahkan', color: 'green' });
   router.push('/surat/masuk');
 }
