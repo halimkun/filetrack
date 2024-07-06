@@ -134,6 +134,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   })
 
   if (error.value) {
+    postPending.value = false
     logEvent('berkas_lain_failed', { error: error.value })
     toasts.add({
       title: 'Error',
@@ -143,6 +144,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   if (status.value === 'success') {
+    postPending.value = false
     logEvent('berkas_lain_success', { data: postData })
     toasts.add({
       title: 'Success',
@@ -151,6 +153,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     })
     router.push(`/berkas/${komite}`)
   } else {
+    postPending.value = false
     logEvent('berkas_lain_failed', { error: error.value })
     toasts.add({
       title: 'Error',

@@ -2,7 +2,7 @@
   <UInputMenu 
     v-model="selectedPegawai" 
     :loading="loadingPegawai"
-    :search="search"
+    :search="useDebounceFn(search, 1200)"
     placeholder="Penanggung Jawab"
     option-attribute="nama" 
     trailing
@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 import type { Pegawai, PegawaiList } from '~/types/Pegawai';
+import { useDebounceFn } from '@vueuse/core'
 
 const emit = defineEmits(['update:selectedPegawai'])
 const { pj } = defineProps<{ 
