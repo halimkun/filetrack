@@ -6,12 +6,12 @@ const links = menuStore.getMenu()
 </script>
 
 <template>
-  <div class="flex bg-cool-800 text-cool-100">
+  <div class="flex bg-cool-100 text-cool-800 dark:bg-cool-800 dark:text-cool-100">
     <!-- sidebar -->
     <div class="flex-none w-60 h-screen relative">
-      <div class="h-full border-r border-cool-800 bg-cool-900">
+      <div class="h-full border-r border-cool-300 dark:border-cool-800 bg-cool-100 dark:bg-cool-900 shadow-lg">
         <!-- logo -->
-        <div class="flex items-center justify-start p-4 px-7 h-14 border-b border-cool-800">
+        <div class="flex items-center justify-start p-4 px-7 h-14 border-b border-cool-300 dark:border-cool-800">
           <span class="text-lg font-bold">File<span class="text-primary">Track</span></span>
         </div>
 
@@ -22,7 +22,7 @@ const links = menuStore.getMenu()
       </div>
 
       <!-- footer -->
-      <div class="absolute bottom-0 w-full p-4 border-t border-cool-800 bg-cool-900">
+      <div class="absolute bottom-0 w-full p-4 border-t dark:border-cool-800 dark:bg-cool-900">
         <p class="text-xs text-center">
           © 2024 <ULink 
             to="https://github.com/halimkun/filetrack/" 
