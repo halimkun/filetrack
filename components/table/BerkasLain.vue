@@ -32,7 +32,7 @@
 
     <template #no_surat-data="{ row }">
       <UBadge color="gray" class="text-xs">
-        {{ [row.nomor, row.prefix, format(new Date(row.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/') }}
+        {{ row.no_surat ?? [(row.nomor as string).padStart(3, "0"), row.prefix, format(new Date(row.tgl_terbit.replace(' ', 'T').split('.')[0]), 'ddMMyy')].join('/') }}
       </UBadge>
     </template>
 
@@ -48,7 +48,7 @@
 
     <template #tgl_terbit-data="{ row }">
       {{ new Date(
-        row.created_at.replace(' ', 'T').split('.')[0]
+        row.tgl_terbit.replace(' ', 'T').split('.')[0]
       ).toLocaleDateString('id-ID', {
         weekday: 'short', year: 'numeric',
         month: 'short', day: '2-digit'
