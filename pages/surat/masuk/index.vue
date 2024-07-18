@@ -144,7 +144,7 @@ const menu = (row: any) => [
 const currentPage = ref<number>(1)
 const bodyReq = ref<any>({
   "sort": [
-    { "field": "no", "direction": "desc" }
+    { "field": "no_simrs", "direction": "desc" }
   ]
 })
 
@@ -154,7 +154,6 @@ const onFilter = (data: any) => {
       ...bodyReq.value,
       search: data.search ? { value: data.search.value } : bodyReq.value.search,
       filters: data.filters ? [...data.filters] : bodyReq.value.filters,
-      sort: { field : "no_simrs", direction : "desc" }
     };
 
     bodyReq.value = updatedBodyReq;
