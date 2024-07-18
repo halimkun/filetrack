@@ -1,35 +1,60 @@
 #!/bin/sh
 
-# Menghasilkan tag berdasarkan tanggal dan waktu (format: YYYYMMDD-HHMM)
-# tag=$(date +'%Y%m%d-%H%M')
+# Kode escape ANSI untuk warna
+YELLOW='\033[0;93m'  # Kuning pastel
+ROSE='\033[0;95m'    # Rose pastel
+GREEN='\033[0;92m'   # Hijau pastel
+BLUE='\033[0;94m'    # Biru pastel
+NC='\033[0m'         # No Color
+
+# Menghasilkan tag berdasarkan tanggal (format: YYYYMMDD)
 tag=$(date +'%Y%m%d')
 appName="filetrack"
+dockerUsername="halimkun"  # Ganti dengan username Docker Hub Anda
+dockerRepository="$dockerUsername/$appName"
 
 # Menampilkan pesan memulai build
-echo "+ ===== Starting Docker build for application: $appName"
-echo "+ ===== Generated tag: $tag"
+echo "${YELLOW}[+] Starting Docker build for application: $appName${NC}"
+echo "${YELLOW}[+] Generated tag: $tag${NC}"
 
 # Membangun image dengan tag
-echo "+ ===== Building Docker image..."
-docker build -t $appName:$tag .
+echo "${BLUE}[+] Building Docker image...${NC}"
+docker build -t $dockerRepository:$tag .
 
 # Menangani kesalahan build
 if [ $? -ne 0 ]; then
-  echo "- ===== Docker build failed. Exiting."
+  echo "${ROSE}[-] Docker build failed. Exiting.${NC}"
   exit 1
 fi
 
 # Menandai image sebagai latest
-echo "+ ===== Tagging Docker image as latest..."
-docker tag $appName:$tag $appName:latest
+echo "${BLUE}[+] Tagging Docker image as latest...${NC}"
+docker tag $dockerRepository:$tag $dockerRepository:latest
 
 # Menangani kesalahan tagging
 if [ $? -ne 0 ]; then
-  echo "- ===== Tagging Docker image failed. Exiting."
+  echo "${ROSE}[-] Tagging Docker image failed. Exiting.${NC}"
   exit 1
 fi
 
-# Menampilkan pesan sukses
-echo "+ ===== Docker image built and tagged successfully."
-echo "+ ===== Docker image built with tag: $tag"
-echo "+ ===== Docker image also tagged as: latest"
+# Meminta konfirmasi untuk melakukan push ke Docker Hub
+echo "${YELLOW}[?] Do you want to push the Docker image to Docker Hub? (yes/no) ${NC}\c"
+read confirmPush
+
+# Menggunakan kondisional untuk memproses pilihan pengguna
+if [ "$confirmPush" = "yes" ] || [ "$confirmPush" = "y" ]; then
+  # Mengunggah image ke Docker Hub
+  echo "${YELLOW}[+] Pushing Docker image to Docker Hub...${NC}"
+  docker push $dockerRepository:$tag
+  docker push $dockerRepository:latest
+
+  # Menampilkan pesan sukses
+  echo "${GREEN}[+] Docker image pushed to Docker Hub successfully.${NC}"
+  echo "${GREEN}[+] Docker image pushed with tag: $tag${NC}"
+  echo "${GREEN}[+] Docker image also pushed as: latest${NC}"
+else
+  echo "${YELLOW}[+] Push to Docker Hub aborted by user.${NC}"
+fi
+
+# Menampilkan perintah untuk menjalankan docker compose
+echo "${YELLOW}[+] Run the \`docker compose up -d\` command to start the application${NC}"
