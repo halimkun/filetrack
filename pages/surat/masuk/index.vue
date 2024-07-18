@@ -153,7 +153,7 @@ const onFilter = (data: any) => {
     const updatedBodyReq = {
       ...bodyReq.value,
       search: data.search ? { value: data.search.value } : bodyReq.value.search,
-      filters: data.filters ? [...data.filters] : bodyReq.value.filters,
+      filters: data.filters ? [...data.filters] : bodyReq.value.filters
     };
 
     bodyReq.value = updatedBodyReq;
