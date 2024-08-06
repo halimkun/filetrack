@@ -14,7 +14,7 @@
     "@samk-dev/nuxt-vcalendar": "^1.0.3",
     "date-fns": "^2.30.0",
     "firebase": "^10.12.2",
-    "nuxt": "^3.11.2",
+    "nuxt": "^3.12.4",
     "pinia": "^2.1.7",
     "qrcode.vue": "^3.4.1",
     "remixicon": "^4.2.0",
