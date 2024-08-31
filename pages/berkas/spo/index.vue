@@ -21,6 +21,7 @@
     <TableSpo 
       :response="data"
       :columns="columns"
+      :menu="menu"
       @onPageChange="currentPage = $event"
       @onFilter="onFilter"
     />
@@ -33,7 +34,11 @@
   const router = useRouter();
   const runtimeConfig = useRuntimeConfig()
   const accessTokenStore = useAccessTokenStore()
+  
+  const isDetailOpen = ref<boolean>(false);
+  const isDeleteConfirmationOpen = ref<boolean>(false);
 
+  const rowSelected = ref<any>(null);
   const currentPage = ref<number>(1);
   const { API_V2_URL } = runtimeConfig.public;
   const accessToken: string | null = accessTokenStore.accessToken;
@@ -43,6 +48,13 @@
     ]
   })
 
+  const menu = (row: any) => [
+    [
+      { label: "Detail SPO", icon: "i-heroicons-eye-20-solid", click: () => { rowSelected.value = row; isDetailOpen.value = true }, disabled: true },
+      { label: 'Edit SPO', icon: 'i-heroicons-pencil-square-20-solid', click: () => router.push(`/berkas/spo/${btoa(`${row.nomor}`)}/edit`) },
+    ]
+  ]
+
   const columns = [
     { label: "Nomor", key: "nomor" },
     { label: "Judul", key: "judul" },
@@ -51,6 +63,10 @@
     { label: "Tgl Terbit", key: "tgl_terbit" },
     { label: "Jenis", key: "jenis" },
   ];
+
+  if (!columns?.some(column => column.key === 'actions')) {
+    columns?.push({ label: 'Actions', key: 'actions' });
+  }
 
   const onFilter = (data: any) => {
     if (data.search || data.filters) {
@@ -64,7 +80,7 @@
     }
   };
 
-  const { data, pending, error, refresh } = await useAsyncData<ResourcePagination>(
+  const { data, error, refresh } = await useAsyncData<ResourcePagination>(
       `${API_V2_URL}/berkas/spo/search`,
       () => $fetch(`${API_V2_URL}/berkas/spo/search`, {
         method: 'POST',
@@ -76,10 +92,6 @@
 
   if (error.value) {
     console.error('Error fetching data', error.value);
-  }
-
-  if (pending.value) {
-    console.log('Fetching data...');
   }
 
   onMounted(() => {

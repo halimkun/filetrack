@@ -59,6 +59,11 @@
         }) }}
       </template>
 
+      <template #actions-data="{ row }">
+        <UDropdown v-if="menu" :items="menu(row)">
+          <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+        </UDropdown>
+      </template>
     </UTable>
 
     <div v-if="response && response?.meta">
