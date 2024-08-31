@@ -1,7 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
   ssr: true,
 
   modules: [
@@ -53,9 +52,11 @@ export default defineNuxtConfig({
 
   pinia: {
     storesDirs: ['./stores/**'],
-  }, 
+  },
 
   css: [
     '~/assets/style/custom.css',
   ],
+
+  compatibilityDate: "2024-08-31",
 })
