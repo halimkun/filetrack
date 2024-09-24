@@ -56,5 +56,8 @@ else
   echo "${YELLOW}[+] Push to Docker Hub aborted by user.${NC}"
 fi
 
-# Menampilkan perintah untuk menjalankan docker compose
-echo "${YELLOW}[+] Run the \`docker compose up -d\` command to start the application${NC}"
+# Instruksi untuk menjalankan docker compose
+echo "${YELLOW}[+] To start the application, run the following command:${NC}"
+echo "${GREEN}[+] For local environment: docker-compose --env-file .env.local up -d${NC}"
+echo "${GREEN}[+] For production environment: docker-compose --env-file .env.public up -d${NC}"
+

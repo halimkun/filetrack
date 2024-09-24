@@ -4,3 +4,7 @@ node_modules
 .nuxt
 .git
 docs
+npm-debug.log
+.DS_Store
+.env
+*.local

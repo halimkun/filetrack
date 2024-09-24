@@ -1,23 +1,23 @@
-# Gunakan image Node Alpine sebagai base image
-FROM node:lts-alpine3.20
+# Stage 1: Build
+FROM node:lts-alpine3.20 AS build
 
-# Tentukan direktori kerja di dalam container
 WORKDIR /app
-
-# Salin package.json dan package-lock.json ke dalam container
 COPY package*.json ./
-
-# Install dependensi menggunakan npm
 RUN npm install
-
-# Salin kode aplikasi ke dalam container
 COPY . .
+RUN npm run build
+
+# Stage 2: Production
+FROM node:lts-alpine3.20 AS production
+
+WORKDIR /app
+COPY --from=build /app/.output ./.output
+COPY package*.json ./
+RUN npm install --production
 
 # Port yang digunakan oleh aplikasi Nuxt.js
 EXPOSE 3000
 
-# Build aplikasi menggunakan npm
-RUN npm run build
-
 # Perintah untuk menjalankan aplikasi ketika container dijalankan
 CMD ["node", ".output/server/index.mjs"]
+
