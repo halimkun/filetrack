@@ -66,7 +66,7 @@ const onSubmit = async () => {
     let body = {
       no_surat: suratInternal?.value?.data?.no_surat,
       tipe: 'surat/internal',
-      model: runtimeConfig.public.model.SURAT_INTERNAL,
+      model: runtimeConfig.public.modelName.SURAT_INTERNAL,
       penerima: selectedNik
     }
 

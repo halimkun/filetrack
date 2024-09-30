@@ -69,7 +69,7 @@ const onSubmit = async () => {
     let body = {
       no_surat: berkasKomite?.value?.data?.no_surat,
       tipe: `komite/${komite}`,
-      model: runtimeConfig.public.model.KOMITE_PPI,
+      model: runtimeConfig.public.modelName.KOMITE_PPI,
       penerima: selectedNik
     }
 
