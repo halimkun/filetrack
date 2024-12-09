@@ -77,7 +77,7 @@ const simpanKehadiran = async () => {
   });
 
   if (error.value) {
-    toast.add({ color: 'danger', title: 'Error', description: 'Gagal menyimpan kehadiran', icon: 'i-heroicons-exclamation-circle' });
+    toast.add({ color: 'red', title: 'Error', description: 'Gagal menyimpan kehadiran', icon: 'i-heroicons-exclamation-circle' });
   }
 
   if (status.value == 'success') {

@@ -2,8 +2,7 @@
   <div class="mb-5 flex flex-col lg:flex-row items-center justify-start gap-4">
     <UFormGroup label="Tanggal Terbit" class="w-full lg:w-72" name="tgl_terbit">
       <UPopover :popper="{ placement: 'bottom-start' }">
-        <UButton block icon="i-heroicons-calendar-days-20-solid"
-          :label="tglTerbit ? format(tglTerbit, 'd MMM, yyy') : 'Tanggal Terbit'" color="gray" variant="outline" />
+        <UButton block icon="i-heroicons-calendar-days-20-solid" :label="tglTerbit ? format(tglTerbit, 'd MMM, yyy') : 'Tanggal Terbit'" color="gray" variant="outline" />
 
         <template #panel="{ close }">
           <DatePicker v-model="tglTerbit" is-required @close="close" />
@@ -48,7 +47,7 @@
 
     <template #tgl_terbit-data="{ row }">
       {{ new Date(
-        row.created_at.replace(' ', 'T').split('.')[0]
+        row.tgl_terbit.replace(' ', 'T').split('.')[0]
       ).toLocaleDateString('id-ID', {
         weekday: 'short', year: 'numeric',
         month: 'short', day: '2-digit'

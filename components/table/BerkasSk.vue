@@ -99,10 +99,6 @@ import { format } from 'date-fns'
 import { useDebounceFn } from '@vueuse/core'
 import type { ResourcePagination } from '~/types/ApiResponse';
 
-const router = useRouter();
-const runtimeConfig = useRuntimeConfig();
-const accessTokenStore = useAccessTokenStore();
-
 const emits = defineEmits(['selectedChange', 'onPageChange', 'onFilter']);
 const { response, menu, columns, loading } = defineProps<{
   response: ResourcePagination;
