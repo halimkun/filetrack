@@ -93,7 +93,7 @@ function handleFetchError(toast: any, errorMessage: string) {
 
 
 <template>
-  <UCard>
+  <UCard class="shadow-xl dark:bg-cool-900 bg-white">
     <div class="mb-5">
       <h1 class="text-2xl font-bold">Login</h1>
       <p class="text-gray-500">Welcome back! Please login to your account.</p>
