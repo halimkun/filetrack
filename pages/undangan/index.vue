@@ -86,7 +86,8 @@ const menu = (row: any) => [
     { label: "Tambah Penerima", icon: "i-tabler-users-plus", click: () => router.push(buildAddRecipientLink(row)) },
   ], [
     { label: "QR Kehadiran", icon: "i-tabler-qrcode", click: () => router.push(`/undangan/${btoa(row.no_surat)}/qr`) },
-    { label: "Bukti Kehadiwan", icon: "i-tabler-file-download", click: () => downloadBuktiKehadiran(row.no_surat) }
+    { label: "Bukti Kehadiwan", icon: "i-tabler-file-download", click: () => downloadBuktiKehadiran(row.no_surat) },
+    { label: "Undangan", icon: "i-tabler-download", click: () => downloadUndangan(row.no_surat) }
   ], [
     { label: "Buat Notulen", icon: "i-tabler-edit-circle", click: () => router.push(`/berkas/notulen/${btoa(row.no_surat)}/new`) }
   ]
@@ -104,6 +105,21 @@ const downloadBuktiKehadiran = (noSurat: string) => {
   };
 
   const url = `${API_V2_URL}/undangan/penerima/${btoa(noSurat)}/proof?token=${accessToken}`;
+  window.open(url, '_blank');
+}
+
+const downloadUndangan = (noSurat: string) => {
+  if (!accessToken) {
+    toast.add({
+      title: 'Gagal',
+      description: 'Token tidak ditemukan, silahkan login kembali',
+      color: 'red',
+      timeout: 5000,
+    });
+    return;
+  };
+
+  const url = `${API_V2_URL}/undangan/${btoa(noSurat)}/download?token=${accessToken}`;
   window.open(url, '_blank');
 }
 
