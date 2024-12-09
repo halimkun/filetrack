@@ -15,7 +15,7 @@
 import type { SuratInternalData } from '~/types/SuratInternal';
 
 useHead({
-  title: 'Edit Surat Internal -- FileTrack ',
+  title: 'Edit Surat Internal -- ILM ',
   meta: [{ name: 'description', content: 'Edit Surat Internal' }],
 })
 

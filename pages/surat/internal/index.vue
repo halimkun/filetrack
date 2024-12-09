@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 useHead({
-  title: 'Surat Internal -- FileTrack ',
+  title: 'Surat Internal -- ILM ',
   meta: [{ name: 'description', content: 'Surat Internal' }],
 });
 

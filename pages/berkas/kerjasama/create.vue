@@ -4,7 +4,7 @@
 
 <script lang="ts" setup>
 useHead({
-    title: 'Berkas Kerjasama -- FileTrack ',
+    title: 'Berkas Kerjasama -- ILM ',
     meta: [{ name: 'description', content: 'Create Berkas Kerjasama' }],
   });
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Detail Surat Internal -- FileTrack ',
+  title: 'Detail Surat Internal -- ILM ',
   meta: [{ name: 'description', content: 'Detail Surat Internal' }]
 })
 

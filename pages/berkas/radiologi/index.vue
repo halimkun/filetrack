@@ -98,7 +98,7 @@ const router = useRouter()
 const lastSegment: string | undefined = route.fullPath.split('/').pop()
 
 useHead({
-  title: `Berkas ${lastSegment} -- FileTrack `,
+  title: `Berkas ${lastSegment} -- ILM `,
   meta: [{ name: 'description', content: `Berkas ${lastSegment}` }]
 });
 

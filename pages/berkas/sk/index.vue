@@ -85,7 +85,7 @@ const runtimeConfig = useRuntimeConfig()
 const accessTokenStore = useAccessTokenStore()
 
 useHead({
-  title: `Berkas SK direktur -- FileTrack `,
+  title: `Berkas SK direktur -- ILM `,
   meta: [{ name: 'description', content: `Berkas SK direktur` }]
 });
 
