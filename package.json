@@ -10,12 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.1",
+    "@pinia/nuxt": "^0.10.1",
     "@samk-dev/nuxt-vcalendar": "^1.0.3",
     "date-fns": "^2.30.0",
-    "firebase": "^10.12.2",
+    "firebase": "^11.6.0",
     "nuxt": "^3.16.0",
-    "pinia": "^2.1.7",
+    "pinia": "^3.0.1",
     "qrcode.vue": "^3.4.1",
     "remixicon": "^4.2.0",
     "v-calendar": "^3.1.2",
@@ -24,13 +24,12 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
-    "@nuxt/ui": "^2.16.0",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "@nuxt/ui": "^2.21.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
-    "nuxt-tiptap-editor": "^1.1.2",
+    "nuxt-tiptap-editor": "^1.2.1",
     "sass": "^1.77.2"
   }
 }
