@@ -1,8 +1,11 @@
 <script setup lang="ts">
-const route = useRoute()
+const links = ref<any[]>([])
 const menuStore = useMenuStore()
 
-const links = menuStore.getMenu()
+onMounted(async () => {
+  links.value = await menuStore.getMenu()
+  console.log('links', links.value)
+})
 </script>
 
 <template>
@@ -17,19 +20,17 @@ const links = menuStore.getMenu()
 
         <!-- links -->
         <div class="p-4 overflow-y-auto max-h-[calc(100vh-3.5rem)]">
-          <UVerticalNavigation :links="links" />
+          <UVerticalNavigation v-if="links.length" :links="links" />
         </div>
       </div>
 
       <!-- footer -->
       <div class="absolute bottom-0 w-full p-4 border-t dark:border-cool-800 dark:bg-cool-900">
         <p class="text-xs text-center">
-          © 2024 <ULink 
-            to="https://github.com/halimkun/filetrack/" 
-            target="_blank"
+          © 2024 <ULink to="https://github.com/halimkun/filetrack/" target="_blank"
             active-class="font-semibold text-primary"
-            inactive-class="font-semibold text-sky-500 dark:text-sky-00 hover:text-sky-700 dark:hover:text-sky-200"
-          >FileTrack</ULink>
+            inactive-class="font-semibold text-sky-500 dark:text-sky-00 hover:text-sky-700 dark:hover:text-sky-200">
+            FileTrack</ULink>
         </p>
       </div>
     </div>
