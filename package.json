@@ -30,6 +30,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.13",
     "nuxt-tiptap-editor": "^1.2.1",
+    "pinia-plugin-persistedstate": "^4.2.0",
     "sass": "^1.77.2"
   }
 }
