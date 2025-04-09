@@ -4,7 +4,7 @@ import { logEvent } from '~/utils/firebase'
 import type { FormSubmitEvent } from '#ui/types'
 
 const runtimeConfig = useRuntimeConfig()
-const tokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore()
 const menuStore = useMenuStore()
 
 const { API_V2_URL, TEST_USERNAME, TEST_PASSWORD } = runtimeConfig.public
@@ -23,62 +23,58 @@ const state = reactive({
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  onLoading.value = true
-  const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/user/auth/login`, {
-    method: 'POST',
-    body: JSON.stringify(event.data)
-  })
-
   const toast = useToast()
   const router = useRouter()
+  
+  onLoading.value = true
 
-  if (!error.value) {
-    const accessToken = (data.value as { access_token?: string })?.access_token as string
-    const [menuDataRes] = await Promise.all([
-      useFetch(`${API_V2_URL}/user/menu/filetrack`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-    ])
+  console.log('event', event.data)
 
-    const { data: menuData, status: statusMenuData } = menuDataRes
+  const finalBody = {
+    grant_type: 'password',
+    client_id: '14',
+    client_secret: 'urLKnFQZGZMBRJYAQq0cR4FKnftFKCcfxpF5TqQl',
+    scope: '',
+    username: event.data.username,
+    password: event.data.password
+  };
 
-    if (statusMenuData.value != 'success') {
-      handleFetchError(toast, 'Failed to fetch menu data, hubungi administrator untuk informasi lebih lanjut')
-      logEvent('login_failed', { username: event.data.username, error: 'Failed to fetch menu data' })
-      onLoading.value = false
-      return
-    }
+  const {data, pending, error, refresh, status} = await useFetch(`${API_V2_URL}/oauth/token`, {
+    method: 'POST',
+    body: JSON.stringify(finalBody)
+  })
 
-    const menu = menuData.value as { data: any[] }
-
-    if (menu.data.length == 0) {
-      handleFetchError(toast, 'You do not have access to this application')
-      logEvent('login_failed', { username: event.data.username, error: 'No menu data' })
-      onLoading.value = false
-      return
-    }
-
-    toast.add({
-      title: 'Success',
-      description: 'Login success',
-      color: 'green'
-    })
-
-    if (!pending.value) {
-      onLoading.value = false
-    }
-    
-    logEvent('login_success', { username: event.data.username })
-    tokenStore.setToken(accessToken)
-    menuStore.setMenuFromArray(menu.data)
-    router.push('/')
-  } else {
+  console.log('data', data.value)
+  console.log('pending', pending.value)
+  console.log('error', error.value)
+  console.log('status', status.value)
+  
+  if (error.value || status.value != 'success') {
     onLoading.value = false
     logEvent('login_failed', { username: event.data.username, error: error.value })
     handleFetchError(toast, 'Failed to login, please check your username and password')
+    return
   }
+
+  const accessToken = (data.value as { access_token?: string })?.access_token as string
+  const refreshToken = (data.value as { refresh_token?: string })?.refresh_token as string
+
+  logEvent('login_success', { username: event.data.username })
+  tokenStore.setData(data.value)
+
+  // TODO : skip refresh token for now and skip menu data
+  
+  toast.add({
+    title: 'Success',
+    description: 'Login success',
+    color: 'green'
+  })
+
+  if (!pending.value) {
+    onLoading.value = false
+  }
+
+  router.push('/')
 }
 
 function handleFetchError(toast: any, errorMessage: string) {
@@ -88,7 +84,6 @@ function handleFetchError(toast: any, errorMessage: string) {
     color: 'red'
   })
 }
-
 </script>
 
 

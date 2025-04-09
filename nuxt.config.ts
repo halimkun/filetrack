@@ -8,13 +8,14 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@samk-dev/nuxt-vcalendar",
     "nuxt-tiptap-editor",
+    "pinia-plugin-persistedstate",
   ],
 
   plugins: [
     '~/plugins/firebase.client.ts',
   ],
 
-  runtimeConfig: {    
+  runtimeConfig: {
     public: {
       TZ: process.env.NUXT_PUBLIC_TZ,
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
@@ -30,6 +31,12 @@ export default defineNuxtConfig({
         KOMITE_KESEHATAN: process.env.NUXT_PUBLIC_KOMITE_KESEHATAN_MODEL_NAME,
         KOMITE_KEPERAWATAN: process.env.NUXT_PUBLIC_KOMITE_KEPERAWATAN_MODEL_NAME,
         KOMITE_MEDIS: process.env.NUXT_PUBLIC_KOMITE_MEDIS_MODEL_NAME
+      },
+
+      rsia: {
+        grantType: process.env.NUXT_GRANT_TYPE,
+        clientId: process.env.NUXT_CLIENT_ID,
+        clientSecrete: process.env.NUXT_CLIENT_SECRET,
       },
 
       firebase: {

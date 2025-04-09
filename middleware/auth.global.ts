@@ -8,8 +8,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const ignorePaths = ["/auth/login", "/auth/register"]
 
   // Mengambil token akses dari store (pinia)
-  const accessTokenStore = useAccessTokenStore()
-  const accessToken = accessTokenStore.accessToken
+  const tokenStore = useTokenStore()
+  const accessToken = tokenStore.accessToken
 
   const userDetail = userStore()
   const runtimeConfig = useRuntimeConfig()
@@ -41,14 +41,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // Jika panggilan API tidak berhasil atau token tidak valid,
     // hapus token akses dan arahkan kembali ke halaman login
     if (error.value) {
-      accessTokenStore.clearToken()
+      tokenStore.clearData()
       return navigateTo("/auth/login")
     }
 
     // Jika pengguna tidak memiliki data pengguna,
     // hapus token akses dan arahkan kembali ke halaman login
     if (!data.value) {
-      accessTokenStore.clearToken()
+      tokenStore.clearData()
       return navigateTo("/auth/login")
     }
 
@@ -60,14 +60,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (ignorePaths.includes(to.path)) {
       return navigateTo("/")
     }
-
-    // Jika tidak ada masalah, lanjutkan ke rute yang diminta
-    accessTokenStore.setToken(accessToken)
+    
     return
   } catch (error) {
     // Jika terjadi kesalahan saat melakukan panggilan API,
     // hapus token akses dan arahkan kembali ke halaman login
-    accessTokenStore.clearToken()
+    tokenStore.clearData()
     return navigateTo("/auth/login")
   }
 })
