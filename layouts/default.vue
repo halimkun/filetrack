@@ -4,7 +4,6 @@ const menuStore = useMenuStore()
 
 onMounted(async () => {
   links.value = await menuStore.getMenu()
-  console.log('links', links.value)
 })
 </script>
 

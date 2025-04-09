@@ -19,11 +19,10 @@ const { pj } = defineProps<{
   pj?: string 
 }>()
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 
 const { API_V2_URL } = config.public
-const { accessToken } = accessTokenStore
 const loadingPegawai = ref(false)
 const selectedPegawai = ref<Pegawai>({ nik: pj || '', nama: '' })
 
@@ -33,7 +32,7 @@ async function search(q: string): Promise<Pegawai[]> {
   try {
     const response = await $fetch<PegawaiList>(`${API_V2_URL}/pegawai/search?select=nik,nama&limit=500`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
       body: JSON.stringify({
         search: { value: q },
         filters: [

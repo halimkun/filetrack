@@ -26,10 +26,9 @@ const { dep, depIds } = defineProps<{
 }>()
 
 // Setup API access
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig();
 const { API_V2_URL } = config.public;
-const { accessToken } = accessTokenStore;
 
 // Local State
 const loadingDep = ref(false);
@@ -42,7 +41,7 @@ async function loadSelectedDeps() {
     try {
       const response = await $fetch<DepartemenList>(`${API_V2_URL}/departemen/search?select=dep_id,nama&limit=100`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
         body: JSON.stringify({
           filters: [
             { field: 'nama', operator: 'in', value: depIds }
@@ -69,7 +68,7 @@ async function search(q: string): Promise<Departemen[]> {
   try {
     const response = await $fetch<DepartemenList>(`${API_V2_URL}/departemen/search?select=dep_id,nama&limit=100`, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
       body: JSON.stringify({
         search: { value: q },
       })

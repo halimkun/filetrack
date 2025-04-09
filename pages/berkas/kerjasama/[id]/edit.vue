@@ -18,16 +18,14 @@ import { logEvent } from '~/utils/firebase'
 
   const route = useRoute();
   const runtimeConfig = useRuntimeConfig()
-  const accessTokenStore = useAccessTokenStore()
-
+  const tokenStore = useTokenStore();
   const { API_V2_URL } = runtimeConfig.public
-  const accessToken = accessTokenStore.accessToken
 
   const id = atob(route.params.id as string);
   const actionUrl = `${API_V2_URL}/berkas/pks/${id}?_method=PUT`
 
   const { data: berkasPks, error, status } = await useFetch<BerkasPks>(`${API_V2_URL}/berkas/pks/${id}`, {
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` }
   })
 
   if (error.value) {

@@ -11,20 +11,19 @@ const route = useRoute()
 const toast = useToast()
 const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 const selected = ref<any>([])
 const noSurat = ref<string>('')
 
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
 const komite = route.fullPath.split('/').slice(-4)[0]
 
-const { data: dataPenerima, pending: dataPenerimaPending, error: dataPenerimaError } = await useAsyncData<any>(
+const { data: dataPenerima, error: dataPenerimaError } = await useAsyncData<any>(
   `dataPenerima:berkas/komite/${komite}/${route.params.identifier}`,
   () => $fetch(`${API_V2_URL}/undangan/penerima/${btoa(noSurat.value)}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`
+      Authorization: `Bearer ${tokenStore.accessToken}`
     }
   }), {
   watch: [noSurat]
@@ -48,7 +47,7 @@ watch(dataPenerima, (newValue) => {
 
 const { data: berkasKomite, pending, error: berkasKomiteError, status } = useFetch<BerkasKomite>(`${API_V2_URL}/berkas/komite/${komite}/${route.params.identifier}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 });
 
@@ -76,7 +75,7 @@ const onSubmit = async () => {
     const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/undangan/penerima`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${tokenStore.accessToken}`
       },
       body: JSON.stringify(body)
     })

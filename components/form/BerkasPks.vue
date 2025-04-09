@@ -114,7 +114,7 @@ import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 const toasts = useToast()
 const router = useRouter()
@@ -123,8 +123,6 @@ const jenisPks = ref<string>('')
 const postPending = ref(false)
 
 const { API_V2_URL } = config.public
-const { accessToken } = accessTokenStore
-
 const { judul, jenis, tanggal_awal, tanggal_akhir, tgl_terbit, no_pks_eksternal, no_pks_internal, pj, actionUrl } = defineProps<{
   judul?: string,
   jenis?: string,
@@ -173,7 +171,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const url = actionUrl || `${API_V2_URL}/berkas/pks`;
   const { data: response, error, status } = await useFetch(url, {
     method: 'POST',
-    headers: { 'Authorization': `Bearer ${accessToken}` },
+    headers: { 'Authorization': `Bearer ${tokenStore.accessToken}` },
     body: data
   })
 

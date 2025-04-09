@@ -134,13 +134,12 @@ import type { FormSubmitEvent } from '#ui/types'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 const router = useRouter()
 const toasts = useToast()
 
 const { API_V2_URL } = config.public
-const { accessToken } = accessTokenStore
 const schema = z.object({
   no_simrs: z.date(),
   no_surat: z.string(), // .min(1, "Nomor Surat tidak boleh kosong, jika tidak ada gunakan '-'"),
@@ -224,7 +223,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   const {data: postData, pending, error} = await useFetch(url, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     body: formData,
   })
 

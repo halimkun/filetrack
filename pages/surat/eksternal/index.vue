@@ -84,7 +84,7 @@ const detailData = ref<any>({});
 
 const router = useRouter();
 const runtimeConfig = useRuntimeConfig();
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 
 // table columns
 const columns = [
@@ -123,7 +123,7 @@ const bodyReq = ref<any>({
 
 // Ekstraksi nilai yang diperlukan dari hooks
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken: string | null = accessTokenStore.accessToken;
+const accessToken: string | null = tokenStore.accessToken;
 const selectedSurat = ref<any[]>([]);
 const updateSelectedSurat = (data: any[]) => {
   selectedSurat.value = data;

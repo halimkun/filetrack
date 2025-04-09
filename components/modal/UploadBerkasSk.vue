@@ -37,14 +37,12 @@ import type { FormSubmitEvent } from '#ui/types'
 import type { SuratKeputusanData } from '~/types/Sk';
 import { z } from 'zod';
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 const router = useRouter()
 const toasts = useToast()
 
 const { API_V2_URL } = config.public;
-const accessToken: string | null = accessTokenStore.accessToken;
-
 type Schema = z.output<typeof schema>
 const schema = z.object({
   berkas: z.string().nonempty('Berkas harus diisi'),
@@ -90,7 +88,7 @@ async function handleSubmit(event: FormSubmitEvent<Schema>) {
     const { data: response, error, status } = await useFetch(`${API_V2_URL}/berkas/sk/${identifier}?_method=PUT`,{
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${tokenStore.accessToken}`,
       },
       body: data
     })

@@ -33,7 +33,7 @@
 
   const router = useRouter();
   const runtimeConfig = useRuntimeConfig()
-  const accessTokenStore = useAccessTokenStore()
+  const tokenStore = useTokenStore();
   
   const isDetailOpen = ref<boolean>(false);
   const isDeleteConfirmationOpen = ref<boolean>(false);
@@ -41,7 +41,6 @@
   const rowSelected = ref<any>(null);
   const currentPage = ref<number>(1);
   const { API_V2_URL } = runtimeConfig.public;
-  const accessToken: string | null = accessTokenStore.accessToken;
   const bodyReq = ref<any>({
     "sort": [
       { "field": "tgl_terbit", "direction": "desc" }
@@ -85,7 +84,7 @@
       () => $fetch(`${API_V2_URL}/berkas/spo/search`, {
         method: 'POST',
         query: { page: currentPage.value },
-        headers: { 'Authorization': `Bearer ${accessToken}` },
+        headers: { 'Authorization': `Bearer ${tokenStore.accessToken}` },
         body: JSON.stringify(bodyReq.value)
       }), { watch: [ currentPage, bodyReq ], immediate: true, lazy: false }
   );

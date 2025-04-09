@@ -6,11 +6,8 @@ const toast = useToast();
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const userDetail = userStore();
-const accessTokenStore = useAccessTokenStore();
-
+const tokenStore = useTokenStore();
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken = computed(() => accessTokenStore.accessToken);
-
 const selectedData = ref<any[]>([]);
 const emits = defineEmits(['onPageChange']);
 const props = defineProps<{
@@ -21,10 +18,10 @@ const props = defineProps<{
   loading?: boolean;
 }>();
 
-const { data: dataKehadiran, pending: kehadiranPending, error: kehadiranError, refresh: kehadiranRefresh } = await useAsyncData<ResourcePagination>(
+const { data: dataKehadiran, error: kehadiranError, refresh: kehadiranRefresh } = await useAsyncData<ResourcePagination>(
   `${API_V2_URL}/undangan/kehadiran/${route.params.no_surat}`,
   () => $fetch(`${API_V2_URL}/undangan/kehadiran/${route.params.no_surat}`, {
-    headers: { Authorization: `Bearer ${accessToken.value}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   }),
 );
 
@@ -70,10 +67,10 @@ const simpanKehadiran = async () => {
     model: props.detailSurat?.model,
   };
 
-  const { data, error, pending, refresh, status } = await useFetch(`${API_V2_URL}/undangan/kehadiran`, {
+  const { data, error, refresh, status } = await useFetch(`${API_V2_URL}/undangan/kehadiran`, {
     method: 'POST',
     body: JSON.stringify(postData),
-    headers: { Authorization: `Bearer ${accessToken.value}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   });
 
   if (error.value) {

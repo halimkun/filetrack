@@ -7,16 +7,15 @@ useHead({
 const route = useRoute()
 const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 const infoOpen = ref(false)
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
 
 // Mengambil data surat internal
-const { data: suratInternal, pending: suratInternalPending, error: suratInternalError } = useFetch<any[]>(`${API_V2_URL}/surat/internal/${route.params.no_surat}`, {
+const { data: suratInternal, error: suratInternalError } = useFetch<any[]>(`${API_V2_URL}/surat/internal/${route.params.no_surat}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 });
 
@@ -29,7 +28,7 @@ const { data: penerimaData, pending: penerimaPending, error: penerimaError, refr
   `${API_V2_URL}/undangan/penerima/search`,
   () => $fetch(`${API_V2_URL}/undangan/penerima/search`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     query: { page: currentPage.value, include: 'detail.dep', limit: 10 },
     body: JSON.stringify({ 
       filters: [

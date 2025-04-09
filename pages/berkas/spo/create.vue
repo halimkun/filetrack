@@ -120,9 +120,7 @@ const toast = useToast();
 const router = useRouter();
 const isLoading = ref(false);
 const config = useRuntimeConfig();
-const tokenStores = useAccessTokenStore();
-
-const { accessToken } = tokenStores
+const tokenStore = useTokenStore();
 
 const jenis = [
   { value: 'medis', label: 'Medis' },
@@ -181,7 +179,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     body: JSON.stringify(postData),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${tokenStore.accessToken}`,
     },
   })
 

@@ -120,17 +120,15 @@ const route = useRoute()
 const toasts = useToast()
 const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 const isLoading = ref(false)
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
 
 const nomor = route.params.nomor as string
-
 const { data, error, status } = await useFetch<any>(`${API_V2_URL}/berkas/spo/${nomor}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 })
 
@@ -218,7 +216,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     body: JSON.stringify(postData),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${tokenStore.accessToken}`,
     },
   })
 

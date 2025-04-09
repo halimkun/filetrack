@@ -104,7 +104,7 @@ import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-const { noSurat, tglTerbit, tanggal, alamat, pj, perihal, actionUrl } = defineProps<{
+const { no_surat, tgl_terbit, tanggal, alamat, pj, perihal, actionUrl } = defineProps<{
   no_surat?: string,
   tgl_terbit?: Date,
   tanggal?: Date,
@@ -115,15 +115,14 @@ const { noSurat, tglTerbit, tanggal, alamat, pj, perihal, actionUrl } = definePr
   actionUrl?: string
 }>();
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 const toasts = useToast()
 const router = useRouter()
 
 const { API_V2_URL } = config.public
-const { accessToken } = accessTokenStore
 
-// const tglTerbit = tgl_terbit ? new Date(tgl_terbit) : new Date()
+// const tgl_terbit = tgl_terbit ? new Date(tgl_terbit) : new Date()
 // const tglSurat = tanggal ? new Date(tanggal) : new Date()
 const postPending = ref(false)
 
@@ -140,8 +139,8 @@ const schema = z.object({
 
 // State Form Value
 const state = reactive({
-  no_surat: noSurat || undefined,
-  tgl_terbit: tglTerbit ? new Date(tglTerbit) : new Date(),
+  no_surat: no_surat || undefined,
+  tgl_terbit: tgl_terbit ? new Date(tgl_terbit) : new Date(),
   tanggal: tanggal ? new Date(tanggal) : new Date(),
   alamat: alamat || '-',
   pj: pj || '',
@@ -162,9 +161,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const url = actionUrl ?? `${API_V2_URL}/surat/eksternal`;
   const method = actionUrl?.includes('PUT') ? 'PUT' : actionUrl?.includes('PATCH') ? 'PATCH' : 'POST';
 
-  const { data: postData, pending, error } = await useFetch(url, {
+  const { data: postData, status, error } = await useFetch(url, {
     method,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     body: JSON.stringify(data),
   });
 
@@ -176,7 +175,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     return;
   }
 
-  if (!pending.value) {
+  if (status.value !== 'pending') {
     postPending.value = false;
   }
 

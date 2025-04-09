@@ -35,7 +35,7 @@ useHead({
 const toast = useToast();
 const router = useRouter();
 const runtimeConfig = useRuntimeConfig();
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 
 const defaultFilter = {
   "sort": [
@@ -68,8 +68,6 @@ const updateSelectedData = (data: SuratUndangan) => {
 };
 
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken: string | null = accessTokenStore.accessToken;
-
 const columns = [
   { label: "No Surat", key: "no_surat" },
   { label: "Perihal", key: "undangan.perihal" },
@@ -94,7 +92,7 @@ const menu = (row: any) => [
 ]
 
 const downloadBuktiKehadiran = (noSurat: string) => {
-  if (!accessToken) {
+  if (!tokenStore.accessToken) {
     toast.add({
       title: 'Gagal',
       description: 'Token tidak ditemukan, silahkan login kembali',
@@ -104,12 +102,12 @@ const downloadBuktiKehadiran = (noSurat: string) => {
     return;
   };
 
-  const url = `${API_V2_URL}/undangan/penerima/${btoa(noSurat)}/proof?token=${accessToken}`;
+  const url = `${API_V2_URL}/undangan/penerima/${btoa(noSurat)}/proof?token=${tokenStore.accessToken}`;
   window.open(url, '_blank');
 }
 
 const downloadUndangan = (noSurat: string) => {
-  if (!accessToken) {
+  if (!tokenStore.accessToken) {
     toast.add({
       title: 'Gagal',
       description: 'Token tidak ditemukan, silahkan login kembali',
@@ -119,7 +117,7 @@ const downloadUndangan = (noSurat: string) => {
     return;
   };
 
-  const url = `${API_V2_URL}/undangan/${btoa(noSurat)}/download?token=${accessToken}`;
+  const url = `${API_V2_URL}/undangan/${btoa(noSurat)}/download?token=${tokenStore.accessToken}`;
   window.open(url, '_blank');
 }
 
@@ -158,7 +156,7 @@ const { data: dataUndangan, pending, error } = await useAsyncData(
     method: 'POST',
     query: { page: currentPage.value, limit: 10 },
     body: JSON.stringify(bodyReq.value),
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
 );
 

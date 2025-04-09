@@ -82,7 +82,7 @@ import { format } from 'date-fns'
 const toasts = useToast()
 const router = useRouter();
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 useHead({
   title: `Berkas SK direktur -- ILM `,
@@ -90,8 +90,6 @@ useHead({
 });
 
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken: string | null = accessTokenStore.accessToken;
-
 const isDetailOpen = ref<boolean>(false)
 const isDeleteConfirmationOpen = ref<boolean>(false)
 const isCreateModalOpen = ref<boolean>(false)
@@ -147,7 +145,7 @@ const { data: berkasSk, pending, error } = await useAsyncData(
     method: 'POST',
     query: { page: currentPage.value },
     body: JSON.stringify(bodyReq.value),
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
 );
 
@@ -175,7 +173,7 @@ async function doDelete() {
   const { data: postData, error, status } = await useFetch(`${API_V2_URL}/berkas/sk/${btoa(`${data.nomor}.${data.jenis}.${data.tgl_terbit}`)}`, {
     params: { _method: 'PUT' },
     method: "POST",
-    headers: { 'Authorization': `Bearer ${accessToken}` },
+    headers: { 'Authorization': `Bearer ${tokenStore.accessToken}` },
     body: JSON.stringify(data),
   })
 

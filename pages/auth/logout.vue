@@ -21,9 +21,7 @@ definePageMeta({
   layout: 'auth'
 })
 
-import { useAccessTokenStore } from '~/stores/accessToken'
-
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 const router = useRouter()
 const runTimeConfig = useRuntimeConfig()
 
@@ -31,7 +29,7 @@ const { API_V2_URL } = runTimeConfig.public
 
 const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/user/auth/logout`, {
   headers: {
-    Authorization: `Bearer ${accessTokenStore.accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 })
 
@@ -44,8 +42,9 @@ if (error.value) {
 }
 
 if (status.value == 'success') {
-  accessTokenStore.clearToken()
+  tokenStore.clearData()
   logEvent('logout_success')
+  
   setTimeout(() => {
     router.push('/auth/login')
   }, 3000)

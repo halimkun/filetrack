@@ -42,11 +42,9 @@
 
 <script lang="ts" setup>
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
-
 const defaultFilter = {
   sort: [
     { field: "nama", direction: "asc" }
@@ -102,7 +100,7 @@ const { data: pegawaiData, pending, error, refresh } = await useLazyAsyncData<an
   'Pegawai',
   () => $fetch(`${API_V2_URL}/pegawai/search?select=nik,nama,jk,departemen,bidang&include=dep`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     query: { page: currentPage.value, limit: 10, },
     body: JSON.stringify(bodyReq.value)
   }), { watch: [currentPage, bodyReq] }

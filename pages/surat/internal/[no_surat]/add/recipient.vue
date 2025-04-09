@@ -8,12 +8,11 @@ const route = useRoute()
 const toast = useToast()
 const router = useRouter()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 const isMounted = ref(true)
 const selected = ref<any>([])
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
 
 const mapPenerima = (penerima: any) => {
   if (penerima) {
@@ -34,9 +33,9 @@ onMounted(() => {
   isMounted.value = true
 })
 
-const { data: dataPenerima, pending: dataPenerimaPending, error: dataPenerimaError } = useFetch<any>(`${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
+const { data: dataPenerima, error: dataPenerimaError } = useFetch<any>(`${API_V2_URL}/undangan/penerima/${route.params.no_surat}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 });
 
@@ -52,7 +51,7 @@ watch(dataPenerima, (newValue) => {
 
 const { data: suratInternal, pending, error: suratInternalError } = useFetch<any>(`${API_V2_URL}/surat/internal/${route.params.no_surat}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 });
 
@@ -73,7 +72,7 @@ const onSubmit = async () => {
     const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/undangan/penerima`, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${tokenStore.accessToken}`
       },
       body: JSON.stringify(body)
     })

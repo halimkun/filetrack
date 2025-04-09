@@ -74,7 +74,7 @@ import { logEvent } from '~/utils/firebase'
 import { format } from 'date-fns'
 import { z } from 'zod'
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 const router = useRouter()
 const toasts = useToast()
@@ -92,8 +92,6 @@ const { komite, pj, perihal, tgl_terbit, nomor, prefix, actionUrl } = defineProp
 }>()
 
 const { API_V2_URL } = config.public
-const { accessToken } = accessTokenStore
-
 const postPending = ref(false)
 
 type Schema = z.output<typeof schema>
@@ -125,10 +123,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   const url = actionUrl || `${API_V2_URL}/berkas/${komite}`
 
-  const { data: postData, pending, error, refresh, status } = await useFetch(url, {
+  const { data: postData, error, refresh, status } = await useFetch(url, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${accessToken}`
+      'Authorization': `Bearer ${tokenStore.accessToken}`
     },
     body: JSON.stringify(data)
   })

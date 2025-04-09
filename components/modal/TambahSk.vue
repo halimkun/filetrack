@@ -77,7 +77,7 @@ const identifier = ref<String | null>(null)
 const isUpdate = ref(false)
 const postPending = ref(false)
 const config = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 
 const props = defineProps<{
   selectedSk?: SuratKeputusanData | undefined | null
@@ -129,14 +129,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     };
 
     const { API_V2_URL } = config.public;
-    const { accessToken } = accessTokenStore;
-
     let url = isUpdate.value ? `${API_V2_URL}/berkas/sk/${identifier.value}?_method=PUT` : `${API_V2_URL}/berkas/sk`;
 
     const { status, error } = await useFetch(url, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
+        'Authorization': `Bearer ${tokenStore.accessToken}`,
       },
       body: JSON.stringify(data),
     });
@@ -155,8 +153,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       });
       router.go(0);
     }
-  } catch (error) {
-    logEvent('create_sk_error', { error: error.message || 'Terjadi kesalahan saat membuat Berkas' })
+  } catch (error: any) {
+    logEvent('create_sk_error', { error: error?.message || 'Terjadi kesalahan saat membuat Berkas' })
     console.error("POST DATA ERROR", error);
     toasts.add({
       title: 'Error',

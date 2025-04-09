@@ -74,7 +74,7 @@ import { useDebounceFn } from '@vueuse/core'
 import type { ResourcePagination } from '~/types/ApiResponse';
 
 const runtimeConfig = useRuntimeConfig();
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const { komite, menu } = defineProps<{
   komite: string | 'keperawatan' | 'kesehatan' | 'pmkp' | 'medis' | 'ppi';
   menu: (row: any) => any[]
@@ -97,8 +97,6 @@ if (!columns?.some(column => column.key === 'actions')) {
 }
 
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken: string | null = accessTokenStore.accessToken;
-
 const selected = ref<any[]>([]);
 const currentPage = ref<number>(1);
 const tglTerbit = ref<Date | null>(null);
@@ -142,7 +140,7 @@ const { data: berkasKomite, pending, error, refresh } = await useAsyncData<Resou
     method: 'POST',
     query: { page: currentPage.value, limit: 10 },
     body: JSON.stringify(bodyReq.value),
-    headers: { Authorization: `Bearer ${accessToken}` }
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` }
   }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
 );
 

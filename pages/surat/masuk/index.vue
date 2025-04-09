@@ -112,12 +112,11 @@ useHead({
 
 // Penggunaan hooks terkait runtime config dan akses token
 const runtimeConfig = useRuntimeConfig();
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const router = useRouter();
 
 // Ekstraksi nilai yang diperlukan dari hooks
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken: string | null = accessTokenStore.accessToken;
 
 const isDetailOpen = ref<boolean>(false);
 const selectedData = ref<any[]>([]);
@@ -166,7 +165,7 @@ const { data: suratMasuk, pending: suratMasukPending, error } = await useAsyncDa
     method: 'POST',
     query: { page: currentPage.value },
     body: JSON.stringify(bodyReq.value),
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
 );
 

@@ -24,15 +24,14 @@ useHead({
 
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 
 const { API_V2_URL } = runtimeConfig.public
 const noSurat = route.params.no_surat as string
-const accessToken = accessTokenStore.accessToken
 const actionUrl = `${API_V2_URL}/surat/eksternal/${noSurat}?_method=PUT`
 
 const { data: suratEksternal, error } = await useFetch<any>(`${API_V2_URL}/surat/eksternal/${noSurat}`, {
-  headers: { Authorization: `Bearer ${accessToken}` }
+  headers: { Authorization: `Bearer ${tokenStore.accessToken}` }
 })
 
 if (error.value) {

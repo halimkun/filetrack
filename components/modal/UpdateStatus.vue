@@ -39,11 +39,9 @@ import type { SuratInternalData } from '~/types/SuratInternal';
 const toast = useToast();
 const router = useRouter();
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore()
 
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
-
 const props = defineProps<{
   suratInternal: SuratInternalData | null | undefined;
   showModalUpdateStatus: boolean;
@@ -84,7 +82,7 @@ async function onSubmit (event: FormSubmitEvent<Schema>) {
 
   const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/surat/internal/${btoa(props.suratInternal?.no_surat as string)}?_method=PUT`,{
     method: 'POST',
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     body: JSON.stringify(postData)
   })
 

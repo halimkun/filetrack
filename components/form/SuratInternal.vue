@@ -126,13 +126,12 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>
 
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const config = useRuntimeConfig()
 const toasts = useToast()
 const router = useRouter()
 
 const { API_V2_URL } = config.public
-const { accessToken } = accessTokenStore
 const postPending = ref(false)
 
 const state = reactive({
@@ -158,7 +157,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   const { data: postData, pending, error } = await useFetch(url, {
     method,
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     body: JSON.stringify(data),
   });
 

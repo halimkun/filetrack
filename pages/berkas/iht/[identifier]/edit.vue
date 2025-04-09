@@ -19,11 +19,10 @@ import { logEvent } from '~/utils/firebase'
 const route = useRoute()
 const toasts = useToast()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
+const tokenStore = useTokenStore();
 const komite = route.fullPath.split('/').slice(-3)[0]
 
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
 const identifier = route.params.identifier as string
 const decodedIdentifier = atob(identifier)
 const [nomor, tgl_terbit] = decodedIdentifier.split('.')
@@ -32,7 +31,7 @@ const actionUrl = `${API_V2_URL}/berkas/${komite}/${identifier}?_method=PUT`
 
 const { data: dataBerkas, error } = await useFetch<BerkasLainnya>(`${API_V2_URL}/berkas/${komite}/${identifier}`, {
   headers: {
-    Authorization: `Bearer ${accessToken}`
+    Authorization: `Bearer ${tokenStore.accessToken}`
   }
 })
 

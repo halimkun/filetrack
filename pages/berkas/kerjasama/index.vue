@@ -49,13 +49,11 @@
   });
 
   const runtimeConfig = useRuntimeConfig();
-  const accessTokenStore = useAccessTokenStore();
+  const tokenStore = useTokenStore();
   const router = useRouter();
 
   // Ekstraksi nilai yang diperlukan dari hooks
   const { API_V2_URL } = runtimeConfig.public;
-  const accessToken: string | null = accessTokenStore.accessToken;
-
   const isUploadOpen = ref<boolean>(false);
   const isDetailOpen = ref<boolean>(false);
   const selectedData = ref<any>({});
@@ -105,7 +103,7 @@
       method: 'POST',
       query: { page: currentPage.value },
       body: JSON.stringify(bodyReq.value),
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
     }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
   );
 

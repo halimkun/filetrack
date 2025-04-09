@@ -104,10 +104,8 @@ useHead({
 
 const toasts = useToast()
 const runtimeConfig = useRuntimeConfig()
-const accessTokenStore = useAccessTokenStore()
-
+const tokenStore = useTokenStore();
 const { API_V2_URL } = runtimeConfig.public
-const accessToken = accessTokenStore.accessToken
 
 const isDetailOpen = ref(false)
 const isDeleteConfirmationOpen = ref(false)
@@ -132,10 +130,10 @@ async function doDelete() {
     delete data.penanggung_jawab
   }
 
-  const { data: postData, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/berkas/${lastSegment}/${btoa(`${rowSelected.value.nomor}.${rowSelected.value.tgl_terbit}`)}`, {
+  const { data: postData, error, refresh, status } = await useFetch(`${API_V2_URL}/berkas/${lastSegment}/${btoa(`${rowSelected.value.nomor}.${rowSelected.value.tgl_terbit}`)}`, {
     params: { _method: 'PUT' },
     method: "POST",
-    headers: { 'Authorization': `Bearer ${accessToken}` },
+    headers: { 'Authorization': `Bearer ${tokenStore.accessToken}` },
     body: JSON.stringify(data),
   })
 

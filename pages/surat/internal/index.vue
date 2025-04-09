@@ -21,7 +21,7 @@
         :response="(suratInternal as any)" 
         :columns="columns" 
         :menu="menu" 
-        :loading="pending"
+        :loading="status == 'pending'"
         @selectedChange="updateSelectedData" 
         @onPageChange="currentPage = $event" 
         @onFilter="onFilter" 
@@ -44,14 +44,13 @@ useHead({
 
 // Penggunaan hooks terkait runtime config dan akses token
 const runtimeConfig = useRuntimeConfig();
-const accessTokenStore = useAccessTokenStore();
+const tokenStore = useTokenStore();
 const router = useRouter();
 
 const showModalUpdateStatus = ref<boolean>(false);
 
 // Ekstraksi nilai yang diperlukan dari hooks
 const { API_V2_URL } = runtimeConfig.public;
-const accessToken: string | null = accessTokenStore.accessToken;
 
 const selectedData = ref<any[]>([]);
 const updateSelectedData = (data: any[]) => {
@@ -97,13 +96,13 @@ const onFilter = (data: any) => {
   }
 };
 
-const { data: suratInternal, pending, error } = await useAsyncData(
+const { data: suratInternal, status, error } = await useAsyncData(
   'suratInternal',
   () => $fetch(`${API_V2_URL}/surat/internal/search`, {
     method: 'POST',
     query: { page: currentPage.value },
     body: JSON.stringify(bodyReq.value),
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   }), { watch: [currentPage, bodyReq], immediate: true, lazy: false }
 );
 
