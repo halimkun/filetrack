@@ -183,7 +183,12 @@ const menu = (row: any) => [
     { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => { isDetailOpen.value = true; selectedData.value = row; } }
   ], [
     { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => { selectedData.value = row; isFormOpen.value = true; } },
-    // { label: 'Tambah Penerima', icon: 'i-tabler-user-plus', click: () => router.push(`/surat/internal/${btoa(row.no_surat)}/add/recipient`) },
+    { 
+      label: 'Tambah Penerima', 
+      icon: 'i-tabler-user-plus', 
+      click: row.undangan ? () => router.push(`/surat/internal/${btoa(row.no_surat)}/add/recipient`) : null,
+      disabled: !row.undangan 
+    },
   ]
 ]
 

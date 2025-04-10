@@ -41,7 +41,9 @@
     </template>
 
     <template #no_surat-data="{ row }">
-      <UBadge color="gray">{{ row.no_surat }}</UBadge>
+      <template v-if="row.no_surat">
+        <UBadge color="gray">{{ row.no_surat }}</UBadge>
+      </template>
     </template>
 
     <template #perihal-data="{ row }">
