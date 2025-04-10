@@ -144,8 +144,6 @@
   </div>
 </template>
 
-<!-- TODO : Lanjutkan fungsi lainnya yang termasuk dalam surat internal, misalnya edit dll.  -->
-
 <script setup lang="ts">
 useHead({
   title: 'Surat Internal -- ILM ',

@@ -6,6 +6,7 @@ export type Undangan = {
   model: string;
   perihal: string;
   tanggal: string | Date;
+  tipe: string;
   lokasi?: string;
   deskripsi?: string;
   catatan?: string;
