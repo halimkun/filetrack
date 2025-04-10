@@ -33,6 +33,7 @@
   </div>
 
   <UTable v-model="selected" :columns="columns" :rows="response?.data" :loading="loading">
+    <!-- Daata -->
     <template #actions-data="{ row }">
       <UDropdown v-if="menu" :items="menu(row)">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
@@ -49,12 +50,6 @@
       </p>
     </template>
 
-    <template #tempat-data="{ row }">
-      <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">
-        {{ row.tempat }}
-      </p>
-    </template>
-
     <template #tgl_terbit-data="{ row }">
       {{ new Date(row.tgl_terbit).toLocaleDateString('id-ID', {
         weekday: 'short', year: 'numeric', month: 'short', day:
@@ -62,9 +57,20 @@
       }) }}
     </template>
 
+    <template #undangan-data="{ row }">
+      <template v-if="row.undangan">
+        <UButton
+          title="Lihat Detail Undangan"
+          color="indigo" variant="soft" size="xs" icon="i-tabler-mail-star"
+          @click="$emit('openUndangan', row)" square
+        >
+        </UButton>
+      </template>
+    </template>
+
     <template #status-data="{ row }">
-      <UBadge size="xs"
-        :color="row.status == 'pengajuan' ? 'yellow' : row.status == 'disetujui' ? 'teal' : row.status == 'ditolak' ? 'red' : 'purple'">
+      <UBadge size="xs" class="uppercase"
+        :color="row.status == 'pengajuan' ? 'yellow' : row.status == 'disetujui' ? 'sky' : row.status == 'ditolak' ? 'red' : 'gray'">
         {{ row.status }}
       </UBadge>
     </template>
@@ -88,7 +94,7 @@ import { format } from 'date-fns'
 import { useDebounceFn } from '@vueuse/core'
 import type { ResourcePagination } from '~/types/ApiResponse';
 
-const emits = defineEmits(['selectedChange', 'onPageChange', 'onFilter']);
+const emits = defineEmits(['selectedChange', 'onPageChange', 'onFilter', 'openUndangan']);
 const { response, menu, columns, loading } = defineProps<{
   response: ResourcePagination;
   menu?: (row: any) => any[];
