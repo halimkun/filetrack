@@ -1,3 +1,5 @@
+<!-- TODO : Cek menyeluruh semua tentang undangan, dan aksi-aksi yang tersedia -->
+
 <template>
   <div>
     <!-- filters -->
@@ -37,20 +39,20 @@
         </UDropdown>
       </template>
 
-      <template #undangan.perihal-data="{ row }">
-        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.perihal }}</p>
+      <template #perihal-data="{ row }">
+        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-sm truncate">{{ row.perihal }}</p>
       </template>
 
-      <template #undangan.tempat-data="{ row }">
-        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.tempat }}</p>
+      <template #tempat-data="{ row }">
+        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.tempat }}</p>
       </template>
 
-      <template #undangan.penanggung_jawab_simple.nama-data="{ row }">
-        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.undangan.penanggung_jawab_simple.nama }}</p>
+      <template #penanggung_jawab.nama-data="{ row }">
+        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">{{ row.penanggung_jawab.nama }}</p>
       </template>
 
-      <template #undangan.tanggal-data="{ row }">
-        {{ new Date(row.undangan.tanggal).toLocaleDateString('id-ID', {
+      <template #tanggal-data="{ row }">
+        {{ new Date(row.tanggal).toLocaleDateString('id-ID', {
           weekday: 'short', year: 'numeric', month: 'short',
           day: '2-digit', hour: '2-digit', minute: '2-digit'
         }) }}
@@ -64,10 +66,10 @@
         <UBadge color="gray">{{ row.tipe }}</UBadge>
       </template>
 
-      <template #penerima_count-data="{ row }">
+      <template #peserta_count-data="{ row }">
         <UBadge color="teal" class="flex items-center gap-2 justify-center w-fit">
           <UIcon name="i-tabler-users" class="mt-[1px]" />
-          {{ row.penerima_count }}
+          {{ row.peserta_count }}
         </UBadge>
       </template>
 

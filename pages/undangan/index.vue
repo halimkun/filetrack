@@ -16,15 +16,23 @@
       </div>
     </template>
 
-    <TableUndangan :response="(dataUndangan as any)" :columns="columns" :menu="menu" :loading="pending"
-      @selectedChange="updateSelectedData" @onPageChange="currentPage = $event" @onFilter="onFilter" />
+    <TableUndangan 
+      :response="(dataUndangan as any)" 
+      :columns="columns" 
+      :menu="menu" 
+      :loading="status == 'pending'"
+      
+      @selectedChange="updateSelectedData" 
+      @onPageChange="currentPage = $event" 
+      @onFilter="onFilter" 
+    />
   </UCard>
 
   <ModalInfoTambahUndangan v-model="isInfoOpen" />
 </template>
 
 <script lang="ts" setup>
-import type { SuratUndangan } from '~/types/Undangan';
+// import type { SuratUndangan } from '~/types/undangan.types';
 import { logEvent } from '~/utils/firebase'
 
 useHead({
@@ -39,14 +47,22 @@ const tokenStore = useTokenStore();
 
 const defaultFilter = {
   "sort": [
-    { "field": "no_surat", "direction": "desc" }
+    { "field": "tanggal", "direction": "desc" }
+  ],
+
+  "includes": [
+    { "relation": "penanggungJawab" }
+  ],
+
+  "aggregates": [
+      { "relation": "peserta", "type": "count" }
   ]
 };
 
 const isInfoOpen = ref<boolean>(false);
 const currentPage = ref<number>(1);
 const bodyReq = ref<any>(defaultFilter)
-const selectedData = ref<SuratUndangan>({
+const selectedData = ref<any>({
   no_surat: "",
   penerima_count: 0,
   tipe: "",
@@ -63,35 +79,34 @@ const selectedData = ref<SuratUndangan>({
   }
 });
 
-const updateSelectedData = (data: SuratUndangan) => {
+const updateSelectedData = (data: any) => {
   selectedData.value = data;
 };
 
 const { API_V2_URL } = runtimeConfig.public;
 const columns = [
-  { label: "No Surat", key: "no_surat" },
-  { label: "Perihal", key: "undangan.perihal" },
-  { label: "Tempat", key: "undangan.tempat" },
-  { label: "Tanggal Kegiatan", key: "undangan.tanggal" },
-  { label: "PJ", key: "undangan.penanggung_jawab_simple.nama" },
-  { label: "Jenis", key: "tipe" },
-  { label: "Peserta", key: "penerima_count" },
+  { label: "Perihal", key: "perihal" },
+  { label: "Tempat", key: "lokasi" },
+  { label: "Tipe", key: "tipe" },
+  { label: "Tanggal Kegiatan", key: "tanggal" },
+  { label: "Penanggung Jawab", key: "penanggung_jawab.nama" },
+  { label: "Peserta", key: "peserta_count" },
 ];
 
 const menu = (row: any) => [
   [
-    { label: "Detail & Kehadiran", icon: "i-tabler-search", click: () => { router.push(`/${row.tipe}/${btoa(row.no_surat)}`) } },
-    { label: "Tambah Penerima", icon: "i-tabler-users-plus", click: () => router.push(buildAddRecipientLink(row)) },
+    { label: "Detail & Kehadiran", icon: "i-tabler-search", click: () => { router.push(`/undangan/${row.id}`) } },
+    { label: "Tambah Penerima", icon: "i-tabler-users-plus", click: () => router.push(`/undangan/${row.id}/add/recipient`) },
   ], [
-    { label: "QR Kehadiran", icon: "i-tabler-qrcode", click: () => router.push(`/undangan/${btoa(row.no_surat)}/qr`) },
-    { label: "Bukti Kehadiwan", icon: "i-tabler-file-download", click: () => downloadBuktiKehadiran(row.no_surat) },
-    { label: "Undangan", icon: "i-tabler-download", click: () => downloadUndangan(row.no_surat) }
+    { label: "QR Kehadiran", icon: "i-tabler-qrcode", click: () => router.push(`/undangan/${row.id}/qr`) },
+    { label: "Bukti Kehadiwan", icon: "i-tabler-file-download", click: () => downloadBuktiKehadiran(row.id) },
+    { label: "Undangan", icon: "i-tabler-download", click: () => downloadUndangan(row.id) }
   ], [
     { label: "Buat Notulen", icon: "i-tabler-edit-circle", click: () => router.push(`/berkas/notulen/${btoa(row.no_surat)}/new`) }
   ]
 ]
 
-const downloadBuktiKehadiran = (noSurat: string) => {
+const downloadBuktiKehadiran = (id: string) => {
   if (!tokenStore.accessToken) {
     toast.add({
       title: 'Gagal',
@@ -102,11 +117,11 @@ const downloadBuktiKehadiran = (noSurat: string) => {
     return;
   };
 
-  const url = `${API_V2_URL}/undangan/penerima/${btoa(noSurat)}/proof?token=${tokenStore.accessToken}`;
+  const url = `${API_V2_URL}/undangan/${id}/proof?token=${tokenStore.accessToken}`;
   window.open(url, '_blank');
 }
 
-const downloadUndangan = (noSurat: string) => {
+const downloadUndangan = (id: string) => {
   if (!tokenStore.accessToken) {
     toast.add({
       title: 'Gagal',
@@ -117,14 +132,14 @@ const downloadUndangan = (noSurat: string) => {
     return;
   };
 
-  const url = `${API_V2_URL}/undangan/${btoa(noSurat)}/download?token=${tokenStore.accessToken}`;
+  const url = `${API_V2_URL}/undangan/${id}/download?token=${tokenStore.accessToken}`;
   window.open(url, '_blank');
 }
 
 const buildAddRecipientLink = (row: any) => {
   switch (row.tipe) {
     case 'surat/internal':
-      return `${row.tipe}/${btoa(row.no_surat)}/add/recipient`;
+      return `${row.tipe}/${row.id}/add/recipient`;
 
     default:
       const noSurat = row.no_surat.split('/').slice(0, 1).join('/');
@@ -150,7 +165,7 @@ const onFilter = (data: any) => {
   }
 };
 
-const { data: dataUndangan, pending, error } = await useAsyncData(
+const { data: dataUndangan, status, error } = await useAsyncData(
   'dataUndangan',
   () => $fetch(`${API_V2_URL}/undangan/search`, {
     method: 'POST',

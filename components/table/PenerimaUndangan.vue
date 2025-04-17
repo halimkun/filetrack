@@ -19,28 +19,41 @@ const props = defineProps<{
 }>();
 
 const { data: dataKehadiran, error: kehadiranError, refresh: kehadiranRefresh } = await useAsyncData<ResourcePagination>(
-  `${API_V2_URL}/undangan/kehadiran/${route.params.no_surat}`,
-  () => $fetch(`${API_V2_URL}/undangan/kehadiran/${route.params.no_surat}`, {
+  `${API_V2_URL}/undangan/kehadiran/${route.params.id}`,
+  () => $fetch(`${API_V2_URL}/undangan/kehadiran/${route.params.id}`, {
     headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   }),
 );
 
+if (kehadiranError.value) {
+  console.error('Error fetching kehadiran:', kehadiranError.value);
+}
+
+// Fungsi reusable untuk mengisi selectedData
+const updateSelectedData = () => {
+  const kehadiran = dataKehadiran.value?.data || [];
+  const penerima = props.response?.data || [];
+
+  // Tambahkan hanya jika belum ada
+  penerima.forEach((item: any) => {
+    const sudahAda = selectedData.value.some((s: any) => s.penerima === item.penerima);
+    const hadir = kehadiran.some((k: any) => k.nik === item.penerima);
+
+    if (hadir && !sudahAda) {
+      selectedData.value.push(item);
+    }
+  });
+};
+
 onMounted(() => {
-  if (dataKehadiran.value) {
-    const kehadiran = dataKehadiran.value.data as any;
-    const penerima = props.response?.data;
-    selectedData.value = penerima.filter((penerima: any) => kehadiran.some((kehadiran: any) => kehadiran.nik === penerima.penerima));
-  }
+  updateSelectedData();
 });
 
-watch(() => props.response, (value) => {
-  kehadiranRefresh();
-  if (dataKehadiran.value) {
-    const kehadiran = dataKehadiran.value.data as any;
-    const penerima = props.response?.data;
-    selectedData.value = penerima.filter((penerima: any) => kehadiran.some((kehadiran: any) => kehadiran.nik === penerima.penerima));
-  }
+watch(() => props.response, async () => {
+  await kehadiranRefresh(); // Pastikan refresh selesai dulu
+  updateSelectedData();
 });
+
 
 const currentPage = ref<number>((props.response?.meta as any)?.current_page);
 watch(currentPage, (value) => emits('onPageChange', value));
@@ -50,7 +63,6 @@ if (props.menu && !props.columns?.some(column => column.key === 'actions')) {
 }
 
 const col = [
-  { label: "No Surat", key: "no_surat" },
   { label: "Nama", key: "detail.nama" },
   { label: "NIK", key: "penerima" },
   { label: "Bidang", key: "detail.bidang" },
@@ -59,17 +71,16 @@ const col = [
 
 const simpanKehadiran = async () => {
   const karyawans = selectedData.value.map((data: any) => data.penerima);
-  const postData = {
-    no_surat: atob(route.params.no_surat as string),
-    nik: userDetail.user?.detail.nik,
-    karyawans,
-    tipe: 'surat/internal',
-    model: props.detailSurat?.model,
-  };
+  const undanganId = route.params.id;
+
+  let body = {
+    undangan_id: undanganId,
+    nik: karyawans
+  }
 
   const { data, error, refresh, status } = await useFetch(`${API_V2_URL}/undangan/kehadiran`, {
     method: 'POST',
-    body: JSON.stringify(postData),
+    body: JSON.stringify(body),
     headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
   });
 
@@ -88,13 +99,11 @@ const simpanKehadiran = async () => {
   <div class="w-full flex items-center justify-end mb-5">
     <UAlert title="Heads <i>up</i>!" icon="i-heroicons-exclamation-triangle-16-solid" color="amber" variant="subtle">
       <template #title="{ title }">
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <span v-html="title" />
+        <span v-html="title"></span>
       </template>
 
       <template #description>
-        <div class="mb-3">Simpan sebelum meninggalkan halaman, jika <strong>terdapat update kehadiran</strong>. data
-          yang sudah disimpan <strong><u>tidak dapat diubah</u></strong>.</div>
+        <div class="mb-3">Simpan sebelum meninggalkan halaman, jika <strong>terdapat update kehadiran</strong>. data yang sudah disimpan <strong><u>tidak dapat diubah</u></strong>.</div>
         <UButton variant="outline" color="indigo" @click="simpanKehadiran">
           Simpan Kehadiran
         </UButton>
@@ -109,8 +118,8 @@ const simpanKehadiran = async () => {
       </UDropdown>
     </template>
 
-    <template #no_surat-data="{ row }">
-      <UBadge color="gray">{{ row.no_surat }}</UBadge>
+    <template #penerima-data="{ row }">
+      <UBadge color="gray">{{ row.penerima }}</UBadge>
     </template>
 
     <template #nik-data="{ row }">
@@ -120,11 +129,9 @@ const simpanKehadiran = async () => {
 
   <div class="mt-5 flex items-center justify-between" v-if="props.response">
     <p class="text-sm text-gray-500 dark:text-gray-400">
-      Showing : {{ (props.response?.meta as any)?.from }} to {{ (props.response?.meta as any)?.to }} of {{
-        (props.response?.meta as any)?.total }} entries
+      Showing : {{ (props.response?.meta as any)?.from }} to {{ (props.response?.meta as any)?.to }} of {{ (props.response?.meta as any)?.total }} entries
     </p>
-    <UPagination v-model="currentPage" :page-count="(props.response?.meta as any)?.per_page"
-      :total="(props.response?.meta as any)?.total" />
+    <UPagination v-model="currentPage" :page-count="(props.response?.meta as any)?.per_page" :total="(props.response?.meta as any)?.total" />
   </div>
 </template>
 
