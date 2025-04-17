@@ -102,7 +102,7 @@ const menu = (row: any) => [
     { label: "Bukti Kehadiwan", icon: "i-tabler-file-download", click: () => downloadBuktiKehadiran(row.id) },
     { label: "Undangan", icon: "i-tabler-download", click: () => downloadUndangan(row.id) }
   ], [
-    { label: "Buat Notulen", icon: "i-tabler-edit-circle", click: () => router.push(`/berkas/notulen/${btoa(row.no_surat)}/new`) }
+    // { label: "Buat Notulen", icon: "i-tabler-edit-circle", click: () => router.push(`/berkas/notulen/${row.id}/new`) }
   ]
 ]
 

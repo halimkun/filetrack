@@ -25,12 +25,12 @@
         </template>
 
         <div class="flex flex-col gap-3">
-          <div class="flex gap-3">
+          <!-- <div class="flex gap-3">
             <div class="w-full">
-              <p class="text-sm text-cool-400">Nomor Surat</p>
-              <p class="text-base font-bold">{{ nomor }}</p>
+              <p class="text-sm text-cool-400">id Surat</p>
+              <p class="text-base font-bold">{{ id }}</p>
             </div>
-          </div>
+          </div> -->
           <div class="flex gap-3">
             <div class="w-1/3">
               <p class="text-sm text-cool-400">Tanggal Kegiatan</p>
@@ -48,7 +48,7 @@
             </div>
             <div class="w-2/3">
               <p class="text-sm text-cool-400">Pembuat Notulen</p>
-              <p class="text-base font-bold">{{ userDetail.user.detail.nama }}</p>
+              <!-- <p class="text-base font-bold">{{ userDetail.user.detail.nama }}</p> -->
             </div>
           </div>
           <div class="w-full">
@@ -66,7 +66,7 @@ import { userStore } from '~/stores/user';
 
 const route = useRoute();
 const router = useRouter();
-const userDetail = userStore();
+// const userDetail = userStore();
 
-const nomor = ref(atob(route.params.nomor as string));
+const id = ref(route.params.id);
 </script>
