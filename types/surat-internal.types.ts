@@ -5,7 +5,7 @@ export type SuratInternal = {
   id: number
   no_surat?: string
   perihal: string
-  tgl_terbit: string
+  tgl_terbit: string | Date
   status: 'pengajuan' | 'disetujui' | 'ditolak' | 'batal'
   pj: string
   requested_by: string
@@ -20,6 +20,10 @@ export type SuratInternal = {
 
 export type SuratInternalDenganUndangan = SuratInternal & {
   undangan?: Undangan
+}
+
+export type SuratInternalData = {
+  data: SuratInternal
 }
 
 // export type BerkasPks = {
