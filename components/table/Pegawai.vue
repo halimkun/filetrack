@@ -12,7 +12,7 @@
     </div>
 
     <!-- table -->
-    <UTable :columns="columns" :rows="(pegawaiData?.data as any)" :loading="pending" v-bind="$attrs">
+    <UTable :columns="columns" :rows="(pegawaiData?.data as any)" :loading="status == 'pending'" v-model="selected">
       <template #nik-data="{ row }">
         <UBadge color="primary" variant="soft">{{ row.nik }}</UBadge>
       </template>
@@ -20,8 +20,9 @@
       <template #jk-data="{ row }">
         <UButton
           :icon="String(row.jk).toLocaleLowerCase() == 'pria' ? 'i-tabler-gender-male' : 'i-tabler-gender-female'"
-          :color="String(row.jk).toLocaleLowerCase() == 'pria' ? 'indigo' : 'pink'" variant="soft" size="xs" square>{{
-            row.jk }}</UButton>
+          :color="String(row.jk).toLocaleLowerCase() == 'pria' ? 'indigo' : 'pink'" variant="soft" size="xs" square>
+          {{ row.jk }}
+        </UButton>
       </template>
     </UTable>
 
@@ -33,8 +34,7 @@
           to {{ (pegawaiData.meta as any).to }}
           of {{ (pegawaiData.meta as any).total }} entries
         </p>
-        <UPagination v-model="currentPage" :page-count="(pegawaiData.meta as any).per_page"
-          :total="(pegawaiData.meta as any).total" />
+        <UPagination v-model="currentPage" :page-count="(pegawaiData.meta as any).per_page" :total="(pegawaiData.meta as any).total" />
       </div>
     </div>
   </div>
@@ -43,6 +43,24 @@
 <script lang="ts" setup>
 const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore();
+
+const emit = defineEmits(['update:modelValue'])
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    default: () => []
+  }
+})
+
+const selected = ref<Array<any>>([])
+watch(() => props.modelValue, (value) => {
+  selected.value = value
+}, { immediate: true })
+
+watch(() => selected.value, (value) => {
+  emit('update:modelValue', value)
+})
+
 
 const { API_V2_URL } = runtimeConfig.public
 const defaultFilter = {
@@ -87,7 +105,6 @@ watch(search, () => {
   }
 })
 
-
 const columns = [
   { label: "Nama", key: "nama" },
   { label: "JK", key: "jk" },
@@ -96,7 +113,7 @@ const columns = [
   { label: "Departemen", key: "dep.nama" },
 ];
 
-const { data: pegawaiData, pending, error, refresh } = await useLazyAsyncData<any>(
+const { data: pegawaiData, status, error, refresh } = await useLazyAsyncData<any>(
   'Pegawai',
   () => $fetch(`${API_V2_URL}/pegawai/search?select=nik,nama,jk,departemen,bidang&include=dep`, {
     method: 'POST',
