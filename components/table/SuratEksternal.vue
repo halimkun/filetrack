@@ -34,12 +34,31 @@
       </template>
 
       <template #no_surat-data="{ row }">
-        <UBadge color="gray">{{ row.no_surat }}</UBadge>
+        <template v-if="row.no_surat">
+          <UBadge color="gray">{{ row.no_surat ?? "-" }}</UBadge>
+        </template>
+      </template>
+
+      <template #penanggung_jawab.nama-data="{ row }">
+        <p class="text-sm text-primary-500 dark:text-primary-400 max-w-[200px] font-semibold truncate">
+          {{ row.penanggung_jawab.nama }}
+        </p>
+      </template>
+
+      <template #status-data="{ row }">
+        <UBadge size="xs" class="uppercase"
+          :color="row.status == 'pengajuan' ? 'yellow' : row.status == 'disetujui' ? 'sky' : row.status == 'ditolak' ? 'red' : 'gray'">
+          {{ row.status }}
+        </UBadge>
       </template>
 
       <template #perihal-data="{ row }">
-        <p class="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">
+        <p class="text-sm text-gray-500 dark:text-gray-300 font-semibold max-w-xs truncate">
           {{ row.perihal }}
+        </p>
+
+        <p class="text-xs text-gray-500 dark:text-gray-400 max-w-xs truncate">
+          Tujuan : {{ row.alamat }}
         </p>
       </template>
 
@@ -49,8 +68,8 @@
         </p>
       </template>
 
-      <template #tanggal-data="{ row }">
-        {{ new Date(row.tanggal).toLocaleDateString('id-ID', {
+      <template #tgl_terbit-data="{ row }">
+        {{ new Date(row.tgl_terbit).toLocaleDateString('id-ID', {
           weekday: 'short', year: 'numeric', month: 'short', day:
             '2-digit'
         }) }}

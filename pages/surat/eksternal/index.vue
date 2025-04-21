@@ -10,7 +10,7 @@
           </div>
         </div>
 
-        <UButton icon="i-tabler-plus" size="xs" square @click="router.push('/surat/eksternal/create')">
+        <UButton icon="i-tabler-plus" size="xs" square @click="isOpen = true">
           Tambah Surat
         </UButton>
       </div>
@@ -27,48 +27,22 @@
     />
   </UCard>
 
-  <UModal v-model="isDetailOpen">
-    <UCard>
-      <template #header>
-        <div class="flex items-center justify-between">
-          <div class="flex gap-2 items-start">
-            <UButton icon="i-tabler-mail-share" color="primary" size="xs" square variant="soft" />
-            <div>
-              <h1 class="text-lg">Detail Surat Eksternal</h1>
-              <p class="text-sm text-cool-400">Detail Surat Eksternal</p>
-            </div>
-          </div>
+  
+  <!-- Modal Form -->
+  <ModalFormSuratEksternal 
+    v-model="isOpen"
+    :selectedData="detailData"
 
-          <UButton icon="i-tabler-x" size="xs" color="orange" variant="soft" square @click="isDetailOpen = false" />
-        </div>
-      </template>
+    @close="detailData = null; isOpen = false"
+    @refresh="refresh()"
+  />
 
-      <div class="space-y-3">
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <p class="text-sm text-primary-400">No Surat</p>
-            <p class="text-lg">{{ detailData.no_surat }}</p>
-          </div>
-          <div>
-            <p class="text-sm text-primary-400">Tanggal Surat</p>
-            <p class="text-lg">{{ detailData.tanggal }}</p>
-          </div>
-        </div>
-        <div>
-          <p class="text-sm text-primary-400">Perihal</p>
-          <p class="text-lg">{{ detailData.perihal }}</p>
-        </div>
-        <div>
-          <p class="text-sm text-primary-400">Alamat</p>
-          <p class="text-lg">{{ detailData.alamat }}</p>
-        </div>
-        <div>
-          <p class="text-sm text-primary-400">Penanggung Jawab</p>
-          <p class="text-lg">{{ detailData.penanggung_jawab_simple.nama }}</p>
-        </div>
-      </div>
-    </UCard>
-  </UModal>
+  <!-- Modal Detail -->
+  <ModalDetailSuratEksternal
+    v-model="isDetailOpen"
+    :detailData="detailData"
+    @onClose="isDetailOpen = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -79,6 +53,7 @@ useHead({
   meta: [{ name: 'description', content: 'Surat Eksternal' }],
 });
 
+const isOpen = ref(false);
 const isDetailOpen = ref(false);
 const detailData = ref<any>({});
 
@@ -89,16 +64,17 @@ const tokenStore = useTokenStore();
 // table columns
 const columns = [
   { label: "No Surat", key: "no_surat" },
-  { label: "PJ", key: "penanggung_jawab_simple.nama" },
   { label: "Perihal", key: "perihal" },
-  { label: "Alamat", key: "alamat" },
-  { label: "Tanggal", key: "tanggal" },
+  { label: "PJ", key: "penanggung_jawab.nama" },
+  { label: "Status", key: "status" },
+  // { label: "Alamat", key: "alamat" },
+  { label: "Tanggal", key: "tgl_terbit" },
 ]
 
 // row menu
 const menu = (row: any) => [[
   { label: "Detail Surat", icon: "i-heroicons-eye-20-solid", click: () => { detailData.value = row; isDetailOpen.value = true; } },
-  { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => router.push(`/surat/eksternal/${btoa(row.no_surat)}/edit`) }
+  { label: 'Edit Surat', icon: 'i-heroicons-pencil-square-20-solid', click: () => { detailData.value = row; isOpen.value = true } }
 ]]
 
 // On Filter
@@ -130,7 +106,7 @@ const updateSelectedSurat = (data: any[]) => {
 };
 
 // Api Request
-const { data: suratEksternal, pending, error } = await useAsyncData(
+const { data: suratEksternal, refresh, pending, error } = await useAsyncData(
   'suratEksternal',
   () => $fetch(`${API_V2_URL}/surat/eksternal/search`, {
     method: 'POST',
