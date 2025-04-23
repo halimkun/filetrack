@@ -62,11 +62,9 @@
 </template>
 
 <script lang="ts" setup>
-import { userStore } from '~/stores/user';
 
 const route = useRoute();
 const router = useRouter();
-// const userDetail = userStore();
 
 const id = ref(route.params.id);
 </script>

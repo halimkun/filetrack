@@ -13,7 +13,7 @@ interface User {
   };
 }
 
-export const userStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state() {
     return {
       user: ref<User | null>(null)

@@ -1,6 +1,6 @@
 // Middleware untuk otentikasi route
 
-import { userStore } from "~/stores/user"
+import { useUserStore } from "~/stores/user"
 
 // Middleware ini memastikan bahwa pengguna memiliki token akses yang valid sebelum mengakses rute tertentu
 export default defineNuxtRouteMiddleware(async (to, from) => {
@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const tokenStore = useTokenStore()
   const accessToken = tokenStore.accessToken
 
-  const userDetail = userStore()
+  const userDetail = useUserStore()
   const runtimeConfig = useRuntimeConfig()
 
   // Jika rute saat ini adalah salah satu dari rute yang dikecualikan

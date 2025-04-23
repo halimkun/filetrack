@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { userStore } from '~/stores/user';
 import type { ResourcePagination } from '~/types/ApiResponse';
 
 const toast = useToast();
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
-const userDetail = userStore();
 const tokenStore = useTokenStore();
 const { API_V2_URL } = runtimeConfig.public;
 const selectedData = ref<any[]>([]);
