@@ -6,6 +6,6 @@ export type Departemen = {
   tele_id: string | null;
 };
 
-export type DepartemenList = {
+export type DepartemenData = {
   data: Departemen[];
 };
