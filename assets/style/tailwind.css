@@ -1,3 +1,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.ql-toolbar.ql-snow {
+    @apply bg-white dark:bg-gray-400 border-b-2 border-gray-200 dark:border-gray-700 rounded-t-lg
+}
+.ql-container.ql-snow {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-b-lg
+}
+
+.ql-editor.ql-blank::before {
+    @apply dark:text-gray-400
+}
+
+.detail-spo ol {
+    @apply list-decimal ml-5
+}
+.detail-spo ol ol {
+    @apply list-[lower-alpha] mt-2 ml-5
+}
+
+.detail-spo ol ol ol {
+    @apply list-disc mt-2 ml-5
+}
+
+.detail-spo ol ol ol ol {
+    @apply list-[circle] mt-2 ml-5
+}
+
+.detail-spo ul {
+    @apply list-disc ml-5
+}
+
+.detail-spo ul ul {
+    @apply list-[circle] mt-2 ml-5
+}
+
+.detail-spo li {
+    @apply mb-2
+}
