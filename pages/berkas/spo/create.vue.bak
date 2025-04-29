@@ -1,7 +1,7 @@
 <template>
-  <UForm :state="state" @submit="onSubmit">
+  <UForm :schema="schema" :state="state" @submit="onSubmit">
     <div class="w-full gap-4 flex items-start flex-col xl:flex-row">
-      <UCard class="w-full xl:w-[36%] top-5">
+      <UCard class="w-full xl:w-[36%] sticky top-5">
         <template #header>
           <div class="flex gap-2 items-start">
             <UButton icon="i-tabler-edit" color="primary" size="xs" square variant="soft" />
@@ -19,12 +19,12 @@
   
           <!-- Unit -->
           <UFormGroup label="Unit" name="unit" class="w-full">
-            <SelectDepartemen :dep="state.unit" />
+            <SelectDepartemen v-model="state.unit" />
           </UFormGroup>
   
           <!-- Unit Terkait -->
           <UFormGroup label="Unit Terkait" name="unit_terkait" class="w-full">
-            <SelectMultiDepartemen :depIds="state.unit_terkait" @update:depIds="state.unit_terkait = $event" />
+            <SelectMultiDepartemen v-model="state.unit_terkait" />
           </UFormGroup>
   
           <!-- Tanggal Terbit -->
@@ -47,7 +47,7 @@
         </div>
       </UCard>
 
-      <div class="flex flex-col gap-4 w-full">
+      <div class="flex flex-col gap-4">
         <UCard class="w-full">
           <template #header>
             <div class="flex gap-2 items-start">
@@ -116,32 +116,11 @@ import { logEvent } from '~/utils/firebase'
 
 import type { FormSubmitEvent } from '#ui/types'
 
-const route = useRoute()
-const toasts = useToast()
-const router = useRouter()
-const runtimeConfig = useRuntimeConfig()
+const toast = useToast();
+const router = useRouter();
+const isLoading = ref(false);
+const config = useRuntimeConfig();
 const tokenStore = useTokenStore();
-
-const isLoading = ref(false)
-const { API_V2_URL } = runtimeConfig.public
-
-const nomor = route.params.nomor as string
-const { data, error, status } = await useFetch<any>(`${API_V2_URL}/berkas/spo/${nomor}`, {
-  headers: {
-    Authorization: `Bearer ${tokenStore.accessToken}`
-  }
-})
-
-if (error.value) {
-  toasts.add({
-    title: 'Error',
-    description: 'ERROR SPO DATA : ' + error.value.statusMessage,
-    color: 'red'
-  })
-
-  console.error(error.value.statusMessage)
-}
-
 
 const jenis = [
   { value: 'medis', label: 'Medis' },
@@ -159,7 +138,7 @@ const unitSchema = z.object({
 
 const schema = z.object({
   judul: z.string().min(5, 'Pengertian harus harus diisi').max(255, 'Judul terlalu panjang'),
-  unit: z.string().min(1, 'Unit harus diisi'),
+  unit: unitSchema,
   unit_terkait: z.array(unitSchema).min(1, 'Unit terkait harus diisi'),
   tgl_terbit: z.date(),
   jenis: z.enum(['umum', 'penunjang', 'medis']),
@@ -169,35 +148,19 @@ const schema = z.object({
   prosedur: z.string().min(5, 'Pengertian harus harus diisi'),
 });
 
-// data?.value?.data?.unit_terkait is string separated by comma
-
 type Schema = z.output<typeof schema>
 
-const spo = ref(data?.value?.data) as Ref<{
-  judul?: string;
-  unit?: string;
-  unit_terkait?: string;
-  tgl_terbit?: string;
-  jenis?: string;
-  detail?: {
-    pengertian?: string;
-    tujuan?: string;
-    kebijakan?: string;
-    prosedur?: string;
-  }
-} | null>
-
 const state = reactive({
-  judul: spo?.value?.judul,
-  unit: spo?.value?.unit,
-  unit_terkait: spo?.value?.unit_terkait?.split(','),
-  tgl_terbit: spo?.value?.tgl_terbit ? new Date(spo?.value?.tgl_terbit) : new Date(),
-  jenis: spo?.value?.jenis,
+  judul: '',
+  unit: '',
+  unit_terkait: [],
+  tgl_terbit: new Date(),
+  jenis: 'umum',
 
-  pengertian: spo?.value?.detail?.pengertian ?? "",
-  tujuan: spo?.value?.detail?.tujuan ?? "",
-  kebijakan: spo?.value?.detail?.kebijakan ?? "",
-  prosedur: spo?.value?.detail?.prosedur ?? "",
+  pengertian: '',
+  tujuan: '',
+  kebijakan: '',
+  prosedur: '',
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -206,12 +169,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   // event data unit make only name 
   const postData = {
     ...event.data,
-    unit: event.data.unit,
-    unit_terkait: event.data.unit_terkait.join(','),
+    unit: event.data.unit.nama,
+    unit_terkait: event.data.unit_terkait.map((unit) => unit.nama).join(','),
     tgl_terbit: format(event.data.tgl_terbit, 'yyyy-MM-dd'),
   }
 
-  const { data, pending, error, refresh, status } = await useFetch(`${runtimeConfig.public.API_V2_URL}/berkas/spo/${nomor}?_method=PUT`,{
+  const { data, pending, error, refresh, status } = await useFetch(`${config.public.API_V2_URL}/berkas/spo`,{
     method: 'POST',
     body: JSON.stringify(postData),
     headers: {
@@ -222,7 +185,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   if (error.value) {
     logEvent('create_spo_error', error.value)
-    toasts.add({
+    toast.add({
       title: 'Gagal',
       description: error.value.message,
       color: 'red',
@@ -233,7 +196,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   if (status.value == 'success') {
     logEvent('create_spo_success', data)
-    toasts.add({
+    toast.add({
       title: 'Berhasil',
       description: 'SPO berhasil disimpan',
       color: 'green',

@@ -42,14 +42,9 @@
     >
 
       <template #nomor-data="{ row }">
-        <UBadge color="gray">{{ row.nomor }}</UBadge>
-      </template>
-
-      <template #unit_terkait-data="{ row }">
-        <!-- explode row.unit_terkait ny comma and make badges, each row has 3 badges -->
-        <div class="flex gap-2 max-w-[15rem] flex-wrap">
-          <UBadge v-for="unit in row.unit_terkait.split(',')" :key="unit" color="gray">{{ unit }}</UBadge>
-        </div>
+        <template v-if="row.nomor">
+          <UBadge color="gray">{{ row.nomor }}</UBadge>
+        </template>
       </template>
 
       <template #tgl_terbit-data="{ row }">
@@ -57,6 +52,27 @@
           weekday: 'short', year: 'numeric', month: 'short', day:
             '2-digit'
         }) }}
+      </template>
+
+      <template #judul-data="{ row }">
+        <p class="text-sm text-gray-900 dark:text-gray-300 max-w-sm truncate font-semibold">
+          {{ row.judul }}
+        </p>
+        <!-- <UBadge size="xs" color="indigo" variant="soft" class="mt-1">
+          ACC Asisten Manager Penunjang
+        </UBadge> -->
+      </template>
+
+      <template #unit_id-data="{ row }">
+        <UBadge :color="row.unit ? 'primary' : 'rose'" variant="soft" class="text-xs">
+          {{ row.unit ? row.unit.nama : row.unit_id }}
+        </UBadge>
+      </template>
+
+      <template #jenis-data="{ row }">
+        <UBadge variant="subtle" :color="row.jenis == 'medis' ? 'indigo' : row.jenis == 'penunjang' ? 'amber' : 'gray'">
+          {{ row.jenis?.toUpperCase() }}
+        </UBadge>
       </template>
 
       <template #actions-data="{ row }">
@@ -110,7 +126,7 @@ watch([search, tglTerbit, filterJenis], useDebounceFn(([search, tgl, jenis]) => 
   let filterCond: any[] = [];
 
   jenis && filterCond.push({field: 'jenis', operator: '=', value: jenis})
-  tgl && filterCond.push({field: 'tgl_terbit', operator: '=', value: new Date(tgl).toISOString().split('T')[0]})
+  tgl && filterCond.push({field: 'tgl_terbit', operator: '=', value: format(tgl, 'yyyy-MM-dd')})
 
   emits('onFilter', {
     search: { value: search ?? '' },
