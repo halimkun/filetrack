@@ -11,18 +11,21 @@
     by="dep_id"
 
     multiple
-    trailing 
+    trailing
+    :disabled="disabled" 
+    size="md"
   />
 </template>
 
 <script lang="ts" setup>
-import type { Departemen, DepartemenList } from '~/types/Departemen';
+import type { Departemen, DepartemenData } from '~/types/departemen.types';
 
 // Define Props and Emit
 const emit = defineEmits(['update:selectedDep', 'update:depIds'])
-const { dep, depIds } = defineProps<{
+const { dep, depIds, disabled } = defineProps<{
   dep?: string,
-  depIds?: string[]
+  depIds?: string[],
+  disabled?: boolean
 }>()
 
 // Setup API access
@@ -39,7 +42,7 @@ async function loadSelectedDeps() {
   if (depIds && depIds.length > 0) {
     loadingDep.value = true;
     try {
-      const response = await $fetch<DepartemenList>(`${API_V2_URL}/departemen/search?select=dep_id,nama&limit=100`, {
+      const response = await $fetch<DepartemenData>(`${API_V2_URL}/departemen/search?select=dep_id,nama&limit=100`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
         body: JSON.stringify({
@@ -57,7 +60,6 @@ async function loadSelectedDeps() {
   }
 }
 
-// Fetch matching Departemen objects on mount
 onMounted(() => {
   loadSelectedDeps();
 });
@@ -66,7 +68,7 @@ async function search(q: string): Promise<Departemen[]> {
   loadingDep.value = true;
 
   try {
-    const response = await $fetch<DepartemenList>(`${API_V2_URL}/departemen/search?select=dep_id,nama&limit=100`, {
+    const response = await $fetch<DepartemenData>(`${API_V2_URL}/departemen/search?select=dep_id,nama&limit=100`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${tokenStore.accessToken}` },
       body: JSON.stringify({

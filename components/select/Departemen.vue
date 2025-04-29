@@ -3,7 +3,8 @@
     v-model="selectedDep" 
     :loading="loadingDep" 
     :search="search" 
-    placeholder="Departement"
+    size="md"
+    placeholder="Unit / Departement"
     option-attribute="nama" 
     class="w-full" 
     trailing 
@@ -12,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue';
-import type { Departemen, DepartemenList } from '~/types/Departemen';
+import type { Departemen, DepartemenList } from '~/types/departemen.types';
 
 const emit = defineEmits(['update:selectedDep']);
 const { dep } = defineProps<{
