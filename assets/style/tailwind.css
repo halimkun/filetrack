@@ -15,7 +15,7 @@
 }
 
 .detail-spo ol {
-    @apply list-decimal ml-5
+    @apply list-decimal ml-5 text-gray-500
 }
 .detail-spo ol ol {
     @apply list-[lower-alpha] mt-2 ml-5
