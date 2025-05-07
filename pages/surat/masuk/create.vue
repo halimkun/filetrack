@@ -28,7 +28,7 @@
 
 <script lang="ts" setup>
 useHead({
-  title: 'Surat Masuk -- ILM ',
+  title: 'Surat Masuk ',
   meta: [{ name: 'description', content: 'Create Surat Masuk' }],
 });
 </script>

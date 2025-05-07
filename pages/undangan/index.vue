@@ -36,7 +36,7 @@
 import { logEvent } from '~/utils/firebase'
 
 useHead({
-  title: 'Data Undangan / Kegiatan -- ILM ',
+  title: 'Data Undangan / Kegiatan ',
   meta: [{ name: 'description', content: 'Data Undangan / Kegiatan' }],
 })
 

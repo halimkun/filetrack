@@ -49,7 +49,7 @@
 import { ref } from 'vue';
 
 useHead({
-  title: 'Surat Eksternal -- ILM ',
+  title: 'Surat Eksternal ',
   meta: [{ name: 'description', content: 'Surat Eksternal' }],
 });
 

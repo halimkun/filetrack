@@ -106,7 +106,7 @@
 import { format } from 'date-fns';
 
 useHead({
-  title: 'Surat Masuk -- ILM ',
+  title: 'Surat Masuk ',
   meta: [{ name: 'description', content: 'Surat Masuk' }],
 });
 

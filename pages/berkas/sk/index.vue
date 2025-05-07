@@ -85,7 +85,7 @@ const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore();
 
 useHead({
-  title: `Berkas SK direktur -- ILM `,
+  title: `Berkas SK direktur `,
   meta: [{ name: 'description', content: `Berkas SK direktur` }]
 });
 

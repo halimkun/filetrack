@@ -3,7 +3,7 @@ import type { UndanganData } from '~/types/undangan.types'
 import type { SuratInternal, SuratInternalData } from '~/types/surat-internal.types'
 
 useHead({
-  title: 'Detail Surat Internal -- ILM ',
+  title: 'Detail Surat Internal ',
   meta: [{ name: 'description', content: 'Detail Surat Internal' }]
 })
 

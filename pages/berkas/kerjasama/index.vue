@@ -44,7 +44,7 @@
   import type {BerkasPksData} from '~/types/BerkasPks';
 
   useHead({
-    title: 'Berkas PKS -- ILM ',
+    title: 'Berkas PKS ',
     meta: [{ name: 'description', content: 'Berkas PKS' }],
   });
 

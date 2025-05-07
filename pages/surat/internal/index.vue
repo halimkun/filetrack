@@ -146,7 +146,7 @@
 
 <script setup lang="ts">
 useHead({
-  title: 'Surat Internal -- ILM ',
+  title: 'Surat Internal ',
   meta: [{ name: 'description', content: 'Surat Internal' }],
 });
 
