@@ -5,7 +5,7 @@ import type { FormSubmitEvent } from '#ui/types'
 
 const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore()
-const menuStore = useMenuStore()
+// const menuStore = useMenuStore()
 
 const { API_V2_URL, TEST_USERNAME, TEST_PASSWORD } = runtimeConfig.public
 
@@ -28,8 +28,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   
   onLoading.value = true
 
-  console.log('event', event.data)
-
   const finalBody = {
     grant_type: 'password',
     client_id: '14',
@@ -43,11 +41,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     method: 'POST',
     body: JSON.stringify(finalBody)
   })
-
-  console.log('data', data.value)
-  console.log('pending', pending.value)
-  console.log('error', error.value)
-  console.log('status', status.value)
   
   if (error.value || status.value != 'success') {
     onLoading.value = false
@@ -56,11 +49,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     return
   }
 
-  const accessToken = (data.value as { access_token?: string })?.access_token as string
-  const refreshToken = (data.value as { refresh_token?: string })?.refresh_token as string
+  // const accessToken = (data.value as { access_token?: string })?.access_token as string
+  // const refreshToken = (data.value as { refresh_token?: string })?.refresh_token as string
 
   logEvent('login_success', { username: event.data.username })
-  tokenStore.setData(data.value)
+  tokenStore.setData(data.value as any)
 
   // TODO : skip refresh token for now and skip menu data
   
