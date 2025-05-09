@@ -20,8 +20,6 @@ export default defineNuxtConfig({
       TZ: process.env.NUXT_PUBLIC_TZ,
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
       API_V2_URL: process.env.NUXT_PUBLIC_API_V2_URL,
-      TEST_USERNAME: process.env.NUXT_PUBLIC_TEST_USER_USERNAME,
-      TEST_PASSWORD: process.env.NUXT_PUBLIC_TEST_USER_PASSWORD,
 
       modelName: {
         SURAT_INTERNAL: process.env.NUXT_PUBLIC_SURAT_INTERNAL_MODEL_NAME,
@@ -34,10 +32,12 @@ export default defineNuxtConfig({
       },
 
       rsia: {
-        grantType: process.env.NUXT_GRANT_TYPE,
-        clientId: process.env.NUXT_CLIENT_ID,
-        clientSecrete: process.env.NUXT_CLIENT_SECRET,
+        grantType: process.env.NUXT_PUBLIC_GRANT_TYPE,
+        clientId: process.env.NUXT_PUBLIC_CLIENT_ID,
+        clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
       },
+
+      // rsia scope [  ]
 
       firebase: {
         apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,

@@ -7,7 +7,7 @@ const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore()
 // const menuStore = useMenuStore()
 
-const { API_V2_URL, TEST_USERNAME, TEST_PASSWORD } = runtimeConfig.public
+const { API_V2_URL, rsia } = runtimeConfig.public
 
 const onLoading = ref(false)
 const schema = z.object({
@@ -18,8 +18,8 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive({
-  username: TEST_USERNAME || '' as string,
-  password: TEST_PASSWORD || '' as string
+  username: '' as string,
+  password: '' as string
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -29,9 +29,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   onLoading.value = true
 
   const finalBody = {
-    grant_type: 'password',
-    client_id: '14',
-    client_secret: 'urLKnFQZGZMBRJYAQq0cR4FKnftFKCcfxpF5TqQl',
+    grant_type: rsia.grantType ?? 'password',
+    client_id: rsia.clientId,
+    client_secret: rsia.clientSecrete,
     scope: '',
     username: event.data.username,
     password: event.data.password

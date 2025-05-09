@@ -45,8 +45,8 @@
         </div>
 
         <div class="mt-4 space-y-3">
-          <UFormGroup label="Alamat/Instansi Tujuan" name="alamat" class="w-full">
-            <UInput size="md" v-model="state.alamat" placeholder="alamat/instansi tujuan" variant="outline" />
+          <UFormGroup label="Perihal" name="perihal" class="w-full">
+            <UInput size="md" v-model="state.perihal" placeholder="perihal" variant="outline" />
           </UFormGroup>
 
           <UFormGroup label="Penanggung Jawab" name="pj" class="w-full">
@@ -62,8 +62,8 @@
             </div>
           </UFormGroup>
 
-          <UFormGroup label="Perihal" name="perihal" class="w-full">
-            <UTextarea v-model="state.perihal" placeholder="Perihal Surat" variant="outline" resize />
+          <UFormGroup label="Alamat/Instansi Tujuan" name="alamat" class="w-full">
+            <UTextarea v-model="state.alamat" placeholder="alamat/instansi tujuan" variant="outline" resize />
           </UFormGroup>
         </div>
         
@@ -116,7 +116,7 @@ const state = reactive({
   status: props.selectedData?.status || 'pengajuan',
   tgl_terbit: props.selectedData?.tgl_terbit ? new Date(props.selectedData?.tgl_terbit) : new Date(),
   perihal: props.selectedData?.perihal || '',
-  alamat: props.selectedData?.perihal || '',
+  alamat: props.selectedData?.alamat || '',
 
   pj: props.selectedData?.pj || '',
 })
@@ -135,9 +135,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     delete data.no_surat
   }
 
-  const actionQueryMethod = props.selectedData ? 'PUT' : 'POST';
-  const url = props.selectedData
-    ? `${API_V2_URL}/surat/eksternal/${props.selectedData.id}`
+  const actionQueryMethod = props.selectedData?.created_at ? 'PUT' : 'POST';
+  const url = props.selectedData?.created_at
+    ? `${API_V2_URL}/surat/eksternal/${props.selectedData?.id}`
     : `${API_V2_URL}/surat/eksternal`;
   
   const { data: postData, status, error } = await useFetch(`${url}?_method=${actionQueryMethod}`, {

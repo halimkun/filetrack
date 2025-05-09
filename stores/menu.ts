@@ -26,9 +26,9 @@ export const useMenuStore = defineStore('menu', {
     async fetchMenu(): Promise<Record<string, any[]> | null> {
       const config = useRuntimeConfig();
       const token = useTokenStore();
-      const { API_V2_URL } = config.public;
+      const { API_V2_URL, rsia } = config.public;
 
-      return $fetch<{ data: Record<string, any[]> }>(`${API_V2_URL}/user/menu/14`, {
+      return $fetch<{ data: Record<string, any[]> }>(`${API_V2_URL}/user/menu/${ rsia.clientId }`, {
         headers: {
           'Authorization': `Bearer ${token.accessToken}`
         }
