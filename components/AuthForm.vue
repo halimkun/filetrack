@@ -29,8 +29,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   onLoading.value = true
 
   let finalBody = {
-    grant_type: grantType ?? 'password',
     client_id: clientId,
+    grant_type: grantType ?? 'password',
     client_secret: clientSecrete,
     scope: [
       'document:approve',
