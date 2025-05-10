@@ -59,4 +59,3 @@ fi
 # Instruksi untuk menjalankan docker compose
 echo "${YELLOW}[+] To start the application, run the following command:${NC}"
 echo "${GREEN}[+] For local environment: docker compose --env-file .env up -d${NC}"
-
