@@ -28,18 +28,16 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   onLoading.value = true
 
-  // scope: [
-  //   'document:approve',
-  //   'document.general:view', 'document.general:manage',
-  //   'document.komite:view', 'document.komite:manage',
-  //   'document.other:view', 'document.other:manage',
-  // ],
-
   let finalBody = {
     grant_type: grantType ?? 'password',
     client_id: clientId,
     client_secret: clientSecrete,
-    scope: [],
+    scope: [
+      'document:approve',
+      'document.general:view', 'document.general:manage',
+      'document.komite:view', 'document.komite:manage',
+      'document.other:view', 'document.other:manage',
+    ],
     username: event.data.username,
     password: event.data.password
   };
