@@ -9,7 +9,7 @@ NC='\033[0m'         # No Color
 
 # Menghasilkan tag berdasarkan tanggal (format: YYYYMMDD)
 tag=$(date +'%Y%m%d')
-appName="filetrack"
+appName="ISTS"
 dockerUsername="halimkun"  # Ganti dengan username Docker Hub Anda
 dockerRepository="$dockerUsername/$appName"
 
@@ -58,6 +58,5 @@ fi
 
 # Instruksi untuk menjalankan docker compose
 echo "${YELLOW}[+] To start the application, run the following command:${NC}"
-echo "${GREEN}[+] For local environment: docker-compose --env-file .env.local up -d${NC}"
-echo "${GREEN}[+] For production environment: docker-compose --env-file .env.public up -d${NC}"
+echo "${GREEN}[+] For local environment: docker compose --env-file .env up -d${NC}"
 
