@@ -21,6 +21,10 @@ export default defineNuxtConfig({
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
       API_V2_URL: process.env.NUXT_PUBLIC_API_V2_URL,
 
+      grantType: process.env.NUXT_PUBLIC_GRANT_TYPE,
+      clientId: process.env.NUXT_PUBLIC_CLIENT_ID,
+      clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
+
       modelName: {
         SURAT_INTERNAL: process.env.NUXT_PUBLIC_SURAT_INTERNAL_MODEL_NAME,
 
@@ -30,14 +34,6 @@ export default defineNuxtConfig({
         KOMITE_KEPERAWATAN: process.env.NUXT_PUBLIC_KOMITE_KEPERAWATAN_MODEL_NAME,
         KOMITE_MEDIS: process.env.NUXT_PUBLIC_KOMITE_MEDIS_MODEL_NAME
       },
-
-      rsia: {
-        grantType: process.env.NUXT_PUBLIC_GRANT_TYPE,
-        clientId: process.env.NUXT_PUBLIC_CLIENT_ID,
-        clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
-      },
-
-      // rsia scope [ surat:view, surat:manage, berkas:view, berkas:manage, berkas_komite:view, berkas_komite:manage, berkas_lainnya:view, berkas_lainnya:manage  ]
 
       firebase: {
         apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,

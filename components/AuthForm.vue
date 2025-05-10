@@ -7,7 +7,7 @@ const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore()
 // const menuStore = useMenuStore()
 
-const { API_V2_URL, rsia } = runtimeConfig.public
+const { API_V2_URL, grantType, clientId, clientSecrete } = runtimeConfig.public
 
 const onLoading = ref(false)
 const schema = z.object({
@@ -25,7 +25,7 @@ const state = reactive({
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const toast = useToast()
   const router = useRouter()
-  
+
   onLoading.value = true
 
   // scope: [
@@ -36,19 +36,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   // ],
 
   const finalBody = {
-    grant_type: rsia.grantType ?? 'password',
-    client_id: rsia.clientId,
-    client_secret: rsia.clientSecrete,
+    grant_type: grantType ?? 'password',
+    client_id: clientId,
+    client_secret: clientSecrete,
     scope: [],
     username: event.data.username,
     password: event.data.password
   };
 
-  const {data, pending, error, refresh, status} = await useFetch(`${API_V2_URL}/oauth/token`, {
+  const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/oauth/token`, {
     method: 'POST',
     body: JSON.stringify(finalBody)
   })
-  
+
   if (error.value || status.value != 'success') {
     onLoading.value = false
     logEvent('login_failed', { username: event.data.username, error: error.value })
@@ -63,7 +63,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   tokenStore.setData(data.value as any)
 
   // TODO : skip refresh token for now and skip menu data
-  
+
   toast.add({
     title: 'Success',
     description: 'Login success',
