@@ -1,25 +1,17 @@
 version: '3.8'
 
 services:
-  # Layanan untuk stage "build" (misal untuk development)
-  app-build:
-    image: halimkun/filetrack:latest  # Gunakan image yang sudah dibangun
+  app:
+    # Gunakan image yang sudah dibangun
+    image: halimkun/ISTS:latest  
     ports:
-      - "9000:3000"  # Port yang berbeda untuk stage build
+      # Port yang berbeda untuk stage build
+      - "9000:3000"  
     environment:
-      NODE_ENV: development
+      # Set environment variable untuk production
+      NODE_ENV: production  
     env_file:
-      - .env.development  # Memuat variabel dari file .env
-    command: ["node", ".output/server/index.mjs"]
-
-  # Layanan untuk stage "production"
-  app-production:
-    image: halimkun/filetrack:latest  # Gunakan image yang sama untuk production
-    ports:
-      - "5000:3000"  # Port untuk stage production
-    environment:
-      NODE_ENV: production
-    env_file:
-      - .env.production  # Memuat variabel dari file .env
+      # Memuat variabel dari file .env
+      - .env  
     command: ["node", ".output/server/index.mjs"]
 
