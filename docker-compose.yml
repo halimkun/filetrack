@@ -2,16 +2,13 @@ version: '3.8'
 
 services:
   app:
-    # Gunakan image yang sudah dibangun
-    image: halimkun/ISTS:latest  
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: halimkun/ists:latest
     ports:
-      # Port yang berbeda untuk stage build
-      - "9000:3000"  
+      - "9000:3000"
     environment:
-      # Set environment variable untuk production
-      NODE_ENV: production  
+      NODE_ENV: production
     env_file:
-      # Memuat variabel dari file .env
-      - .env  
-    command: ["node", ".output/server/index.mjs"]
-
+      - .env
