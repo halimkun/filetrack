@@ -21,8 +21,8 @@ export default defineNuxtConfig({
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
       API_V2_URL: process.env.NUXT_PUBLIC_API_V2_URL,
 
-      grantType: process.env.NUXT_PUBLIC_GRANT_TYPE,
       clientId: process.env.NUXT_PUBLIC_CLIENT_ID,
+      grantType: process.env.NUXT_PUBLIC_GRANT_TYPE,
       clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
 
       modelName: {

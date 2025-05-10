@@ -35,7 +35,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   //   'document.other:view', 'document.other:manage',
   // ],
 
-  const finalBody = {
+  let finalBody = {
     grant_type: grantType ?? 'password',
     client_id: clientId,
     client_secret: clientSecrete,
