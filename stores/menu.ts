@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import CryptoJS from 'crypto-js'
 import { ref } from "vue";
 
 export const useMenuStore = defineStore('menu', {
@@ -28,7 +29,7 @@ export const useMenuStore = defineStore('menu', {
       const token = useTokenStore();
       const { API_V2_URL, rsia } = config.public;
 
-      return $fetch<{ data: Record<string, any[]> }>(`${API_V2_URL}/user/menu/${ rsia.clientId }`, {
+      return $fetch<{ data: Record<string, any[]> }>(`${API_V2_URL}/user/menu/${rsia.clientId}`, {
         headers: {
           'Authorization': `Bearer ${token.accessToken}`
         }
@@ -51,5 +52,30 @@ export const useMenuStore = defineStore('menu', {
     },
   },
 
-  persist: true
+  persist: {
+    storage: {
+      getItem: (key) => useCookie(key).value ?? null,
+      setItem: (key, value) => {
+        useCookie(key, { sameSite: 'strict', expires: 0 }).value = value
+      },
+      removeItem: (key: any) => {
+        useCookie(key).value = null
+      }
+    },
+    serializer: {
+      serialize: (value) => {
+        const config = useRuntimeConfig()
+        return CryptoJS.AES.encrypt(JSON.stringify(value), config.public.rsia.clientSecrete).toString()
+      },
+      deserialize: (value) => {
+        const config = useRuntimeConfig()
+        try {
+          const bytes = CryptoJS.AES.decrypt(value, config.public.rsia.clientSecrete)
+          return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
+        } catch {
+          return []
+        }
+      }
+    }
+  }
 });

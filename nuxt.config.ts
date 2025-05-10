@@ -37,7 +37,7 @@ export default defineNuxtConfig({
         clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
       },
 
-      // rsia scope [  ]
+      // rsia scope [ surat:view, surat:manage, berkas:view, berkas:manage, berkas_komite:view, berkas_komite:manage, berkas_lainnya:view, berkas_lainnya:manage  ]
 
       firebase: {
         apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
