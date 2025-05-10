@@ -9,7 +9,7 @@ NC='\033[0m'         # No Color
 
 # Menghasilkan tag berdasarkan tanggal (format: YYYYMMDD)
 tag=$(date +'%Y%m%d')
-appName="ISTS"
+appName="ists"
 dockerUsername="halimkun"  # Ganti dengan username Docker Hub Anda
 dockerRepository="$dockerUsername/$appName"
 
