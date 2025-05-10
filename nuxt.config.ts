@@ -17,7 +17,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     private: {
-      clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
+      clientSecret: process.env.NUXT_PUBLIC_CLIENT_SECRET,
     },
 
     public: {

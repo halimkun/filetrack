@@ -8,7 +8,7 @@ const tokenStore = useTokenStore()
 // const menuStore = useMenuStore()
 
 const { API_V2_URL, grantType, clientId } = runtimeConfig.public
-const clientSecrete = runtimeConfig.private.clientSecrete
+const clientSecret = runtimeConfig.private.clientSecret
 
 const onLoading = ref(false)
 const schema = z.object({
@@ -32,7 +32,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   let finalBody = {
     client_id: clientId,
     grant_type: grantType ?? 'password',
-    client_secret: clientSecrete,
+    client_secret: clientSecret,
     scope: [
       'document:approve',
       'document.general:view', 'document.general:manage',
