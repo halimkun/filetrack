@@ -28,17 +28,18 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   
   onLoading.value = true
 
+  // scope: [
+  //   'document:approve',
+  //   'document.general:view', 'document.general:manage',
+  //   'document.komite:view', 'document.komite:manage',
+  //   'document.other:view', 'document.other:manage',
+  // ],
+
   const finalBody = {
     grant_type: rsia.grantType ?? 'password',
     client_id: rsia.clientId,
     client_secret: rsia.clientSecrete,
     scope: [],
-    // scope: [
-    //   'document:approve',
-    //   'document.general:view', 'document.general:manage',
-    //   'document.komite:view', 'document.komite:manage',
-    //   'document.other:view', 'document.other:manage',
-    // ],
     username: event.data.username,
     password: event.data.password
   };
