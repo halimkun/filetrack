@@ -32,7 +32,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     grant_type: rsia.grantType ?? 'password',
     client_id: rsia.clientId,
     client_secret: rsia.clientSecrete,
-    scope: '',
+    scope: [],
+    // scope: [
+    //   'document:approve',
+    //   'document.general:view', 'document.general:manage',
+    //   'document.komite:view', 'document.komite:manage',
+    //   'document.other:view', 'document.other:manage',
+    // ],
     username: event.data.username,
     password: event.data.password
   };
