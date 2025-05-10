@@ -7,7 +7,8 @@ const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore()
 // const menuStore = useMenuStore()
 
-const { API_V2_URL, grantType, clientId, clientSecrete } = runtimeConfig.public
+const { API_V2_URL, grantType, clientId } = runtimeConfig.public
+const clientSecrete = runtimeConfig.private.clientSecrete
 
 const onLoading = ref(false)
 const schema = z.object({

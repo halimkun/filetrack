@@ -65,12 +65,12 @@ export const useMenuStore = defineStore('menu', {
     serializer: {
       serialize: (value) => {
         const config = useRuntimeConfig()
-        return CryptoJS.AES.encrypt(JSON.stringify(value), config.public.clientSecrete).toString()
+        return CryptoJS.AES.encrypt(JSON.stringify(value), config.private.clientSecrete).toString()
       },
       deserialize: (value) => {
         const config = useRuntimeConfig()
         try {
-          const bytes = CryptoJS.AES.decrypt(value, config.public.clientSecrete)
+          const bytes = CryptoJS.AES.decrypt(value, config.private.clientSecrete)
           return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
         } catch {
           return []

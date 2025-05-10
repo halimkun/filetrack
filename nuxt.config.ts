@@ -16,6 +16,10 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
+    private: {
+      clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
+    },
+
     public: {
       TZ: process.env.NUXT_PUBLIC_TZ,
       API_URL: process.env.NUXT_PUBLIC_API_BASE_URL,
@@ -23,8 +27,7 @@ export default defineNuxtConfig({
 
       clientId: process.env.NUXT_PUBLIC_CLIENT_ID,
       grantType: process.env.NUXT_PUBLIC_GRANT_TYPE,
-      clientSecrete: process.env.NUXT_PUBLIC_CLIENT_SECRET,
-
+      
       modelName: {
         SURAT_INTERNAL: process.env.NUXT_PUBLIC_SURAT_INTERNAL_MODEL_NAME,
 
