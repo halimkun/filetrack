@@ -56,7 +56,7 @@ export const useMenuStore = defineStore('menu', {
     storage: {
       getItem: (key) => useCookie(key).value ?? null,
       setItem: (key, value) => {
-        useCookie(key, { sameSite: 'strict', expires: 0 }).value = value
+        useCookie(key, { sameSite: 'strict', expires: undefined }).value = value
       },
       removeItem: (key: any) => {
         useCookie(key).value = null
@@ -65,12 +65,12 @@ export const useMenuStore = defineStore('menu', {
     serializer: {
       serialize: (value) => {
         const config = useRuntimeConfig()
-        return CryptoJS.AES.encrypt(JSON.stringify(value), config.private.clientSecret).toString()
+        return CryptoJS.AES.encrypt(JSON.stringify(value), config.public.clientSecret).toString()
       },
       deserialize: (value) => {
         const config = useRuntimeConfig()
         try {
-          const bytes = CryptoJS.AES.decrypt(value, config.private.clientSecret)
+          const bytes = CryptoJS.AES.decrypt(value, config.public.clientSecret)
           return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
         } catch {
           return []

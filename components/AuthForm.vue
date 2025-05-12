@@ -3,13 +3,7 @@ import { z } from 'zod'
 import { logEvent } from '~/utils/firebase'
 import type { FormSubmitEvent } from '#ui/types'
 
-const runtimeConfig = useRuntimeConfig()
 const tokenStore = useTokenStore()
-// const menuStore = useMenuStore()
-
-const { API_V2_URL, grantType, clientId } = runtimeConfig.public
-const clientSecret = runtimeConfig.private.clientSecret
-
 const onLoading = ref(false)
 const schema = z.object({
   username: z.string().regex(/^\d{1}\.\d{3}\.\d{4}$/),
@@ -26,54 +20,34 @@ const state = reactive({
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const toast = useToast()
   const router = useRouter()
-
   onLoading.value = true
 
-  let finalBody = {
-    client_id: clientId,
-    grant_type: grantType ?? 'password',
-    client_secret: clientSecret,
-    scope: [
-      'document:approve',
-      'document.general:view', 'document.general:manage',
-      'document.komite:view', 'document.komite:manage',
-      'document.other:view', 'document.other:manage',
-    ],
-    username: event.data.username,
-    password: event.data.password
-  };
+  try {
+    const response = await $fetch('/api/auth/login', {
+      method: 'POST',
+      body: {
+        username: event.data.username,
+        password: event.data.password,
+      },
+    })
 
-  const { data, pending, error, refresh, status } = await useFetch(`${API_V2_URL}/oauth/token`, {
-    method: 'POST',
-    body: JSON.stringify(finalBody)
-  })
+    tokenStore.setData(response as any)
 
-  if (error.value || status.value != 'success') {
-    onLoading.value = false
-    logEvent('login_failed', { username: event.data.username, error: error.value })
+    logEvent('login_success', { username: event.data.username })
+
+    toast.add({
+      title: 'Success',
+      description: 'Login success',
+      color: 'green',
+    })
+
+    router.push('/')
+  } catch (err) {
+    logEvent('login_failed', { username: event.data.username, error: err })
     handleFetchError(toast, 'Failed to login, please check your username and password')
-    return
-  }
-
-  // const accessToken = (data.value as { access_token?: string })?.access_token as string
-  // const refreshToken = (data.value as { refresh_token?: string })?.refresh_token as string
-
-  logEvent('login_success', { username: event.data.username })
-  tokenStore.setData(data.value as any)
-
-  // TODO : skip refresh token for now and skip menu data
-
-  toast.add({
-    title: 'Success',
-    description: 'Login success',
-    color: 'green'
-  })
-
-  if (!pending.value) {
+  } finally {
     onLoading.value = false
   }
-
-  router.push('/')
 }
 
 function handleFetchError(toast: any, errorMessage: string) {
