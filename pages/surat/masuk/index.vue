@@ -10,7 +10,7 @@
           </div>
         </div>
 
-        <UButton icon="i-tabler-plus" color="sky" size="xs" square @click="router.push('/surat/masuk/create')">
+        <UButton icon="i-tabler-plus" size="xs" color="sky" square @click="isFormOpen = true">
           Tambah Surat
         </UButton>
       </div>
@@ -100,6 +100,26 @@
       </template>
     </UCard>
   </UModal>
+
+  <UModal v-model="isFormOpen" @close="isFormOpen = false" prevent-close :ui="{ width: 'w-full sm:max-w-lg md:max-w-3xl' }">
+    <UCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-2 items-start">
+            <UButton icon="i-tabler-mail-star" color="sky" size="xs" square variant="soft" />
+            <div>
+              <h1 class="text-lg">Tambah Surat Masuk</h1>
+              <p class="text-sm text-cool-400">Tambah Surat Masuk <strong>RSIA Aisyiyah Pekajangan</strong></p>
+            </div>
+          </div>
+
+          <UButton icon="i-tabler-x" size="xs" color="rose" variant="ghost" square @click="isFormOpen = false" />
+        </div>
+      </template>
+      
+      <FormSuratMasuk @formOpen="isFormOpen = false" @refreshTable="refresh" />
+    </UCard>
+  </UModal>
 </template>
 
 <script setup lang="ts">
@@ -119,6 +139,7 @@ const router = useRouter();
 const { API_V2_URL } = runtimeConfig.public;
 
 const isDetailOpen = ref<boolean>(false);
+const isFormOpen = ref(false);
 const selectedData = ref<any[]>([]);
 const updateSelectedData = (data: any[]) => {
   selectedData.value = data;
@@ -159,7 +180,7 @@ const onFilter = (data: any) => {
   }
 };
 
-const { data: suratMasuk, pending: suratMasukPending, error } = await useAsyncData(
+const { data: suratMasuk, pending: suratMasukPending, refresh, error } = await useAsyncData(
   'suratMasuk',
   () => $fetch(`${API_V2_URL}/surat/masuk/search`, {
     method: 'POST',

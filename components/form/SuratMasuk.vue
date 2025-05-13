@@ -165,6 +165,7 @@ const via = [
   { label: 'Fisik', value: 'fisik' },
 ]
 
+const emit = defineEmits(['formOpen', 'refreshTable'])
 const { no_simrs, no_surat, perihal, pengirim, tgl_surat, pelaksanaan, pelaksanaan_end, tempat, ket, actionUrl } = defineProps<{
   no_simrs?: string | null
   no_surat?: string | null
@@ -243,6 +244,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   
   postPending.value = false;
   toasts.add({ title: 'Success', description: 'Surat masuk berhasil ditambahkan', color: 'green' });
-  router.push('/surat/masuk');
+  // router.push('/surat/masuk');
+  emit('formOpen')
+  emit('refreshTable')
 }
 </script>
