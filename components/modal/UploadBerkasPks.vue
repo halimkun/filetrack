@@ -18,7 +18,7 @@
           </p>
 
           <UFormGroup label="File" required name="file">
-            <UInput type="file" v-model="state.berkas" :required="true" />
+            <UInput type="file" :required="true" />
           </UFormGroup>
 
           <div class="mt-8 flex justify-end">
@@ -68,13 +68,14 @@ const state = reactive({
 
 async function handleSubmit(event: FormSubmitEvent<Schema>) {
   let data = new FormData()
-  const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
-
+  
   const postData: any = {
     ...state.selectedPks,
   }
-
+  
+  const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
   data.append('file', fileInput.files![0])
+  
   for (const key in postData) {    
     data.append(key, postData[key])
   }
