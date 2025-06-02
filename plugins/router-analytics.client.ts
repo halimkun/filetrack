@@ -8,9 +8,23 @@ export default defineNuxtPlugin(() => {
 
   router.afterEach((to, from) => {
     const firebase = nuxtApp.$firebase // Ambil resource firebase yang disediakan plugin pertama
+    let title = '';
+
+    if (document.title) {
+      title = document.title;
+    } else if (to.name) {
+      const paramsString = Object.keys(to.params || {}).length
+        ? ` (${Object.entries(to.params).map(([key, value]) => `${key}: ${value}`).join(', ')})`
+        : '';
+
+      title = to.name.toString() + paramsString;
+    } else {
+      title = 'Unknown Page';
+    }
+
     if (firebase?.analytics) {
       logEvent(firebase.analytics, 'page_view', {
-        page_title: document.title,
+        page_title: title,
         page_path: to.fullPath,
         page_location: window.location.href,
       })
