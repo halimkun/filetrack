@@ -3,11 +3,20 @@ import { logEvent as firebaseLogEvent } from 'firebase/analytics'
 
 export const logEvent = (eventName: string, eventParams?: { [key: string]: any }) => {
   const nuxtApp = useNuxtApp()
-  const { analytics } = nuxtApp.$firebase
 
-  if (analytics) {
-    firebaseLogEvent(analytics, eventName, eventParams)
+  // Pastikan $firebase tersedia dan memiliki analytics
+  const firebase = nuxtApp.$firebase as {
+    firebaseApp?: ReturnType<typeof import('firebase/app').initializeApp>
+    analytics?: ReturnType<typeof import('firebase/analytics').getAnalytics>
+  }
+
+  if (firebase?.analytics) {
+    try {
+      firebaseLogEvent(firebase.analytics, eventName, eventParams)
+    } catch (error) {
+      console.error(`Error logging event "${eventName}":`, error)
+    }
   } else {
-    console.error('Firebase Analytics is not initialized')
+    console.warn(`Firebase Analytics is not initialized for event "${eventName}"`)
   }
 }
